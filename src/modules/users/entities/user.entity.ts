@@ -21,7 +21,7 @@ class User {
   name: string;
 
   @Column({ name: 'gender_id' })
-  genderId: string;
+  genderId: number;
 
   @Column({ name: 'phone_number' })
   phoneNumber: string;
@@ -30,10 +30,10 @@ class User {
   address: string;
 
   @Column({ name: 'role_id' })
-  roleId: string;
+  roleId: number;
 
   @Column({ name: 'company_id' })
-  companyId: string;
+  companyId: number;
 
   @Column({
     name: 'created_at',

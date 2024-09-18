@@ -11,22 +11,40 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CustomResponseType } from 'src/modules/utils/types/definitions';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  async create(@Body() createUserDto: CreateUserDto) {
+    const result = await this.usersService.create(createUserDto);
+
+    if (!result) {
+      throw new NotFoundException('Người dùng này đã tồn tại', {
+        cause: new Error('Create user service return null'),
+        description: 'Create user failed',
+      });
+    }
+
+    const res: CustomResponseType = {
+      message: 'Đã tạo người dùng mới',
+      data: result,
+    };
+
+    return res;
   }
 
   @Get()
-  findAll() {
+  async findAll() {
     const result = this.usersService.findAll();
 
     if (!result) {
-      throw new NotFoundException('Không tìm thấy người dùng', 'Lỗi rồi');
+      throw new NotFoundException('Không tìm được người dùng', {
+        cause: new Error('Find all user service return null'),
+        description: 'Find all users failed',
+      });
     }
 
     return {

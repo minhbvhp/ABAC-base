@@ -16,6 +16,9 @@ import {
   ROLE_ID_MUST_NUMBER,
   COMPANY_ID_MUST_NUMBER,
   COMPANY_MUST_NOT_EMPTY,
+  GENDER_MUST_NOT_EMPTY,
+  PHONE_MUST_NOT_EMPTY,
+  GENDER_ID_MUST_NUMBER,
 } from 'src/modules/utils/messageConstants';
 
 export class CreateUserDto {
@@ -41,10 +44,11 @@ export class CreateUserDto {
   @IsNotEmpty({ message: NAME_MUST_NOT_EMPTY })
   name: string;
 
-  @IsNotEmpty({ message: NAME_MUST_NOT_EMPTY })
-  genderId: string;
+  @IsNumber({}, { message: GENDER_ID_MUST_NUMBER })
+  @IsNotEmpty({ message: GENDER_MUST_NOT_EMPTY })
+  genderId: number;
 
-  @IsNotEmpty({ message: NAME_MUST_NOT_EMPTY })
+  @IsNotEmpty({ message: PHONE_MUST_NOT_EMPTY })
   phoneNumber: string;
 
   @IsNotEmpty({ message: ADDRESS_MUST_NOT_EMPTY })
@@ -52,9 +56,9 @@ export class CreateUserDto {
 
   @IsNumber({}, { message: ROLE_ID_MUST_NUMBER })
   @IsNotEmpty({ message: ROLE_MUST_NOT_EMPTY })
-  roleId: string;
+  roleId: number;
 
   @IsNumber({}, { message: COMPANY_ID_MUST_NUMBER })
   @IsNotEmpty({ message: COMPANY_MUST_NOT_EMPTY })
-  companyId: string;
+  companyId: number;
 }
