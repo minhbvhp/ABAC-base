@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  NotFoundException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -23,7 +24,15 @@ export class UsersController {
   @Get()
   findAll() {
     const result = this.usersService.findAll();
-    return result;
+
+    if (!result) {
+      throw new NotFoundException('Không tìm thấy người dùng', 'Lỗi rồi');
+    }
+
+    return {
+      message: 'Tìm người dùng',
+      result,
+    };
   }
 
   @Get(':id')

@@ -9,7 +9,13 @@ export class UsersService {
   }
 
   findAll() {
-    return `This action returns all users`;
+    // const users = [
+    //   { id: 1, name: 'Minh' },
+    //   { id: 2, name: 'Hello' },
+    // ];
+
+    const users = null;
+    return users;
   }
 
   findOne(id: number) {
