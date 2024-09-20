@@ -2,15 +2,16 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import User from './entities/user.entity';
-import { CreateUserDto } from 'src/modules/users/dto/create-user.dto';
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import { createUserStub } from '../users/test/stubs/user.stub';
 
 const mockUserRepository = {
-  save: jest.fn(),
-  find: jest.fn(),
   findOne: jest.fn(),
-  delete: jest.fn(),
-  insert: jest.fn(),
   create: jest.fn(),
+  insert: jest.fn(),
+  findAll: jest.fn(),
+  update: jest.fn(),
+  remove: jest.fn(),
 };
 
 describe('UsersService', () => {
@@ -34,6 +35,37 @@ describe('UsersService', () => {
     expect(service).toBeDefined();
   });
 
+  it('findOne => should return null if user with email already exists', async () => {
+    //arrange
+    const createUserDto = {
+      email: 'Test1@gmail.com',
+      password: 'Test1@gmail.com',
+      name: 'Test1@gmail.com',
+      genderId: 1,
+      phoneNumber: '0123456789',
+      address: '24 Điện Biên Phủ',
+      roleId: 1,
+      companyId: 2,
+    } as CreateUserDto;
+
+    jest
+      .spyOn(mockUserRepository, 'findOne')
+      .mockResolvedValueOnce(createUserStub());
+
+    //act
+    const result = await service.create(createUserDto);
+
+    //assert
+    expect(mockUserRepository.findOne).toHaveBeenCalled();
+    expect(mockUserRepository.findOne).toHaveBeenCalledWith({
+      where: {
+        email: createUserDto.email,
+      },
+    });
+
+    expect(result).toEqual(null);
+  });
+
   it('create => Should create a new user and return its data', async () => {
     // arrange
     const createUserDto = {
@@ -47,28 +79,20 @@ describe('UsersService', () => {
       companyId: 2,
     } as CreateUserDto;
 
-    const user = {
-      id: 'ada1231923j0ad9j092',
-      email: 'Test1@gmail.com',
-      password: '$2a$10$RwBjTGu9rwebdhZI519Tcu3pEI/rPduIgvhEckL1Tf3ZqcDosboh6',
-      name: 'Test1@gmail.com',
-      genderId: 1,
-      phoneNumber: '0123456789',
-      address: '24 Điện Biên Phủ',
-      roleId: 1,
-      companyId: 2,
-    } as User;
-
-    jest.spyOn(mockUserRepository, 'create').mockReturnValue(user);
+    jest.spyOn(mockUserRepository, 'create').mockReturnValue(createUserStub());
+    const { password, ...newUser } = createUserStub();
 
     // act
     const result = await service.create(createUserDto);
 
     // assert
     expect(mockUserRepository.create).toHaveBeenCalled();
-    // expect(mockUserRepository.insert).toHaveBeenCalledWith(createUserDto);
+    expect(mockUserRepository.create).toHaveBeenCalledWith({
+      ...createUserDto,
+      password: expect.anything(),
+    });
 
-    // expect(result).toEqual(user);
+    expect(result).toEqual(newUser);
   });
 
   // it('findAll', () => {});
