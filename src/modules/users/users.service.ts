@@ -36,7 +36,10 @@ export class UsersService {
         return result;
       }
     } catch (error) {
-      throw new ServiceUnavailableException();
+      throw new ServiceUnavailableException(
+        'Lỗi dịch vụ',
+        'Service error - Create User',
+      );
     }
 
     return null;

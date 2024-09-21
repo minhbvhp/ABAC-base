@@ -31,6 +31,10 @@ describe('UsersService', () => {
     service = module.get<UsersService>(UsersService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
