@@ -77,6 +77,7 @@ describe('UsersService', () => {
       address: '24 Điện Biên Phủ',
       roleId: 1,
       companyId: 2,
+      // session: 'Minh',
     } as CreateUserDto;
 
     jest.spyOn(mockUserRepository, 'create').mockReturnValue(createUserStub());

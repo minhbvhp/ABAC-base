@@ -30,7 +30,7 @@ export class UsersController {
 
     const res: CustomResponseType = {
       message: 'Đã tạo người dùng mới',
-      data: result,
+      result,
     };
 
     return res;
