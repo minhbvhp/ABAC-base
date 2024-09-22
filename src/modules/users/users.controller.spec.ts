@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { CreateUserDto } from 'src/modules/users/dto/create-user.dto';
-import { createUserStub } from '../users/test/stubs/user.stub';
+import { allUserStub, createUserStub } from '../users/test/stubs/user.stub';
 
 jest.mock('./users.service');
 describe('UsersController', () => {
@@ -44,7 +44,20 @@ describe('UsersController', () => {
     //expect
     expect(response).toEqual({
       message: 'Đã tạo người dùng mới',
-      data: { ...createUserStub(), createdAt: expect.anything() },
+      result: { ...createUserStub(), createdAt: expect.anything() },
+    });
+  });
+
+  it('findAll => Should return custom response include paginated users', async () => {
+    //arrange
+
+    //act
+    const response = await controller.findAll({ page: 3, pageSize: 10 });
+
+    //expect
+    expect(response).toEqual({
+      message: 'Tìm tất cả người dùng',
+      result: allUserStub().slice(20, 30),
     });
   });
 });

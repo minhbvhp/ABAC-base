@@ -6,25 +6,29 @@ import {
   Patch,
   Param,
   Delete,
-  NotFoundException,
+  ConflictException,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CustomResponseType } from 'src/modules/utils/types/definitions';
+import { PaginationDto } from '../pagination/pagination.dto';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto) {
+  async create(
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<CustomResponseType> {
     const result = await this.usersService.create(createUserDto);
 
     if (!result) {
-      throw new NotFoundException('Người dùng này đã tồn tại', {
+      throw new ConflictException('Email này đã tồn tại', {
         cause: new Error('Create user service return null'),
-        description: 'Create user failed',
+        description: 'Conflict',
       });
     }
 
@@ -37,20 +41,18 @@ export class UsersController {
   }
 
   @Get()
-  async findAll() {
-    const result = this.usersService.findAll();
+  async findAll(
+    @Query() paginationDto: PaginationDto,
+  ): Promise<CustomResponseType> {
+    const { page, pageSize } = paginationDto;
+    const result = await this.usersService.findAll(page, pageSize);
 
-    if (!result) {
-      throw new NotFoundException('Không tìm được người dùng', {
-        cause: new Error('Find all user service return null'),
-        description: 'Find all users failed',
-      });
-    }
-
-    return {
-      message: 'Tìm người dùng',
+    const res: CustomResponseType = {
+      message: 'Tìm tất cả người dùng',
       result,
     };
+
+    return res;
   }
 
   @Get(':id')
