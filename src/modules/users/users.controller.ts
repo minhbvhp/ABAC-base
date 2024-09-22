@@ -41,11 +41,11 @@ export class UsersController {
   }
 
   @Get()
-  async findAll(
+  async getAllUsers(
     @Query() paginationDto: PaginationDto,
   ): Promise<CustomResponseType> {
     const { current, total } = paginationDto;
-    const result = await this.usersService.findAll(current, total);
+    const result = await this.usersService.getAllUsers(current, total);
 
     const res: CustomResponseType = {
       message: 'Tìm tất cả người dùng',

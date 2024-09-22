@@ -56,7 +56,7 @@ export class UsersService {
     return null;
   }
 
-  async findAll(current: number = 1, total: number = 10) {
+  async getAllUsers(current: number = 1, total: number = 10) {
     try {
       const skip = (current - 1) * total;
 
@@ -76,7 +76,7 @@ export class UsersService {
     }
   }
 
-  // findOne(id: number) {
+  // async getUserbyEmail(id: number) {
   //   try {
   //     const skip = (+page - 1) * +pageSize;
 

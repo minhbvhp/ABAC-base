@@ -97,7 +97,7 @@ describe('UsersService', () => {
     expect(result).toEqual(newUser);
   });
 
-  it('findAll => Should return all paginated users', async () => {
+  it('getAllUsers => Should return all paginated users', async () => {
     //arrange
     const current = 3;
     const total = 10;
@@ -113,7 +113,7 @@ describe('UsersService', () => {
     const totalPages = Math.ceil(allUserStub().length / total);
 
     //act
-    const result = await service.findAll(current, total);
+    const result = await service.getAllUsers(current, total);
 
     //assert
     expect(mockUserRepository.findAndCount).toHaveBeenCalled();

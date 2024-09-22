@@ -52,7 +52,7 @@ describe('UsersController', () => {
     //arrange
 
     //act
-    const response = await controller.findAll({ page: 3, pageSize: 10 });
+    const response = await controller.getAllUsers({ current: 3, total: 10 });
 
     //expect
     expect(response).toEqual({
