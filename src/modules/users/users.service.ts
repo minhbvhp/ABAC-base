@@ -56,16 +56,18 @@ export class UsersService {
     return null;
   }
 
-  async findAll(page: number = 0, pageSize: number = 10) {
+  async findAll(current: number = 1, total: number = 10) {
     try {
-      const skip = (+page - 1) * +pageSize;
+      const skip = (current - 1) * total;
 
-      const users = await this.usersRepository.find({
-        take: +pageSize,
+      const [users, totalItems] = await this.usersRepository.findAndCount({
+        take: total,
         skip,
       });
 
-      return users;
+      const totalPages = Math.ceil(totalItems / total);
+
+      return { users, totalPages };
     } catch (error) {
       throw new ServiceUnavailableException(
         'Lỗi dịch vụ',
@@ -74,9 +76,23 @@ export class UsersService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
-  }
+  // findOne(id: number) {
+  //   try {
+  //     const skip = (+page - 1) * +pageSize;
+
+  //     const users = await this.usersRepository.find({
+  //       take: +pageSize,
+  //       skip,
+  //     });
+
+  //     return users;
+  //   } catch (error) {
+  //     throw new ServiceUnavailableException(
+  //       'Lỗi dịch vụ',
+  //       'User service error - find all',
+  //     );
+  //   }
+  // }
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;

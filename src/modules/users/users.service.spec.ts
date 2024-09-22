@@ -13,6 +13,7 @@ const mockUserRepository = {
   find: jest.fn(),
   update: jest.fn(),
   remove: jest.fn(),
+  findAndCount: jest.fn(),
 };
 
 const createUserDto = {
@@ -98,21 +99,33 @@ describe('UsersService', () => {
 
   it('findAll => Should return all paginated users', async () => {
     //arrange
+    const current = 3;
+    const total = 10;
+
     jest
-      .spyOn(mockUserRepository, 'find')
-      .mockResolvedValueOnce(allUserStub().slice(20, 30));
+      .spyOn(mockUserRepository, 'findAndCount')
+      .mockResolvedValueOnce([
+        allUserStub().slice((current - 1) * total, current * total),
+        allUserStub().length,
+      ]);
+
+    const skip = (current - 1) * total;
+    const totalPages = Math.ceil(allUserStub().length / total);
 
     //act
-    const result = await service.findAll(3, 10);
+    const result = await service.findAll(current, total);
 
     //assert
-    expect(mockUserRepository.find).toHaveBeenCalled();
-    expect(mockUserRepository.find).toHaveBeenCalledWith({
-      take: 10,
-      skip: 20,
+    expect(mockUserRepository.findAndCount).toHaveBeenCalled();
+    expect(mockUserRepository.findAndCount).toHaveBeenCalledWith({
+      take: total,
+      skip,
     });
 
-    expect(result).toEqual(allUserStub().slice(20, 30));
+    expect(result).toEqual({
+      users: allUserStub().slice((current - 1) * total, current * total),
+      totalPages,
+    });
   });
 
   // it('findOne', () => {});

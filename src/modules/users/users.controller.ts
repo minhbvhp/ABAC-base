@@ -44,8 +44,8 @@ export class UsersController {
   async findAll(
     @Query() paginationDto: PaginationDto,
   ): Promise<CustomResponseType> {
-    const { page, pageSize } = paginationDto;
-    const result = await this.usersService.findAll(page, pageSize);
+    const { current, total } = paginationDto;
+    const result = await this.usersService.findAll(current, total);
 
     const res: CustomResponseType = {
       message: 'Tìm tất cả người dùng',
@@ -55,10 +55,10 @@ export class UsersController {
     return res;
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.usersService.findOne(+id);
+  // }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {

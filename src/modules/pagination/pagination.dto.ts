@@ -5,10 +5,10 @@ export class PaginationDto {
   @Type(() => Number)
   @IsInt({ message: 'Tổng số trang không đúng định dạng' })
   @Min(1, { message: 'Số trang phải trên 1' })
-  page: number;
+  current: number;
 
   @Type(() => Number)
   @IsInt({ message: 'Tổng số trang không đúng định dạng' })
   @Min(1, { message: 'Tổng số trang phải trên 1' })
-  pageSize: number;
+  total: number;
 }
