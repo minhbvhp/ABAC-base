@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
 import { formatUserResponse } from '../utils/helpers/formatUserResponseHelpers';
+import { isUUID } from 'class-validator';
 
 @Injectable()
 export class UsersService {
@@ -127,6 +128,10 @@ export class UsersService {
 
   async deleteUserPermanently(id: string) {
     try {
+      if (!isUUID(id)) {
+        return null;
+      }
+
       const existedUser = await this.usersRepository.findOne({
         where: {
           id: id,
