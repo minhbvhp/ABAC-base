@@ -6,7 +6,7 @@ import User from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
-import { PaginationDto } from 'src/modules/pagination/pagination.dto';
+import { formatUserResponse } from '../utils/helpers/formatUserResponseHelpers';
 
 @Injectable()
 export class UsersService {
@@ -21,7 +21,7 @@ export class UsersService {
     this.saltRounds = config.get('SALT_ROUNDS', 10);
   }
 
-  async create(createUserDto: CreateUserDto) {
+  async createUser(createUserDto: CreateUserDto) {
     try {
       const existedUser = await this.usersRepository.findOne({
         where: {
@@ -42,7 +42,7 @@ export class UsersService {
 
         await this.usersRepository.insert(newUser);
 
-        const { password, session, ...result } = newUser;
+        const result = formatUserResponse(newUser);
 
         return result;
       }
@@ -76,29 +76,77 @@ export class UsersService {
     }
   }
 
-  // async getUserbyEmail(id: number) {
-  //   try {
-  //     const skip = (+page - 1) * +pageSize;
+  async getUserbyEmail(email: string) {
+    try {
+      const user = await this.usersRepository.findOne({
+        where: {
+          email: email,
+        },
+        // relations {
+        //   role: true,
+        // }
+      });
 
-  //     const users = await this.usersRepository.find({
-  //       take: +pageSize,
-  //       skip,
-  //     });
-
-  //     return users;
-  //   } catch (error) {
-  //     throw new ServiceUnavailableException(
-  //       'Lỗi dịch vụ',
-  //       'User service error - find all',
-  //     );
-  //   }
-  // }
-
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+      return user;
+    } catch (error) {
+      throw new ServiceUnavailableException(
+        'Lỗi dịch vụ',
+        'User service error - get user by email',
+      );
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async updateUser(id: string, updateUserDto: UpdateUserDto) {
+    try {
+      const existedUser = await this.usersRepository.findOne({
+        where: {
+          id: id,
+        },
+      });
+
+      if (existedUser) {
+        const updatedUser = await this.usersRepository.create({
+          ...updateUserDto,
+        });
+
+        await this.usersRepository.update(existedUser.id, updatedUser);
+
+        const result = formatUserResponse(updatedUser);
+
+        return result;
+      }
+    } catch (error) {
+      throw new ServiceUnavailableException(
+        'Lỗi dịch vụ',
+        'User service error - update user',
+      );
+    }
+
+    return null;
+  }
+
+  async deleteUserPermanently(id: string) {
+    try {
+      const existedUser = await this.usersRepository.findOne({
+        where: {
+          id: id,
+        },
+      });
+
+      if (!existedUser) {
+        return null;
+      }
+
+      const result = formatUserResponse(existedUser);
+
+      await this.usersRepository.remove(existedUser);
+
+      return result;
+    } catch (error) {
+      throw new ServiceUnavailableException(
+        'Lỗi dịch vụ',
+        'User service error - delete user permanently',
+      );
+    }
   }
 }

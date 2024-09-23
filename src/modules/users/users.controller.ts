@@ -8,22 +8,24 @@ import {
   Delete,
   ConflictException,
   Query,
+  NotFoundException,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CustomResponseType } from 'src/modules/utils/types/definitions';
 import { PaginationDto } from '../pagination/pagination.dto';
+import { USER_NOT_FOUND } from '../utils/messageConstants';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async create(
+  async createUser(
     @Body() createUserDto: CreateUserDto,
   ): Promise<CustomResponseType> {
-    const result = await this.usersService.create(createUserDto);
+    const result = await this.usersService.createUser(createUserDto);
 
     if (!result) {
       throw new ConflictException('Email này đã tồn tại', {
@@ -61,12 +63,43 @@ export class UsersController {
   // }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  async updateUser(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    const result = await this.usersService.updateUser(id, updateUserDto);
+
+    if (!result) {
+      throw new NotFoundException(USER_NOT_FOUND, {
+        cause: new Error('Update user service return null'),
+        description: 'Not found',
+      });
+    }
+
+    const res: CustomResponseType = {
+      message: 'Đã cập nhật thông tin người dùng',
+      result,
+    };
+
+    return res;
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  async deleteUserPermanently(@Param('id') id: string) {
+    const result = await this.usersService.deleteUserPermanently(id);
+
+    if (!result) {
+      throw new NotFoundException(USER_NOT_FOUND, {
+        cause: new Error('Delete user permanently service return null'),
+        description: 'Not found',
+      });
+    }
+
+    const res: CustomResponseType = {
+      message: 'Đã xóa người dùng',
+      result,
+    };
+
+    return res;
   }
 }

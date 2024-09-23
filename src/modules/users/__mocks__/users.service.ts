@@ -1,10 +1,9 @@
 import { allUserStub, createUserStub } from '../test/stubs/user.stub';
 
 export const UsersService = jest.fn().mockReturnValue({
-  findOne: jest.fn().mockResolvedValue(createUserStub()),
-  create: jest.fn().mockResolvedValue(createUserStub()),
-  insert: jest.fn().mockResolvedValue(createUserStub()),
+  getUserbyEmail: jest.fn().mockResolvedValue(createUserStub()),
+  createUser: jest.fn().mockResolvedValue(createUserStub()),
   getAllUsers: jest.fn().mockResolvedValue(allUserStub().slice(20, 30)),
-  update: jest.fn().mockResolvedValue(createUserStub()),
-  remove: jest.fn().mockResolvedValue(createUserStub()),
+  updateUser: jest.fn().mockResolvedValue(createUserStub()),
+  deleteUserPermanently: jest.fn().mockResolvedValue(createUserStub()),
 });

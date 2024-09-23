@@ -5,6 +5,7 @@ import User from './entities/user.entity';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { allUserStub, createUserStub } from '../users/test/stubs/user.stub';
 import { ConfigModule } from '@nestjs/config';
+import { formatUserResponse } from '../utils/helpers/formatUserResponseHelpers';
 
 const mockUserRepository = {
   findOne: jest.fn(),
@@ -60,7 +61,7 @@ describe('UsersService', () => {
       .mockResolvedValueOnce(createUserStub());
 
     //act
-    const result = await service.create(createUserDto);
+    const result = await service.createUser(createUserDto);
 
     //assert
     expect(mockUserRepository.findOne).toHaveBeenCalled();
@@ -70,16 +71,17 @@ describe('UsersService', () => {
       },
     });
 
-    expect(result).toEqual(null);
+    expect(result).toBeNull;
   });
 
   it('create => Should create a new user and return its data', async () => {
     // arrange
     jest.spyOn(mockUserRepository, 'create').mockReturnValue(createUserStub());
-    const { password, session, ...newUser } = createUserStub();
+
+    const newUser = formatUserResponse(createUserStub());
 
     // act
-    const result = await service.create(createUserDto);
+    const result = await service.createUser(createUserDto);
 
     // assert
     expect(mockUserRepository.create).toHaveBeenCalled();

@@ -39,7 +39,7 @@ describe('UsersController', () => {
     } as CreateUserDto;
 
     //act
-    const response = await controller.create(createUserDto);
+    const response = await controller.createUser(createUserDto);
 
     //expect
     expect(response).toEqual({
