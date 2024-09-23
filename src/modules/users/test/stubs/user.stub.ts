@@ -2,7 +2,7 @@ import User from 'src/modules/users/entities/user.entity';
 
 export const createUserStub = (): User => {
   return {
-    id: 'ABCD123456',
+    id: '9c8ffd82-c1df-46f7-b090-0585997485db',
     email: 'Test1@gmail.com',
     password: 'strongP@ssword',
     name: 'Test1@gmail.com',

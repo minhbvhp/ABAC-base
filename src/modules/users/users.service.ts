@@ -99,6 +99,10 @@ export class UsersService {
 
   async updateUser(id: string, updateUserDto: UpdateUserDto) {
     try {
+      if (!isUUID(id)) {
+        return null;
+      }
+
       const existedUser = await this.usersRepository.findOne({
         where: {
           id: id,

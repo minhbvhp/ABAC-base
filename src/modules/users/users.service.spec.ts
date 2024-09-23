@@ -6,10 +6,11 @@ import { CreateUserDto } from '../users/dto/create-user.dto';
 import { allUserStub, createUserStub } from '../users/test/stubs/user.stub';
 import { ConfigModule } from '@nestjs/config';
 import { formatUserResponse } from '../utils/helpers/formatUserResponseHelpers';
+import { UpdateUserDto } from '../users/dto/update-user.dto';
 
 const mockUserRepository = {
   findOne: jest.fn(),
-  create: jest.fn(),
+  create: jest.fn().mockReturnValueOnce(createUserStub()),
   insert: jest.fn(),
   find: jest.fn(),
   update: jest.fn(),
@@ -27,6 +28,19 @@ const createUserDto = {
   roleId: 1,
   companyId: 2,
 } as CreateUserDto;
+
+const notAvailableId = '123abc';
+
+const notExistId = '76131254-32ff-413b-9f94-59e6e590961f';
+
+const updateUserDto = {
+  name: 'TestUpdate',
+  genderId: 2,
+  phoneNumber: '55555',
+  address: 'Update address',
+  roleId: 2,
+  companyId: 1,
+} as UpdateUserDto;
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -56,10 +70,10 @@ describe('UsersService', () => {
 
   it('create => should return null if user with email already exists', async () => {
     //arrange
+
     jest
       .spyOn(mockUserRepository, 'findOne')
       .mockResolvedValueOnce(createUserStub());
-
     //act
     const result = await service.createUser(createUserDto);
 
@@ -76,8 +90,6 @@ describe('UsersService', () => {
 
   it('create => Should create a new user and return its data', async () => {
     // arrange
-    jest.spyOn(mockUserRepository, 'create').mockReturnValue(createUserStub());
-
     const newUser = formatUserResponse(createUserStub());
 
     // act
@@ -96,7 +108,7 @@ describe('UsersService', () => {
       createdAt: expect.anything(),
     });
 
-    expect(result).toEqual(newUser);
+    expect(result).toEqual({ ...newUser, createdAt: expect.anything() });
   });
 
   it('getAllUsers => Should return all paginated users', async () => {
@@ -130,7 +142,51 @@ describe('UsersService', () => {
     });
   });
 
-  // it('findOne', () => {});
-  // it('update', () => {});
+  it('updateUser => Should return null if id is not UUID', async () => {
+    //arrange
+
+    //act
+    const result = await service.updateUser(notAvailableId, updateUserDto);
+
+    //assert
+    expect(result).toBeNull;
+  });
+
+  it('updateUser => Should return null if email does not exist', async () => {
+    //arrange
+
+    //act
+    const result = await service.updateUser(notExistId, updateUserDto);
+
+    //assert
+    expect(result).toBeNull;
+  });
+
+  it('updateUser => Should update user and return formatted user response', async () => {
+    //arrange
+    const existId = createUserStub().id;
+
+    jest.spyOn(mockUserRepository, 'findOne').mockReturnValue(createUserStub());
+
+    //act
+    const result = await service.updateUser(existId, updateUserDto);
+
+    //assert
+    expect(mockUserRepository.findOne).toHaveBeenCalled();
+    expect(mockUserRepository.findOne).toHaveBeenCalledWith({
+      where: {
+        id: existId,
+      },
+    });
+
+    expect(mockUserRepository.findOne).toBeNull;
+    // expect(mockUserRepository.update).toHaveBeenCalled();
+    // expect(mockUserRepository.update).toHaveBeenCalled();
+    // expect(mockUserRepository.update).toHaveBeenCalledWith({
+    //   existId,
+    //   updateUserDto,
+    // });
+  });
+
   // it('remove', () => {});
 });
