@@ -154,8 +154,9 @@ describe('UsersService', () => {
     expect(result).toBeNull;
   });
 
-  it('updateUser => Should return null if email does not exist', async () => {
+  it('updateUser => Should return null if user does not exist', async () => {
     //arrange
+    jest.spyOn(mockUserRepository, 'findOne').mockResolvedValueOnce(null);
 
     //act
     const result = await service.updateUser(notExistId, updateUserDto);
@@ -178,10 +179,10 @@ describe('UsersService', () => {
 
     //assert
 
-    expect(mockUserRepository.update).toHaveBeenCalledWith(
-      existId,
-      afterUpdateUserStub(),
-    );
+    expect(mockUserRepository.update).toHaveBeenCalledWith(existId, {
+      ...afterUpdateUserStub(),
+      createdAt: expect.anything(),
+    });
     expect(mockUserRepository.create).toHaveBeenCalledWith({
       ...updateUserDto,
     });
@@ -189,5 +190,42 @@ describe('UsersService', () => {
     expect(result).toEqual(updatedUser);
   });
 
-  // it('remove', () => {});
+  it('deleteUserPermanently => Should return null if id is not UUID', async () => {
+    //arrange
+
+    //act
+    const result = await service.deleteUserPermanently(notAvailableId);
+
+    //assert
+    expect(result).toBeNull;
+  });
+
+  it('deleteUserPermanently => Should return null if user does not exist', async () => {
+    //arrange
+    jest.spyOn(mockUserRepository, 'findOne').mockResolvedValueOnce(null);
+
+    //act
+    const result = await service.deleteUserPermanently(notExistId);
+
+    //assert
+    expect(result).toBeNull;
+  });
+
+  it('deleteUserPermanently => Shoud delete user and return formatted user response', async () => {
+    //arrange
+    const existId = createUserStub().id;
+    const deletedUser = formatUserResponse(createUserStub());
+
+    //act
+    const result = await service.deleteUserPermanently(existId);
+
+    //assert
+
+    expect(mockUserRepository.remove).toHaveBeenCalledWith({
+      ...createUserStub(),
+      createdAt: expect.anything(),
+    });
+
+    expect(result).toEqual({ ...deletedUser, createdAt: expect.anything() });
+  });
 });
