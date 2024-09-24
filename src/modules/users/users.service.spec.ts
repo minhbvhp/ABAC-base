@@ -3,17 +3,21 @@ import { UsersService } from './users.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import User from './entities/user.entity';
 import { CreateUserDto } from '../users/dto/create-user.dto';
-import { allUserStub, createUserStub } from '../users/test/stubs/user.stub';
+import {
+  afterUpdateUserStub,
+  allUserStub,
+  createUserStub,
+} from '../users/test/stubs/user.stub';
 import { ConfigModule } from '@nestjs/config';
 import { formatUserResponse } from '../utils/helpers/formatUserResponseHelpers';
 import { UpdateUserDto } from '../users/dto/update-user.dto';
 
 const mockUserRepository = {
-  findOne: jest.fn(),
-  create: jest.fn().mockReturnValueOnce(createUserStub()),
+  findOne: jest.fn().mockResolvedValue(createUserStub()),
+  create: jest.fn(),
   insert: jest.fn(),
   find: jest.fn(),
-  update: jest.fn(),
+  update: jest.fn().mockResolvedValue(afterUpdateUserStub()),
   remove: jest.fn(),
   findAndCount: jest.fn(),
 };
@@ -71,14 +75,10 @@ describe('UsersService', () => {
   it('create => should return null if user with email already exists', async () => {
     //arrange
 
-    jest
-      .spyOn(mockUserRepository, 'findOne')
-      .mockResolvedValueOnce(createUserStub());
     //act
     const result = await service.createUser(createUserDto);
 
     //assert
-    expect(mockUserRepository.findOne).toHaveBeenCalled();
     expect(mockUserRepository.findOne).toHaveBeenCalledWith({
       where: {
         email: createUserDto.email,
@@ -90,19 +90,22 @@ describe('UsersService', () => {
 
   it('create => Should create a new user and return its data', async () => {
     // arrange
+    jest
+      .spyOn(mockUserRepository, 'create')
+      .mockReturnValueOnce(createUserStub());
+    jest.spyOn(mockUserRepository, 'findOne').mockResolvedValueOnce(null);
+
     const newUser = formatUserResponse(createUserStub());
 
     // act
     const result = await service.createUser(createUserDto);
 
     // assert
-    expect(mockUserRepository.create).toHaveBeenCalled();
     expect(mockUserRepository.create).toHaveBeenCalledWith({
       ...createUserDto,
       password: expect.anything(),
     });
 
-    expect(mockUserRepository.insert).toHaveBeenCalled();
     expect(mockUserRepository.insert).toHaveBeenCalledWith({
       ...createUserStub(),
       createdAt: expect.anything(),
@@ -130,7 +133,6 @@ describe('UsersService', () => {
     const result = await service.getAllUsers(current, total);
 
     //assert
-    expect(mockUserRepository.findAndCount).toHaveBeenCalled();
     expect(mockUserRepository.findAndCount).toHaveBeenCalledWith({
       take: total,
       skip,
@@ -164,28 +166,27 @@ describe('UsersService', () => {
 
   it('updateUser => Should update user and return formatted user response', async () => {
     //arrange
-    const existId = createUserStub().id;
+    jest
+      .spyOn(mockUserRepository, 'create')
+      .mockResolvedValue(afterUpdateUserStub());
 
-    jest.spyOn(mockUserRepository, 'findOne').mockReturnValue(createUserStub());
+    const existId = createUserStub().id;
+    const updatedUser = formatUserResponse(afterUpdateUserStub());
 
     //act
     const result = await service.updateUser(existId, updateUserDto);
 
     //assert
-    expect(mockUserRepository.findOne).toHaveBeenCalled();
-    expect(mockUserRepository.findOne).toHaveBeenCalledWith({
-      where: {
-        id: existId,
-      },
+
+    expect(mockUserRepository.update).toHaveBeenCalledWith(
+      existId,
+      afterUpdateUserStub(),
+    );
+    expect(mockUserRepository.create).toHaveBeenCalledWith({
+      ...updateUserDto,
     });
 
-    expect(mockUserRepository.findOne).toBeNull;
-    // expect(mockUserRepository.update).toHaveBeenCalled();
-    // expect(mockUserRepository.update).toHaveBeenCalled();
-    // expect(mockUserRepository.update).toHaveBeenCalledWith({
-    //   existId,
-    //   updateUserDto,
-    // });
+    expect(result).toEqual(updatedUser);
   });
 
   // it('remove', () => {});

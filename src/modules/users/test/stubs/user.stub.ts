@@ -16,6 +16,22 @@ export const createUserStub = (): User => {
   };
 };
 
+export const afterUpdateUserStub = (): User => {
+  return {
+    id: '9c8ffd82-c1df-46f7-b090-0585997485db',
+    email: 'Test1@gmail.com',
+    password: 'strongP@ssword',
+    name: 'TestUpdate',
+    genderId: 2,
+    phoneNumber: '55555',
+    address: 'Update address',
+    roleId: 2,
+    companyId: 1,
+    createdAt: new Date(),
+    session: null,
+  };
+};
+
 export const allUserStub = (): User[] => {
   return [
     {
