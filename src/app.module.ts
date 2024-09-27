@@ -6,6 +6,8 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { PostgresModule } from 'src/modules/databases/postgres.module';
 import { databaseConfig } from 'src/configs/configuration.config';
+import { GlobalExceptionFilter } from 'src/exception-filters/global-exception.filter';
+import { APP_FILTER } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -34,6 +36,12 @@ import { databaseConfig } from 'src/configs/configuration.config';
     UsersModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: GlobalExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}

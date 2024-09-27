@@ -5,7 +5,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { ResponseTransformInterceptor } from 'src/interceptors/response-transform.interceptor';
 
 async function bootstrap() {
-  const logger = new Logger(bootstrap.name);
+  // const logger = new Logger(bootstrap.name);
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
@@ -20,9 +20,6 @@ async function bootstrap() {
   );
 
   app.setGlobalPrefix('api', { exclude: [''] });
-
-  logger.debug(configService.get('NODE_ENV'));
-  logger.debug(configService.get('PORT'));
 
   await app.listen(port);
 }

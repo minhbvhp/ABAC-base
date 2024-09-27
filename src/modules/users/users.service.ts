@@ -17,10 +17,9 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-
-    private readonly config: ConfigService,
+    private readonly configService: ConfigService,
   ) {
-    this.saltRounds = config.get('SALT_ROUNDS', 10);
+    this.saltRounds = this.configService.get('SALT_ROUNDS', 10);
   }
 
   async createUser(createUserDto: CreateUserDto): Promise<UserResponseType> {
