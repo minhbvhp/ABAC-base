@@ -9,7 +9,7 @@ import {
   createUserStub,
 } from '../users/test/stubs/user.stub';
 import { ConfigModule } from '@nestjs/config';
-import { formatUserResponse } from '../utils/helpers/formatUserResponseHelpers';
+import { formatUserResponse } from '../../utils/helpers/formatUserResponseHelpers';
 import { UpdateUserDto } from '../users/dto/update-user.dto';
 
 const mockUserRepository = {

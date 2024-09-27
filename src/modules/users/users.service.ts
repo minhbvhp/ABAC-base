@@ -6,7 +6,7 @@ import User from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
-import { formatUserResponse } from '../utils/helpers/formatUserResponseHelpers';
+import { formatUserResponse } from '../../utils/helpers/formatUserResponseHelpers';
 import { isUUID } from 'class-validator';
 
 @Injectable()

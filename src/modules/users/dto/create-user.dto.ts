@@ -18,7 +18,7 @@ import {
   GENDER_MUST_NOT_EMPTY,
   PHONE_MUST_NOT_EMPTY,
   GENDER_ID_MUST_NUMBER,
-} from '../../utils/messageConstants';
+} from '../../../utils/constants/messageConstants';
 
 export class CreateUserDto {
   @IsEmail({}, { message: EMAIL_MUST_VALID })
