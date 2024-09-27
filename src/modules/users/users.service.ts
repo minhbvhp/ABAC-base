@@ -8,6 +8,7 @@ import * as bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
 import { formatUserResponse } from '../../utils/helpers/formatUserResponseHelpers';
 import { isUUID } from 'class-validator';
+import { UserResponseType } from 'src/utils/types/definitions';
 
 @Injectable()
 export class UsersService {
@@ -22,7 +23,7 @@ export class UsersService {
     this.saltRounds = config.get('SALT_ROUNDS', 10);
   }
 
-  async createUser(createUserDto: CreateUserDto) {
+  async createUser(createUserDto: CreateUserDto): Promise<UserResponseType> {
     try {
       const existedUser = await this.usersRepository.findOne({
         where: {
@@ -57,7 +58,10 @@ export class UsersService {
     return null;
   }
 
-  async getAllUsers(current: number = 1, total: number = 10) {
+  async getAllUsers(
+    current: number = 1,
+    total: number = 10,
+  ): Promise<{ users: User[]; totalPages: number }> {
     try {
       const skip = (current - 1) * total;
 
@@ -97,7 +101,10 @@ export class UsersService {
     }
   }
 
-  async updateUser(id: string, updateUserDto: UpdateUserDto) {
+  async updateUser(
+    id: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<UserResponseType> {
     try {
       if (!isUUID(id)) {
         return null;
