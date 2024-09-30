@@ -80,9 +80,34 @@ export class UsersService {
     }
   }
 
-  async getUserbyEmail(email: string) {
+  async getUserById(userId: string): Promise<User> {
     try {
-      const user = await this.usersRepository.findOne({
+      if (!isUUID(userId)) {
+        return null;
+      }
+
+      const existedUser = await this.usersRepository.findOne({
+        where: {
+          id: userId,
+        },
+      });
+
+      if (!existedUser) {
+        return null;
+      }
+
+      return existedUser;
+    } catch (error) {
+      throw new ServiceUnavailableException(
+        'Lỗi dịch vụ',
+        'User service error - get user by id',
+      );
+    }
+  }
+
+  async getUserbyEmail(email: string): Promise<User> {
+    try {
+      const existedUser = await this.usersRepository.findOne({
         where: {
           email: email,
         },
@@ -91,7 +116,7 @@ export class UsersService {
         // }
       });
 
-      return user;
+      return existedUser;
     } catch (error) {
       throw new ServiceUnavailableException(
         'Lỗi dịch vụ',

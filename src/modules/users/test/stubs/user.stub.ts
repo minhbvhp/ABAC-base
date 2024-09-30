@@ -11,7 +11,7 @@ export const createUserStub = (): User => {
     address: 'mock address',
     roleId: 1,
     companyId: 2,
-    createdAt: new Date(),
+    createdAt: new Date('2024-09-30T08:16:58.302Z'),
     session: null,
   };
 };
@@ -27,7 +27,7 @@ export const afterUpdateUserStub = (): User => {
     address: 'Update address',
     roleId: 2,
     companyId: 1,
-    createdAt: new Date(),
+    createdAt: new Date('2024-09-30T08:16:58.302Z'),
     session: null,
   };
 };

@@ -57,10 +57,24 @@ export class UsersController {
     return res;
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.usersService.findOne(+id);
-  // }
+  @Get(':id')
+  async getUserById(@Param('id') id: string) {
+    const result = await this.usersService.getUserById(id);
+
+    if (!result) {
+      throw new NotFoundException(USER_NOT_FOUND, {
+        cause: new Error('Get user service by id return null'),
+        description: 'Not found',
+      });
+    }
+
+    const res: CustomResponseType = {
+      message: 'Đã tìm thấy người dùng',
+      result,
+    };
+
+    return res;
+  }
 
   @Patch(':id')
   async updateUser(

@@ -18,7 +18,10 @@
       ],
       "sourceMaps": true,
       "cwd": "${workspaceRoot}",
-      "protocol": "inspector"
+      "protocol": "inspector",
+      "env": {
+        "NODE_ENV": "development"
+      }
     }
   ]
 }
