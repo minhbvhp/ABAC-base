@@ -8,6 +8,7 @@ import { PostgresModule } from 'src/modules/databases/postgres.module';
 import { databaseConfig } from 'src/configs/configuration.config';
 import { GlobalExceptionFilter } from 'src/exception-filters/global-exception.filter';
 import { APP_FILTER } from '@nestjs/core';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { APP_FILTER } from '@nestjs/core';
     }),
     PostgresModule,
     UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [

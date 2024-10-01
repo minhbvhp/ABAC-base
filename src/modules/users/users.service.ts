@@ -111,6 +111,7 @@ export class UsersService {
         where: {
           email: email,
         },
+        select: { password: true },
         // relations {
         //   role: true,
         // }

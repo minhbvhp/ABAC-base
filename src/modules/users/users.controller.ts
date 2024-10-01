@@ -58,7 +58,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  async getUserById(@Param('id') id: string) {
+  async getUserById(@Param('id') id: string): Promise<CustomResponseType> {
     const result = await this.usersService.getUserById(id);
 
     if (!result) {
@@ -80,7 +80,7 @@ export class UsersController {
   async updateUser(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
-  ) {
+  ): Promise<CustomResponseType> {
     const result = await this.usersService.updateUser(id, updateUserDto);
 
     if (!result) {
@@ -99,7 +99,9 @@ export class UsersController {
   }
 
   @Delete(':id')
-  async deleteUserPermanently(@Param('id') id: string) {
+  async deleteUserPermanently(
+    @Param('id') id: string,
+  ): Promise<CustomResponseType> {
     const result = await this.usersService.deleteUserPermanently(id);
 
     if (!result) {
