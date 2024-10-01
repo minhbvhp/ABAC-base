@@ -111,7 +111,7 @@ export class UsersService {
         where: {
           email: email,
         },
-        select: { password: true },
+        select: ['id', 'email', 'name', 'password', 'roleId'],
         // relations {
         //   role: true,
         // }
