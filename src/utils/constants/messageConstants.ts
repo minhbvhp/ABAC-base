@@ -1,3 +1,10 @@
+/*************
+ * @SERVICE  *
+ *************/
+
+export const SERVICE_ERROR_MESSAGE: string = 'Lỗi dịch vụ';
+export const SERVICE_ERROR_DESCRIPTION: string = 'User service error';
+
 /**********
  * @AUTH  *
  **********/

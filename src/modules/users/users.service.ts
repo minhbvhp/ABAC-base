@@ -7,6 +7,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
 import { isUUID } from 'class-validator';
+import {
+  SERVICE_ERROR_DESCRIPTION,
+  SERVICE_ERROR_MESSAGE,
+} from '../../utils/constants/messageConstants';
 
 @Injectable()
 export class UsersService {
@@ -45,8 +49,8 @@ export class UsersService {
       }
     } catch (error) {
       throw new ServiceUnavailableException(
-        'Lỗi dịch vụ',
-        'User service error - create',
+        SERVICE_ERROR_MESSAGE,
+        `${SERVICE_ERROR_DESCRIPTION} - create user`,
       );
     }
 
@@ -70,8 +74,8 @@ export class UsersService {
       return { users, totalPages };
     } catch (error) {
       throw new ServiceUnavailableException(
-        'Lỗi dịch vụ',
-        'User service error - find all',
+        SERVICE_ERROR_MESSAGE,
+        `${SERVICE_ERROR_DESCRIPTION} - find all user`,
       );
     }
   }
@@ -95,8 +99,8 @@ export class UsersService {
       return existedUser;
     } catch (error) {
       throw new ServiceUnavailableException(
-        'Lỗi dịch vụ',
-        'User service error - get user by id',
+        SERVICE_ERROR_MESSAGE,
+        `${SERVICE_ERROR_DESCRIPTION} - get user by id`,
       );
     }
   }
@@ -115,8 +119,8 @@ export class UsersService {
       return existedUser;
     } catch (error) {
       throw new ServiceUnavailableException(
-        'Lỗi dịch vụ',
-        'User service error - get user by email',
+        SERVICE_ERROR_MESSAGE,
+        `${SERVICE_ERROR_DESCRIPTION} - get user by email`,
       );
     }
   }
@@ -144,8 +148,8 @@ export class UsersService {
       }
     } catch (error) {
       throw new ServiceUnavailableException(
-        'Lỗi dịch vụ',
-        'User service error - update user',
+        SERVICE_ERROR_MESSAGE,
+        `${SERVICE_ERROR_DESCRIPTION} - update user`,
       );
     }
 
@@ -173,8 +177,8 @@ export class UsersService {
       return existedUser;
     } catch (error) {
       throw new ServiceUnavailableException(
-        'Lỗi dịch vụ',
-        'User service error - delete user permanently',
+        SERVICE_ERROR_MESSAGE,
+        `${SERVICE_ERROR_DESCRIPTION} - delete user permanently`,
       );
     }
   }
