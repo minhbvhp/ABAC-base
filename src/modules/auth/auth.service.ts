@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  ServiceUnavailableException,
+} from '@nestjs/common';
 import User from '../users/entities/user.entity';
 import * as bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
@@ -6,6 +10,7 @@ import { ConfigService } from '@nestjs/config';
 import {
   EMAIL_OR_PASSWORD_WRONG,
   SERVICE_ERROR_DESCRIPTION,
+  SERVICE_ERROR_MESSAGE,
 } from '../../utils/constants/messageConstants';
 import { JwtService } from '@nestjs/jwt';
 import { TokenPayload } from 'src/modules/auth/interfaces/token.interface';
@@ -62,6 +67,7 @@ export class AuthService {
       )}s`,
     });
   }
+
   async signIn(userId: string) {
     try {
       const access_token = this.generateAccessToken({
@@ -77,6 +83,16 @@ export class AuthService {
       };
     } catch (error) {
       throw error;
+    }
+  }
+
+  async storeRefreshToken(userId: string, token: string): Promise<void> {
+    try {
+    } catch (error) {
+      throw new ServiceUnavailableException(
+        SERVICE_ERROR_MESSAGE,
+        `${SERVICE_ERROR_DESCRIPTION} - store refresh token`,
+      );
     }
   }
 }
