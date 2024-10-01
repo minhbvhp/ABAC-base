@@ -19,7 +19,7 @@ import { PaginationDto } from '../pagination/pagination.dto';
 import { USER_NOT_FOUND } from '../../utils/constants/messageConstants';
 import { JwtAccessTokenGuard } from 'src/modules/auth/guards/jwt-access-token.guard';
 
-@UseGuards(JwtAccessTokenGuard)
+// @UseGuards(JwtAccessTokenGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

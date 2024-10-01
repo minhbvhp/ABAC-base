@@ -14,7 +14,7 @@ import {
 } from '../../utils/constants/messageConstants';
 import { JwtService } from '@nestjs/jwt';
 import { TokenPayload } from 'src/modules/auth/interfaces/token.interface';
-import { UsersService } from 'src/modules/users/users.service';
+import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {

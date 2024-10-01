@@ -10,7 +10,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LocalAuthGuard } from 'src/modules/auth/guards/local.guard';
+import { LocalAuthGuard } from '../auth/guards/local.guard';
 import { RequestWithUser } from 'src/utils/types/request.type';
 import { CustomResponseType } from 'src/utils/types/definitions';
 

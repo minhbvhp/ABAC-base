@@ -154,6 +154,7 @@ describe('UsersService', () => {
     //assert
     expect(mockUserRepository.findOne).toHaveBeenCalledWith({
       where: { email: mockEmail },
+      select: ['id', 'email', 'name', 'password', 'roleId'],
     });
 
     expect(result).toEqual(null);
@@ -172,6 +173,7 @@ describe('UsersService', () => {
     //assert
     expect(mockUserRepository.findOne).toHaveBeenCalledWith({
       where: { email: mockEmail },
+      select: ['id', 'email', 'name', 'password', 'roleId'],
     });
 
     expect(result).toEqual(createUserStub());
