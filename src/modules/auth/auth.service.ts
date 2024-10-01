@@ -27,7 +27,7 @@ export class AuthService {
     } catch (error) {
       throw new BadRequestException(
         EMAIL_OR_PASSWORD_WRONG,
-        `${SERVICE_ERROR_DESCRIPTION} - get authencicated user`,
+        `${SERVICE_ERROR_DESCRIPTION} - get authenticated user`,
       );
     }
   }

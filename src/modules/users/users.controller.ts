@@ -9,6 +9,7 @@ import {
   ConflictException,
   Query,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -16,6 +17,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { CustomResponseType } from 'src/utils/types/definitions';
 import { PaginationDto } from '../pagination/pagination.dto';
 import { USER_NOT_FOUND } from '../../utils/constants/messageConstants';
+import { JwtAccessTokenGuard } from 'src/modules/auth/guards/jwt-access-token.guard';
 
 @Controller('users')
 export class UsersController {
@@ -42,6 +44,7 @@ export class UsersController {
     return res;
   }
 
+  @UseGuards(JwtAccessTokenGuard)
   @Get()
   async getAllUsers(
     @Query() paginationDto: PaginationDto,

@@ -4,12 +4,12 @@ import { AuthController } from './auth.controller';
 import { LocalStrategy } from 'src/modules/auth/strategies/local.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { UsersService } from 'src/modules/users/users.service';
 import { UsersModule } from 'src/modules/users/users.module';
+import { JwtAccessTokenStrategy } from 'src/modules/auth/strategies/jwt-access-token.strategy';
 
 @Module({
   imports: [PassportModule, UsersModule, JwtModule.register({})],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy],
+  providers: [AuthService, LocalStrategy, JwtAccessTokenStrategy],
 })
 export class AuthModule {}
