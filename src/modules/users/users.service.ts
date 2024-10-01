@@ -6,9 +6,7 @@ import User from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
-import { formatUserResponse } from '../../utils/helpers/formatUserResponseHelpers';
 import { isUUID } from 'class-validator';
-import { UserResponseType } from 'src/utils/types/definitions';
 
 @Injectable()
 export class UsersService {
@@ -22,7 +20,7 @@ export class UsersService {
     this.saltRounds = this.configService.get('SALT_ROUNDS', 10);
   }
 
-  async createUser(createUserDto: CreateUserDto): Promise<UserResponseType> {
+  async createUser(createUserDto: CreateUserDto) {
     try {
       const existedUser = await this.usersRepository.findOne({
         where: {
@@ -43,9 +41,7 @@ export class UsersService {
 
         await this.usersRepository.insert(newUser);
 
-        const result = formatUserResponse(newUser);
-
-        return result;
+        return { userId: newUser.id };
       }
     } catch (error) {
       throw new ServiceUnavailableException(
@@ -125,10 +121,7 @@ export class UsersService {
     }
   }
 
-  async updateUser(
-    id: string,
-    updateUserDto: UpdateUserDto,
-  ): Promise<UserResponseType> {
+  async updateUser(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     try {
       if (!isUUID(id)) {
         return null;
@@ -147,9 +140,7 @@ export class UsersService {
 
         await this.usersRepository.update(existedUser.id, updatedUser);
 
-        const result = formatUserResponse(updatedUser);
-
-        return result;
+        return updatedUser;
       }
     } catch (error) {
       throw new ServiceUnavailableException(
@@ -177,11 +168,9 @@ export class UsersService {
         return null;
       }
 
-      const result = formatUserResponse(existedUser);
-
       await this.usersRepository.remove(existedUser);
 
-      return result;
+      return existedUser;
     } catch (error) {
       throw new ServiceUnavailableException(
         'Lỗi dịch vụ',

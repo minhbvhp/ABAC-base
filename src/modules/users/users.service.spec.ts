@@ -9,7 +9,6 @@ import {
   createUserStub,
 } from '../users/test/stubs/user.stub';
 import { ConfigModule } from '@nestjs/config';
-// import { formatUserResponse } from '../../utils/helpers/formatUserResponseHelpers';
 import { UpdateUserDto } from '../users/dto/update-user.dto';
 
 const mockUserRepository = {
@@ -74,6 +73,9 @@ describe('UsersService', () => {
 
   it('create => should return null if user with email already exists', async () => {
     //arrange
+    jest
+      .spyOn(mockUserRepository, 'findOne')
+      .mockResolvedValueOnce(createUserStub());
 
     //act
     const result = await userService.createUser(createUserDto);
@@ -109,7 +111,7 @@ describe('UsersService', () => {
 
     expect(mockUserRepository.insert).toHaveBeenCalledWith(createUserStub());
 
-    expect(result).toEqual(newUser);
+    expect(result).toEqual({ userId: newUser.id });
   });
 
   it('getAllUsers => Should return all paginated users', async () => {
