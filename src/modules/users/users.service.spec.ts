@@ -97,7 +97,6 @@ describe('UsersService', () => {
       .mockReturnValueOnce(createUserStub());
     jest.spyOn(mockUserRepository, 'findOne').mockResolvedValueOnce(null);
 
-    // const newUser = formatUserResponse(createUserStub());
     const newUser = createUserStub();
 
     // act
@@ -210,7 +209,6 @@ describe('UsersService', () => {
       .mockResolvedValue(afterUpdateUserStub());
 
     const existId = createUserStub().id;
-    // const updatedUser = formatUserResponse(afterUpdateUserStub());
     const updatedUser = afterUpdateUserStub();
 
     //act
@@ -258,7 +256,6 @@ describe('UsersService', () => {
 
     const existId = createUserStub().id;
 
-    // const deletedUser = formatUserResponse(createUserStub());
     const deletedUser = createUserStub();
 
     //act

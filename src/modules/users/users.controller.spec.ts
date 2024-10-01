@@ -25,7 +25,7 @@ describe('UsersController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('create => Should create a new user and return custom response', async () => {
+  it('create => Should create a new user and return response', async () => {
     //arrange
     const createUserDto = {
       email: 'Test1@gmail.com',
@@ -44,11 +44,11 @@ describe('UsersController', () => {
     //expect
     expect(response).toEqual({
       message: 'Đã tạo người dùng mới',
-      result: { ...createUserStub(), createdAt: expect.anything() },
+      result: { userId: createUserStub().id },
     });
   });
 
-  it('findAll => Should return custom response include paginated users', async () => {
+  it('findAll => Should return response include paginated users', async () => {
     //arrange
 
     //act
