@@ -17,7 +17,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { CustomResponseType } from 'src/utils/types/definitions';
 import { PaginationDto } from '../pagination/pagination.dto';
 import { USER_NOT_FOUND } from '../../utils/constants/messageConstants';
-import { JwtAccessTokenGuard } from 'src/modules/auth/guards/jwt-access-token.guard';
+import { JwtAccessTokenGuard } from '../auth/guards/jwt-access-token.guard';
 
 @UseGuards(JwtAccessTokenGuard)
 @Controller('users')
