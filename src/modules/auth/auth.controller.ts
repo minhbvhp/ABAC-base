@@ -23,7 +23,7 @@ export class AuthController {
   async signIn(@Req() request: RequestWithUser): Promise<CustomResponseType> {
     const { user } = request;
 
-    const result = await this.authService.signIn(user.id);
+    const result = await this.authService.signIn(user);
 
     const res: CustomResponseType = {
       message: 'Đăng nhập thành công',

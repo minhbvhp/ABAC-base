@@ -68,14 +68,15 @@ export class AuthService {
     });
   }
 
-  async signIn(userId: string) {
+  async signIn(user: User) {
     try {
-      const access_token = this.generateAccessToken({
-        userId,
-      });
-      const refresh_token = this.generateRefreshToken({
-        userId,
-      });
+      const payload: TokenPayload = {
+        sub: user.id,
+        email: user.email,
+      };
+      const access_token = this.generateAccessToken(payload);
+      const refresh_token = this.generateRefreshToken(payload);
+
       // await this.storeRefreshToken(userId, refresh_token);
       return {
         access_token,
