@@ -4,8 +4,9 @@ import {
   ServiceUnavailableException,
 } from '@nestjs/common';
 import User from '../users/entities/user.entity';
-import * as bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
+import * as bcrypt from 'bcryptjs';
+import * as crypto from 'node:crypto';
 
 import {
   EMAIL_OR_PASSWORD_WRONG,
@@ -38,10 +39,10 @@ export class AuthService {
   }
 
   private async verifyPlainContentWithHashedContent(
-    plain_text: string,
-    hashed_text: string,
+    plainText: string,
+    hashedText: string,
   ) {
-    const is_matching = await bcrypt.compare(plain_text, hashed_text);
+    const is_matching = await bcrypt.compare(plainText, hashedText);
     if (!is_matching) {
       throw new BadRequestException(
         EMAIL_OR_PASSWORD_WRONG,
@@ -77,7 +78,7 @@ export class AuthService {
       const access_token = this.generateAccessToken(payload);
       const refresh_token = this.generateRefreshToken(payload);
 
-      // await this.storeRefreshToken(userId, refresh_token);
+      await this.storeRefreshToken(user.id, refresh_token);
       return {
         access_token,
         refresh_token,
@@ -89,11 +90,40 @@ export class AuthService {
 
   async storeRefreshToken(userId: string, token: string): Promise<void> {
     try {
+      const hashedToken = this.hashToken(token);
+
+      // await this.usersService.setCurrentRefreshToken(userId, hashedToken);
+
+      return;
     } catch (error) {
       throw new ServiceUnavailableException(
         SERVICE_ERROR_MESSAGE,
         `${SERVICE_ERROR_DESCRIPTION} - store refresh token`,
       );
     }
+  }
+
+  hashToken(plainToken: string) {
+    if (!plainToken) {
+      return null;
+    }
+    const salt = this.configService.get<string>('TOKEN_SALT');
+    const hashedToken = crypto
+      .pbkdf2Sync(plainToken, salt, 10000, 64, 'sha512')
+      .toString('hex');
+
+    return hashedToken;
+  }
+
+  verifyHashedToken(
+    plainToken: string,
+    hashedToken: string,
+    salt: string = this.configService.get<string>('TOKEN_SALT'),
+  ): boolean {
+    const checkHashed = crypto
+      .pbkdf2Sync(plainToken, salt, 10000, 64, 'sha512')
+      .toString('hex');
+
+    return hashedToken === checkHashed;
   }
 }

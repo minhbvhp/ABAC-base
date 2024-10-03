@@ -3,9 +3,10 @@ import { AppModule } from './app.module';
 import { ConfigService } from '@nestjs/config';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { ResponseTransformInterceptor } from 'src/interceptors/response-transform.interceptor';
+import * as crypto from 'node:crypto';
 
 async function bootstrap() {
-  // const logger = new Logger(bootstrap.name);
+  const logger = new Logger(bootstrap.name);
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
