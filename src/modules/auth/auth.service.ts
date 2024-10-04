@@ -84,7 +84,10 @@ export class AuthService {
         refresh_token,
       };
     } catch (error) {
-      throw error;
+      throw new ServiceUnavailableException(
+        SERVICE_ERROR_MESSAGE,
+        `${SERVICE_ERROR_DESCRIPTION} - sign in`,
+      );
     }
   }
 
@@ -92,7 +95,7 @@ export class AuthService {
     try {
       const hashedToken = this.hashToken(token);
 
-      // await this.usersService.setCurrentRefreshToken(userId, hashedToken);
+      await this.usersService.setCurrentRefreshToken(userId, hashedToken);
 
       return;
     } catch (error) {

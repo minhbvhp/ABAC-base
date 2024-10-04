@@ -57,6 +57,21 @@ export class UsersService {
     return null;
   }
 
+  async setCurrentRefreshToken(id: string, hashedToken: string): Promise<void> {
+    try {
+      if (hashedToken) {
+        await this.usersRepository.update(id, {
+          currentRefreshToken: hashedToken,
+        });
+      }
+    } catch (error) {
+      throw new ServiceUnavailableException(
+        SERVICE_ERROR_MESSAGE,
+        `${SERVICE_ERROR_DESCRIPTION} - set current refresh token`,
+      );
+    }
+  }
+
   async getAllUsers(
     current: number = 1,
     total: number = 10,

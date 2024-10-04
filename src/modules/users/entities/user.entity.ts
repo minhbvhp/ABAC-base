@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Column,
   Entity,
@@ -42,11 +43,14 @@ class User {
   })
   createdAt: Date;
 
+  @Exclude()
   @Column({
     unique: true,
     nullable: true,
+    select: false,
+    name: 'current_refresh_token',
   })
-  session: string;
+  currentRefreshToken: string;
 }
 
 export default User;

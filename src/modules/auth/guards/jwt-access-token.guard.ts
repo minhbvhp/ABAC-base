@@ -1,14 +1,20 @@
-import { ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
 import { IS_PUBLIC_KEY } from '../../../decorators/auth.decorators';
+import { THIS_FEATURE_NEED_LOGIN } from 'src/utils/constants/messageConstants';
 
 @Injectable()
 export class JwtAccessTokenGuard extends AuthGuard('jwt') {
   constructor(private reflector: Reflector) {
     super();
   }
+
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
@@ -20,5 +26,13 @@ export class JwtAccessTokenGuard extends AuthGuard('jwt') {
       return true;
     }
     return super.canActivate(context);
+  }
+
+  handleRequest(err, user) {
+    if (err || !user) {
+      throw new UnauthorizedException(THIS_FEATURE_NEED_LOGIN);
+    }
+
+    return user;
   }
 }

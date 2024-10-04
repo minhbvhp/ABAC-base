@@ -12,7 +12,7 @@ export const createUserStub = (): User => {
     roleId: 1,
     companyId: 2,
     createdAt: new Date('2024-09-30T08:16:58.302Z'),
-    session: null,
+    currentRefreshToken: null,
   };
 };
 
@@ -28,7 +28,7 @@ export const afterUpdateUserStub = (): User => {
     roleId: 2,
     companyId: 1,
     createdAt: new Date('2024-09-30T08:16:58.302Z'),
-    session: null,
+    currentRefreshToken: null,
   };
 };
 
@@ -45,7 +45,7 @@ export const allUserStub = (): User[] => {
       roleId: 4,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: 'fd19663f-ce5a-4d4f-8d46-cf1795725d0a',
+      currentRefreshToken: 'fd19663f-ce5a-4d4f-8d46-cf1795725d0a',
     },
     {
       id: 'fc1381bd-09a2-46b8-9ec6-3a9b0b5e1674',
@@ -58,7 +58,7 @@ export const allUserStub = (): User[] => {
       roleId: 1,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '6a969331-41d6-421f-84f6-22c086fc5d84',
+      currentRefreshToken: '6a969331-41d6-421f-84f6-22c086fc5d84',
     },
     {
       id: 'fdf7de6b-3e2b-4e94-9378-2c4a345c57fb',
@@ -71,7 +71,7 @@ export const allUserStub = (): User[] => {
       roleId: 4,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '428906c8-c1f9-4ee5-9972-051ccb2929b8',
+      currentRefreshToken: '428906c8-c1f9-4ee5-9972-051ccb2929b8',
     },
     {
       id: '2529301e-8aa3-4152-a766-a7a36c5dc1cc',
@@ -84,7 +84,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '847ed84f-0c4f-463a-b7ae-986d38db876e',
+      currentRefreshToken: '847ed84f-0c4f-463a-b7ae-986d38db876e',
     },
     {
       id: 'be2426a3-a4ce-476d-a9ab-5c2df1fb843f',
@@ -97,7 +97,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '4457244a-8839-495f-9791-1408015a0355',
+      currentRefreshToken: '4457244a-8839-495f-9791-1408015a0355',
     },
     {
       id: '63204e0c-f5bc-4984-bb68-5b590f2aa8dc',
@@ -110,7 +110,7 @@ export const allUserStub = (): User[] => {
       roleId: 2,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '1bcb4481-eb48-4f0c-8e5a-1230101d06b5',
+      currentRefreshToken: '1bcb4481-eb48-4f0c-8e5a-1230101d06b5',
     },
     {
       id: '89c6b139-ef0b-4b4d-80ee-9ec1d2f1efc3',
@@ -123,7 +123,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '271aa4be-aaab-4595-a877-7e9d66a0234c',
+      currentRefreshToken: '271aa4be-aaab-4595-a877-7e9d66a0234c',
     },
     {
       id: 'f83a0673-b05b-4159-81f9-f2e262e73e98',
@@ -136,7 +136,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: 'c8e52952-3f77-4607-8b28-8a565618b02b',
+      currentRefreshToken: 'c8e52952-3f77-4607-8b28-8a565618b02b',
     },
     {
       id: 'f01143bd-6b46-4690-b4fa-157802167c18',
@@ -149,7 +149,7 @@ export const allUserStub = (): User[] => {
       roleId: 2,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '78e78df8-a7d5-433f-b29f-a716f4c32038',
+      currentRefreshToken: '78e78df8-a7d5-433f-b29f-a716f4c32038',
     },
     {
       id: 'cd4333d4-ae64-4341-862b-28fab045a64d',
@@ -162,7 +162,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '00db6d2a-9358-4d04-9c81-e65469a99526',
+      currentRefreshToken: '00db6d2a-9358-4d04-9c81-e65469a99526',
     },
     {
       id: 'aecfda7a-70b0-4205-9315-1dd624eeafb0',
@@ -175,7 +175,7 @@ export const allUserStub = (): User[] => {
       roleId: 4,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '4b457347-8b8c-49b0-a63c-438ec449e7d7',
+      currentRefreshToken: '4b457347-8b8c-49b0-a63c-438ec449e7d7',
     },
     {
       id: '10e0f421-930b-4da1-a386-d38ef1f0beb3',
@@ -188,7 +188,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '2dcff2cd-536d-4b03-b9b4-5fc1439509e5',
+      currentRefreshToken: '2dcff2cd-536d-4b03-b9b4-5fc1439509e5',
     },
     {
       id: 'b03e5f56-5f50-4036-9f4c-bd23669845f0',
@@ -201,7 +201,7 @@ export const allUserStub = (): User[] => {
       roleId: 4,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '0b1c46db-7830-450c-a33c-97cb8a86d619',
+      currentRefreshToken: '0b1c46db-7830-450c-a33c-97cb8a86d619',
     },
     {
       id: '81ae1035-dffb-4d36-95db-30aa21189341',
@@ -214,7 +214,7 @@ export const allUserStub = (): User[] => {
       roleId: 4,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: 'd464f900-82ef-4db3-9a39-916a9b7654a6',
+      currentRefreshToken: 'd464f900-82ef-4db3-9a39-916a9b7654a6',
     },
     {
       id: '5343d10d-3638-49da-85ad-b274f2e569be',
@@ -227,7 +227,7 @@ export const allUserStub = (): User[] => {
       roleId: 1,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '98554d09-53a3-4a2d-b8d9-53d4bbc2e3ff',
+      currentRefreshToken: '98554d09-53a3-4a2d-b8d9-53d4bbc2e3ff',
     },
     {
       id: '0290b1ce-fe05-4f14-b850-67ed952a42a2',
@@ -240,7 +240,7 @@ export const allUserStub = (): User[] => {
       roleId: 4,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '2888de4e-b92e-41f4-8d43-d4a1009171ae',
+      currentRefreshToken: '2888de4e-b92e-41f4-8d43-d4a1009171ae',
     },
     {
       id: '15fde838-97d1-4ecc-83c0-0913a198b956',
@@ -253,7 +253,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '3d16fe69-9f14-4c61-b4f4-b59961130f2c',
+      currentRefreshToken: '3d16fe69-9f14-4c61-b4f4-b59961130f2c',
     },
     {
       id: 'a584fcc8-90ff-42fc-a7ce-47a63f8fd1e8',
@@ -266,7 +266,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: 'ba1b0224-4202-40b4-a431-15d20aa53894',
+      currentRefreshToken: 'ba1b0224-4202-40b4-a431-15d20aa53894',
     },
     {
       id: '6c002a38-d9b3-4ee5-9c64-f428bbfe1903',
@@ -279,7 +279,7 @@ export const allUserStub = (): User[] => {
       roleId: 4,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '8457a717-a7ac-4843-a15c-870ca063f1f6',
+      currentRefreshToken: '8457a717-a7ac-4843-a15c-870ca063f1f6',
     },
     {
       id: '93435478-644a-41a4-af27-06069751b959',
@@ -292,7 +292,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '547d166d-a3eb-4b2e-a25c-2cc022d223cd',
+      currentRefreshToken: '547d166d-a3eb-4b2e-a25c-2cc022d223cd',
     },
     {
       id: 'a4de6711-d539-4c7e-a8f2-b67276b9863f',
@@ -305,7 +305,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '07b24ae0-78b8-42a6-b298-5f7941570f6e',
+      currentRefreshToken: '07b24ae0-78b8-42a6-b298-5f7941570f6e',
     },
     {
       id: 'e942d562-0d27-4101-bb02-4eee0f48bebf',
@@ -318,7 +318,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '90426da0-a7db-474e-9559-628fe76e6b36',
+      currentRefreshToken: '90426da0-a7db-474e-9559-628fe76e6b36',
     },
     {
       id: 'e2a267b0-bca0-4324-b093-bbcdf294476f',
@@ -331,7 +331,7 @@ export const allUserStub = (): User[] => {
       roleId: 2,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '09b8848d-0f28-4660-9433-29a422e29919',
+      currentRefreshToken: '09b8848d-0f28-4660-9433-29a422e29919',
     },
     {
       id: 'e4baf855-03b4-4fc6-81ee-6105ed0625e6',
@@ -344,7 +344,7 @@ export const allUserStub = (): User[] => {
       roleId: 1,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '5587a2d0-fc91-425c-bb7c-be5dd11f75e3',
+      currentRefreshToken: '5587a2d0-fc91-425c-bb7c-be5dd11f75e3',
     },
     {
       id: 'b670e993-ef63-4afd-814b-833465bc79fb',
@@ -357,7 +357,7 @@ export const allUserStub = (): User[] => {
       roleId: 4,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '7333d956-3c1c-47e5-8e02-be025ca8e9aa',
+      currentRefreshToken: '7333d956-3c1c-47e5-8e02-be025ca8e9aa',
     },
     {
       id: 'd379b7b5-5674-4a49-a02a-d857f5f3588e',
@@ -370,7 +370,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: 'b3014501-8c2b-4055-a91d-aaa214cd60c5',
+      currentRefreshToken: 'b3014501-8c2b-4055-a91d-aaa214cd60c5',
     },
     {
       id: '2d2396c4-56f4-46f9-9fec-8d82ba03b63b',
@@ -383,7 +383,7 @@ export const allUserStub = (): User[] => {
       roleId: 1,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: 'd1122322-abff-4a57-9670-cd6d700546d8',
+      currentRefreshToken: 'd1122322-abff-4a57-9670-cd6d700546d8',
     },
     {
       id: '57079c06-ec2d-4cfc-a6e8-b9b1c7100c27',
@@ -396,7 +396,7 @@ export const allUserStub = (): User[] => {
       roleId: 2,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '104d68a2-1bb9-49d8-ac86-e425244745bd',
+      currentRefreshToken: '104d68a2-1bb9-49d8-ac86-e425244745bd',
     },
     {
       id: '64b1beb3-fcf3-4e31-a754-6e04e558f4dd',
@@ -409,7 +409,7 @@ export const allUserStub = (): User[] => {
       roleId: 2,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '51d797de-21d6-4759-99c4-c5ac28f87306',
+      currentRefreshToken: '51d797de-21d6-4759-99c4-c5ac28f87306',
     },
     {
       id: '49e2344c-1b18-4ad8-9fb9-4f1fc64a1b10',
@@ -422,7 +422,7 @@ export const allUserStub = (): User[] => {
       roleId: 4,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '5a534b96-8334-4ee6-a7c3-5ec4fae3b068',
+      currentRefreshToken: '5a534b96-8334-4ee6-a7c3-5ec4fae3b068',
     },
     {
       id: '0a41de5b-e22c-46ba-bc66-3e090ded4554',
@@ -435,7 +435,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '468f033f-4e13-4ea9-858e-42da09c0159d',
+      currentRefreshToken: '468f033f-4e13-4ea9-858e-42da09c0159d',
     },
     {
       id: 'd2be3657-5058-4998-a25f-689619284d02',
@@ -448,7 +448,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: 'f29ade28-10f7-409d-9d9a-3a11043dd5aa',
+      currentRefreshToken: 'f29ade28-10f7-409d-9d9a-3a11043dd5aa',
     },
     {
       id: '39022676-9519-4f98-8d8b-ad400eeca0cf',
@@ -461,7 +461,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: 'cea1ffb0-60fa-4820-9914-607de6335dcd',
+      currentRefreshToken: 'cea1ffb0-60fa-4820-9914-607de6335dcd',
     },
     {
       id: '06430928-6434-4613-875a-d983762eb611',
@@ -474,7 +474,7 @@ export const allUserStub = (): User[] => {
       roleId: 2,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '69ddbbf6-2754-4a42-b60a-0a19a13fff25',
+      currentRefreshToken: '69ddbbf6-2754-4a42-b60a-0a19a13fff25',
     },
     {
       id: '88b41705-4b6f-4ac4-bdee-64db8879053a',
@@ -487,7 +487,7 @@ export const allUserStub = (): User[] => {
       roleId: 1,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: 'e5b531d1-184e-49a2-a677-48e7145ef2b6',
+      currentRefreshToken: 'e5b531d1-184e-49a2-a677-48e7145ef2b6',
     },
     {
       id: '24e7e862-fe58-4fe6-b373-4292e3cd7d4b',
@@ -500,7 +500,7 @@ export const allUserStub = (): User[] => {
       roleId: 4,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: 'a4a0072a-abbe-4cfd-b1fa-d5eeb7a3895c',
+      currentRefreshToken: 'a4a0072a-abbe-4cfd-b1fa-d5eeb7a3895c',
     },
     {
       id: '53e0caf6-9539-4258-9be0-e9b606badb8c',
@@ -513,7 +513,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '98128ada-5655-46ca-a9e3-5da9981aa36c',
+      currentRefreshToken: '98128ada-5655-46ca-a9e3-5da9981aa36c',
     },
     {
       id: '7607b852-9ce5-4c3b-ac07-9918e31f66fd',
@@ -526,7 +526,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: 'b9388a19-f043-46e4-a6f7-5dacb08e551e',
+      currentRefreshToken: 'b9388a19-f043-46e4-a6f7-5dacb08e551e',
     },
     {
       id: '64c31533-f9af-4d93-a15e-b51c3dbab70b',
@@ -539,7 +539,7 @@ export const allUserStub = (): User[] => {
       roleId: 2,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '5cd5e75e-3c82-4b8a-9cae-70cbdad2fa72',
+      currentRefreshToken: '5cd5e75e-3c82-4b8a-9cae-70cbdad2fa72',
     },
     {
       id: '463c8c20-d5b7-42a3-ad47-50c2e6cfd8b0',
@@ -552,7 +552,7 @@ export const allUserStub = (): User[] => {
       roleId: 1,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '7635e711-2831-46ac-aa04-d110e810d70e',
+      currentRefreshToken: '7635e711-2831-46ac-aa04-d110e810d70e',
     },
     {
       id: '40fedacf-5840-4bea-8c17-531beace6ace',
@@ -565,7 +565,7 @@ export const allUserStub = (): User[] => {
       roleId: 2,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '6b73af8a-111f-4f90-8822-9cef3283b22e',
+      currentRefreshToken: '6b73af8a-111f-4f90-8822-9cef3283b22e',
     },
     {
       id: '0aad5c0a-3c04-4670-b6aa-77778a288861',
@@ -578,7 +578,7 @@ export const allUserStub = (): User[] => {
       roleId: 4,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: 'c469a87d-0d41-4165-88b2-a85cbd2b9c3d',
+      currentRefreshToken: 'c469a87d-0d41-4165-88b2-a85cbd2b9c3d',
     },
     {
       id: '428d5448-be4b-46a1-a45e-ea3f93c31c59',
@@ -591,7 +591,7 @@ export const allUserStub = (): User[] => {
       roleId: 2,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: 'e009b5aa-f00b-4b4a-afa3-ea1d0e26ed6b',
+      currentRefreshToken: 'e009b5aa-f00b-4b4a-afa3-ea1d0e26ed6b',
     },
     {
       id: '98dd53a4-c526-45c9-8658-bf5f12f483d9',
@@ -604,7 +604,7 @@ export const allUserStub = (): User[] => {
       roleId: 4,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: 'b3440d05-1d5e-4f57-b734-b09132ca8062',
+      currentRefreshToken: 'b3440d05-1d5e-4f57-b734-b09132ca8062',
     },
     {
       id: '96398929-3ceb-4e9d-9fd2-289def0debd2',
@@ -617,7 +617,7 @@ export const allUserStub = (): User[] => {
       roleId: 1,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '1ffddf6f-4175-4b35-a8fb-3d3c877316ae',
+      currentRefreshToken: '1ffddf6f-4175-4b35-a8fb-3d3c877316ae',
     },
     {
       id: '32b2d154-e1fd-46dd-96e1-6d0c74ce068f',
@@ -630,7 +630,7 @@ export const allUserStub = (): User[] => {
       roleId: 1,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '7d1a960f-801c-44f0-8481-b44581a3401e',
+      currentRefreshToken: '7d1a960f-801c-44f0-8481-b44581a3401e',
     },
     {
       id: 'ff56febb-4166-4559-b8a4-10cc9a5ab042',
@@ -643,7 +643,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '15fab2e9-7a58-4b80-bf62-d06358de827b',
+      currentRefreshToken: '15fab2e9-7a58-4b80-bf62-d06358de827b',
     },
     {
       id: 'cd255983-a336-4450-8954-10c206368d59',
@@ -656,7 +656,7 @@ export const allUserStub = (): User[] => {
       roleId: 1,
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: 'a3fda76b-1a35-4bb3-834c-600798e0e07d',
+      currentRefreshToken: 'a3fda76b-1a35-4bb3-834c-600798e0e07d',
     },
     {
       id: 'a72d7276-154e-4a79-b563-5ca4575fbd46',
@@ -669,7 +669,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '4ebfa576-8fc5-4d61-9485-45eb41ca1f73',
+      currentRefreshToken: '4ebfa576-8fc5-4d61-9485-45eb41ca1f73',
     },
     {
       id: 'd0e2d188-2eda-4f0e-b290-72498877e3b2',
@@ -682,7 +682,7 @@ export const allUserStub = (): User[] => {
       roleId: 3,
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      session: '1becbe66-dd7d-4f3e-b065-593f651913a1',
+      currentRefreshToken: '1becbe66-dd7d-4f3e-b065-593f651913a1',
     },
   ];
 };
