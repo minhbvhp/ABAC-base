@@ -22,7 +22,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
     response.status(status).json({
       statusCode: status,
-      message,
+      message: Array.isArray(exception.response.message)
+        ? exception.response?.message[0]
+        : message,
       error:
         this.configService.get('NODE_ENV') !== 'production'
           ? {
