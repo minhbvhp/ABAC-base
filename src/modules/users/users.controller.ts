@@ -18,7 +18,12 @@ import { CustomResponseType } from 'src/utils/types/definitions';
 import { PaginationDto } from '../pagination/pagination.dto';
 import { USER_NOT_FOUND } from '../../utils/constants/messageConstants';
 import { JwtAccessTokenGuard } from '../auth/guards/jwt-access-token.guard';
+import { RolesGuard } from 'src/modules/auth/guards/roles.guard';
+import { Roles } from 'src/decorators/roles.decorator';
+import { ROLE } from 'src/modules/roles/entities/role.entity';
 
+@Roles(ROLE.ADMIN)
+@UseGuards(RolesGuard)
 @UseGuards(JwtAccessTokenGuard)
 @Controller('users')
 export class UsersController {

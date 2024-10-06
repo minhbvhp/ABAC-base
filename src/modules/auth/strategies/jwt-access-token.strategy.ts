@@ -16,7 +16,7 @@ export class JwtAccessTokenStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: TokenPayload) {
-    const user = await this.usersService.getUserById(payload.sub);
+    const user = await this.usersService.getUserWithRole(payload.sub);
     if (!user) {
       throw new UnauthorizedException(
         NOT_AUTHORIZED,

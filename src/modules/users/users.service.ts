@@ -126,12 +126,40 @@ export class UsersService {
           email: email,
         },
         select: { id: true, email: true, name: true, password: true },
-        // relations {
-        //   role: true,
-        // }
+        relations: {
+          role: true,
+        },
       });
 
       return existedUser;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getUserWithRole(userId: string): Promise<User> {
+    try {
+      if (!isUUID(userId)) {
+        return null;
+      }
+
+      const userWithRole = await this.usersRepository.findOne({
+        where: {
+          id: userId,
+        },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+        },
+        relations: { role: true },
+      });
+
+      if (!userWithRole) {
+        return null;
+      }
+
+      return userWithRole;
     } catch (error) {
       throw error;
     }
