@@ -86,7 +86,10 @@ export class UsersService {
     }
   }
 
-  async getUserById(userId: string): Promise<User> {
+  async getUserById(
+    userId: string,
+    isIncludeRefreshToken: boolean = true,
+  ): Promise<User> {
     try {
       if (!isUUID(userId)) {
         return null;
@@ -95,6 +98,13 @@ export class UsersService {
       const existedUser = await this.usersRepository.findOne({
         where: {
           id: userId,
+        },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          createdAt: true,
+          currentRefreshToken: isIncludeRefreshToken,
         },
       });
 
