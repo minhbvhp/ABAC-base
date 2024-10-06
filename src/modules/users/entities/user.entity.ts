@@ -1,4 +1,5 @@
-import { Exclude } from 'class-transformer';
+import { Exclude, Transform } from 'class-transformer';
+import Role from 'src/modules/roles/entities/role.entity';
 import {
   Column,
   Entity,
@@ -30,9 +31,6 @@ class User {
   @Column()
   address: string;
 
-  @Column({ name: 'role_id' })
-  roleId: number;
-
   @Column({ name: 'company_id' })
   companyId: number;
 
@@ -50,6 +48,10 @@ class User {
     name: 'current_refresh_token',
   })
   currentRefreshToken: string;
+
+  @ManyToOne(() => Role, (role) => role.users)
+  @JoinColumn({ name: 'role_id' })
+  role: Role;
 }
 
 export default User;

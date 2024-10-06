@@ -62,7 +62,7 @@ export class UsersController {
 
   @Get(':id')
   async getUserById(@Param('id') id: string): Promise<CustomResponseType> {
-    const result = await this.usersService.getUserById(id);
+    const result = await this.usersService.getUserById(id, false);
 
     if (!result) {
       throw new NotFoundException(USER_NOT_FOUND, {

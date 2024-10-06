@@ -76,6 +76,7 @@ export class UsersService {
       const [users, totalItems] = await this.usersRepository.findAndCount({
         take: total,
         skip,
+        relations: { role: true },
       });
 
       const totalPages = Math.ceil(totalItems / total);
