@@ -47,7 +47,6 @@ class User {
   @Column({
     unique: true,
     nullable: true,
-    select: false,
     name: 'current_refresh_token',
   })
   currentRefreshToken: string;

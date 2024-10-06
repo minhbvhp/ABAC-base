@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   ServiceUnavailableException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import User from '../users/entities/user.entity';
 import { ConfigService } from '@nestjs/config';
@@ -12,10 +13,12 @@ import {
   EMAIL_OR_PASSWORD_WRONG,
   SERVICE_ERROR_DESCRIPTION,
   SERVICE_ERROR_MESSAGE,
+  THIS_FEATURE_NEED_LOGIN,
 } from '../../utils/constants/messageConstants';
 import { JwtService } from '@nestjs/jwt';
 import { TokenPayload } from 'src/modules/auth/interfaces/token.interface';
 import { UsersService } from '../users/users.service';
+import { isUUID } from 'class-validator';
 
 @Injectable()
 export class AuthService {
@@ -31,10 +34,7 @@ export class AuthService {
       await this.verifyPlainContentWithHashedContent(password, user.password);
       return user;
     } catch (error) {
-      throw new BadRequestException(
-        EMAIL_OR_PASSWORD_WRONG,
-        `${SERVICE_ERROR_DESCRIPTION} - get authenticated user`,
-      );
+      throw error;
     }
   }
 
@@ -84,10 +84,37 @@ export class AuthService {
         refresh_token,
       };
     } catch (error) {
-      throw new ServiceUnavailableException(
-        SERVICE_ERROR_MESSAGE,
-        `${SERVICE_ERROR_DESCRIPTION} - sign in`,
+      throw error;
+    }
+  }
+
+  async getUserIfRefreshTokenMatched(
+    userId: string,
+    refreshToken: string,
+  ): Promise<User> {
+    if (!isUUID(userId)) {
+      throw new UnauthorizedException(THIS_FEATURE_NEED_LOGIN);
+    }
+
+    try {
+      const user = await this.usersService.getUserById(userId);
+
+      if (!user) {
+        throw new UnauthorizedException(THIS_FEATURE_NEED_LOGIN);
+      }
+
+      const isRefreshTokenMatched = await this.verifyHashedToken(
+        refreshToken,
+        user.currentRefreshToken,
       );
+
+      if (!isRefreshTokenMatched) {
+        throw new UnauthorizedException(THIS_FEATURE_NEED_LOGIN);
+      }
+
+      return user;
+    } catch (error) {
+      throw error;
     }
   }
 
@@ -99,10 +126,7 @@ export class AuthService {
 
       return;
     } catch (error) {
-      throw new ServiceUnavailableException(
-        SERVICE_ERROR_MESSAGE,
-        `${SERVICE_ERROR_DESCRIPTION} - store refresh token`,
-      );
+      throw error;
     }
   }
 

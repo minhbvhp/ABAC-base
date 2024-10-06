@@ -48,10 +48,7 @@ export class UsersService {
         return { userId: newUser.id };
       }
     } catch (error) {
-      throw new ServiceUnavailableException(
-        SERVICE_ERROR_MESSAGE,
-        `${SERVICE_ERROR_DESCRIPTION} - create user`,
-      );
+      throw error;
     }
 
     return null;
@@ -65,10 +62,7 @@ export class UsersService {
         });
       }
     } catch (error) {
-      throw new ServiceUnavailableException(
-        SERVICE_ERROR_MESSAGE,
-        `${SERVICE_ERROR_DESCRIPTION} - set current refresh token`,
-      );
+      throw error;
     }
   }
 
@@ -88,10 +82,7 @@ export class UsersService {
 
       return { users, totalPages };
     } catch (error) {
-      throw new ServiceUnavailableException(
-        SERVICE_ERROR_MESSAGE,
-        `${SERVICE_ERROR_DESCRIPTION} - find all user`,
-      );
+      throw error;
     }
   }
 
@@ -113,10 +104,7 @@ export class UsersService {
 
       return existedUser;
     } catch (error) {
-      throw new ServiceUnavailableException(
-        SERVICE_ERROR_MESSAGE,
-        `${SERVICE_ERROR_DESCRIPTION} - get user by id`,
-      );
+      throw error;
     }
   }
 
@@ -134,10 +122,7 @@ export class UsersService {
 
       return existedUser;
     } catch (error) {
-      throw new ServiceUnavailableException(
-        SERVICE_ERROR_MESSAGE,
-        `${SERVICE_ERROR_DESCRIPTION} - get user by email`,
-      );
+      throw error;
     }
   }
 
@@ -163,10 +148,7 @@ export class UsersService {
         return updatedUser;
       }
     } catch (error) {
-      throw new ServiceUnavailableException(
-        SERVICE_ERROR_MESSAGE,
-        `${SERVICE_ERROR_DESCRIPTION} - update user`,
-      );
+      throw error;
     }
 
     return null;
@@ -192,10 +174,7 @@ export class UsersService {
 
       return existedUser;
     } catch (error) {
-      throw new ServiceUnavailableException(
-        SERVICE_ERROR_MESSAGE,
-        `${SERVICE_ERROR_DESCRIPTION} - delete user permanently`,
-      );
+      throw error;
     }
   }
 }
