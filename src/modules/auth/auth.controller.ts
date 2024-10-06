@@ -44,10 +44,14 @@ export class AuthController {
       email: user.email,
     };
 
-    const result = this.authService.generateAccessToken(payload);
+    const access_token = this.authService.generateAccessToken(payload);
+    const refresh_token = this.authService.generateRefreshToken(payload);
+    this.authService.storeRefreshToken(payload.sub, refresh_token);
+
+    const result = { access_token: access_token, refresh_token: refresh_token };
 
     const res: CustomResponseType = {
-      message: 'Refresh',
+      message: 'Refreshed',
       result,
     };
 
