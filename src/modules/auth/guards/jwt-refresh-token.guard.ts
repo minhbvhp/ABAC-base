@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
-import { THIS_FEATURE_NEED_LOGIN } from 'src/utils/constants/messageConstants';
+import { THIS_FEATURE_NEED_LOGIN } from '../../../utils/constants/messageConstants';
 
 @Injectable()
 export class JwtRefreshTokenGuard extends AuthGuard('jwt-refresh') {

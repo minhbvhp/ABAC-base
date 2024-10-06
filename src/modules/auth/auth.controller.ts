@@ -13,7 +13,7 @@ import { AuthService } from './auth.service';
 import { LocalAuthGuard } from '../auth/guards/local.guard';
 import { RequestWithUser } from 'src/utils/types/request.type';
 import { CustomResponseType } from 'src/utils/types/definitions';
-import { JwtRefreshTokenGuard } from 'src/modules/auth/guards/jwt-refresh-token.guard';
+import { JwtRefreshTokenGuard } from '../auth/guards/jwt-refresh-token.guard';
 import { TokenPayload } from 'src/modules/auth/interfaces/token.interface';
 
 @Controller('auth')
