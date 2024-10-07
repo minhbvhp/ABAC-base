@@ -21,6 +21,7 @@ import { JwtAccessTokenGuard } from '../auth/guards/jwt-access-token.guard';
 import { RolesGuard } from 'src/modules/auth/guards/roles.guard';
 import { Roles } from 'src/decorators/roles.decorator';
 import { ROLE } from 'src/modules/roles/entities/role.entity';
+import { Public } from 'src/decorators/auth.decorator';
 
 @Roles(ROLE.ADMIN)
 @UseGuards(RolesGuard)
@@ -30,6 +31,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @Public()
   async createUser(
     @Body() createUserDto: CreateUserDto,
   ): Promise<CustomResponseType> {

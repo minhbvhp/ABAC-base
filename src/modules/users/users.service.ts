@@ -7,10 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
 import { isUUID } from 'class-validator';
-import {
-  SERVICE_ERROR_DESCRIPTION,
-  SERVICE_ERROR_MESSAGE,
-} from '../../utils/constants/messageConstants';
+import Role, { ROLE } from '../roles/entities/role.entity';
 
 @Injectable()
 export class UsersService {
@@ -19,6 +16,9 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
+
+    @InjectRepository(Role)
+    private rolesRepository: Repository<Role>,
     private readonly configService: ConfigService,
   ) {
     this.saltRounds = this.configService.get('SALT_ROUNDS', 10);
@@ -33,6 +33,21 @@ export class UsersService {
       });
 
       if (!existedUser) {
+        let userRole = await this.rolesRepository.findOne({
+          where: {
+            name: ROLE.SALES,
+          },
+        });
+
+        if (!userRole) {
+          userRole = await this.rolesRepository.create({
+            name: ROLE.SALES,
+            description: ROLE.SALES,
+          });
+
+          await this.rolesRepository.insert(userRole);
+        }
+
         const hashedPassword = await bcrypt.hash(
           createUserDto.password,
           +this.saltRounds,
@@ -41,6 +56,7 @@ export class UsersService {
         const newUser = await this.usersRepository.create({
           ...createUserDto,
           password: hashedPassword,
+          role: userRole,
         });
 
         await this.usersRepository.insert(newUser);

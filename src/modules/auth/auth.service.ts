@@ -1,7 +1,6 @@
 import {
   BadRequestException,
   Injectable,
-  ServiceUnavailableException,
   UnauthorizedException,
 } from '@nestjs/common';
 import User from '../users/entities/user.entity';
@@ -12,7 +11,6 @@ import * as crypto from 'node:crypto';
 import {
   EMAIL_OR_PASSWORD_WRONG,
   SERVICE_ERROR_DESCRIPTION,
-  SERVICE_ERROR_MESSAGE,
   THIS_FEATURE_NEED_LOGIN,
 } from '../../utils/constants/messageConstants';
 import { JwtService } from '@nestjs/jwt';
@@ -31,7 +29,15 @@ export class AuthService {
   async getAuthenticatedUser(email: string, password: string): Promise<User> {
     try {
       const user = await this.usersService.getUserbyEmail(email);
-      await this.verifyPlainContentWithHashedContent(password, user.password);
+
+      if (!user) {
+        throw new BadRequestException(
+          EMAIL_OR_PASSWORD_WRONG,
+          `${SERVICE_ERROR_DESCRIPTION} - get user by email return null`,
+        );
+      }
+
+      await this.verifyPlainContentWithHashedContent(password, user?.password);
       return user;
     } catch (error) {
       throw error;
