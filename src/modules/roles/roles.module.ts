@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { RolesController } from './roles.controller';
 import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
-import Role, { ROLE } from 'src/modules/roles/entities/role.entity';
+import Role, { ROLE } from '../roles/entities/role.entity';
 import { Repository } from 'typeorm';
 
 @Module({

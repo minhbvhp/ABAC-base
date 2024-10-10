@@ -10,6 +10,10 @@ import {
 } from '../users/test/stubs/user.stub';
 import { ConfigModule } from '@nestjs/config';
 import { UpdateUserDto } from '../users/dto/update-user.dto';
+import { RolesModule } from '../roles/roles.module';
+import { RolesService } from '../roles/roles.service';
+import { Repository } from 'typeorm';
+import Role from '../roles/entities/role.entity';
 
 const mockUserRepository = {
   findOne: jest.fn(),
@@ -17,6 +21,16 @@ const mockUserRepository = {
   insert: jest.fn(),
   find: jest.fn(),
   update: jest.fn().mockResolvedValue(afterUpdateUserStub()),
+  remove: jest.fn(),
+  findAndCount: jest.fn(),
+};
+
+const mockRoleRepository = {
+  findOne: jest.fn(),
+  create: jest.fn(),
+  insert: jest.fn(),
+  find: jest.fn(),
+  update: jest.fn(),
   remove: jest.fn(),
   findAndCount: jest.fn(),
 };
@@ -56,6 +70,10 @@ describe('UsersService', () => {
         {
           provide: getRepositoryToken(User),
           useValue: mockUserRepository,
+        },
+        {
+          provide: getRepositoryToken(Role),
+          useValue: mockRoleRepository,
         },
       ],
     }).compile();

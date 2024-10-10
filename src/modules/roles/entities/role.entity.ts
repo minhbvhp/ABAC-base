@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import User from 'src/modules/users/entities/user.entity';
+import User from '../../users/entities/user.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum ROLE {
