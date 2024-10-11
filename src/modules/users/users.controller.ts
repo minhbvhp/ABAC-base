@@ -18,10 +18,10 @@ import { CustomResponseType } from 'src/utils/types/definitions';
 import { PaginationDto } from '../pagination/pagination.dto';
 import { USER_NOT_FOUND } from '../../utils/constants/messageConstants';
 import { JwtAccessTokenGuard } from '../auth/guards/jwt-access-token.guard';
-import { RolesGuard } from 'src/modules/auth/guards/roles.guard';
-import { Roles } from 'src/decorators/roles.decorator';
-import { ROLE } from 'src/modules/roles/entities/role.entity';
-import { Public } from 'src/decorators/auth.decorator';
+import { Roles } from '../../decorators/roles.decorator';
+import { ROLE } from '../roles/entities/role.entity';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Public } from '../../decorators/auth.decorator';
 
 @Roles(ROLE.ADMIN)
 @UseGuards(RolesGuard)
