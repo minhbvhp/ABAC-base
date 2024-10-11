@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { RolesController } from './roles.controller';
 import { RolesService } from './roles.service';
 
+jest.mock('./roles.service');
 describe('RolesController', () => {
   let controller: RolesController;
 
