@@ -153,6 +153,7 @@ describe('UsersService', () => {
     expect(mockUserRepository.findAndCount).toHaveBeenCalledWith({
       take: total,
       skip,
+      relations: expect.anything(),
     });
 
     expect(result).toEqual({
@@ -172,7 +173,8 @@ describe('UsersService', () => {
     //assert
     expect(mockUserRepository.findOne).toHaveBeenCalledWith({
       where: { email: mockEmail },
-      select: ['id', 'email', 'name', 'password', 'roleId'],
+      select: { id: true, email: true, name: true, password: true },
+      relations: expect.anything(),
     });
 
     expect(result).toEqual(null);
@@ -191,7 +193,8 @@ describe('UsersService', () => {
     //assert
     expect(mockUserRepository.findOne).toHaveBeenCalledWith({
       where: { email: mockEmail },
-      select: ['id', 'email', 'name', 'password', 'roleId'],
+      select: { id: true, email: true, name: true, password: true },
+      relations: expect.anything(),
     });
 
     expect(result).toEqual(createUserStub());
