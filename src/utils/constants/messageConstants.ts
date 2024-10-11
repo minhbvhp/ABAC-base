@@ -9,6 +9,7 @@ export const SERVICE_ERROR_DESCRIPTION: string = 'User service error';
  * @AUTH  *
  **********/
 
+export const EMAIL_NOT_EXISTED: string = 'Email không tồn tại';
 export const EMAIL_MUST_NOT_EMPTY: string = 'Email không được để trống';
 export const EMAIL_MUST_VALID: string = 'Email không đúng định dạng';
 export const PASSWORD_MUST_NOT_EMPTY: string = 'Mật khẩu không được để trống';

@@ -9,6 +9,7 @@ import * as bcrypt from 'bcryptjs';
 import * as crypto from 'node:crypto';
 
 import {
+  EMAIL_NOT_EXISTED,
   EMAIL_OR_PASSWORD_WRONG,
   SERVICE_ERROR_DESCRIPTION,
   THIS_FEATURE_NEED_LOGIN,
@@ -32,7 +33,7 @@ export class AuthService {
 
       if (!user) {
         throw new BadRequestException(
-          EMAIL_OR_PASSWORD_WRONG,
+          EMAIL_NOT_EXISTED,
           `${SERVICE_ERROR_DESCRIPTION} - get user by email return null`,
         );
       }
