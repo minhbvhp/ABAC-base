@@ -29,7 +29,7 @@ export class AuthService {
 
   async getAuthenticatedUser(email: string, password: string): Promise<User> {
     try {
-      const user = await this.usersService.getUserbyEmail(email);
+      const user = await this.usersService.getUserByEmail(email);
 
       if (!user) {
         throw new BadRequestException(

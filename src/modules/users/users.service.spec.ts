@@ -168,7 +168,7 @@ describe('UsersService', () => {
     const mockEmail = 'Test@gmail.com';
 
     //act
-    const result = await userService.getUserbyEmail(mockEmail);
+    const result = await userService.getUserByEmail(mockEmail);
 
     //assert
     expect(mockUserRepository.findOne).toHaveBeenCalledWith({
@@ -188,7 +188,7 @@ describe('UsersService', () => {
       .mockResolvedValueOnce(createUserStub());
 
     //act
-    const result = await userService.getUserbyEmail(mockEmail);
+    const result = await userService.getUserByEmail(mockEmail);
 
     //assert
     expect(mockUserRepository.findOne).toHaveBeenCalledWith({

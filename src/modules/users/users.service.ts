@@ -135,7 +135,7 @@ export class UsersService {
     }
   }
 
-  async getUserbyEmail(email: string): Promise<User> {
+  async getUserByEmail(email: string): Promise<User> {
     try {
       const existedUser = await this.usersRepository.findOne({
         where: {
