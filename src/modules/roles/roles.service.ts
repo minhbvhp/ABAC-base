@@ -21,9 +21,7 @@ export class RolesService {
       });
 
       if (!existedRole) {
-        const newRole = await this.rolesRepository.create({
-          ...createRoleDto,
-        });
+        const newRole = await this.rolesRepository.create(createRoleDto);
 
         await this.rolesRepository.insert(newRole);
 
