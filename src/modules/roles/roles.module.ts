@@ -12,10 +12,7 @@ import { Repository } from 'typeorm';
   exports: [RolesService],
 })
 export class RolesModule {
-  constructor(
-    @InjectRepository(Role)
-    private readonly roleRepository: Repository<Role>,
-  ) {}
+  constructor(private readonly rolesService: RolesService) {}
 
   async onModuleInit() {
     const adminRole = {
@@ -28,18 +25,8 @@ export class RolesModule {
       description: ROLE.SALES,
     };
 
-    const existedAdminRole = await this.roleRepository.findOneBy({
-      name: adminRole.name,
-    });
-    if (!existedAdminRole) {
-      await this.roleRepository.insert(adminRole);
-    }
+    this.rolesService.createRole(adminRole);
 
-    const existedSalesRole = await this.roleRepository.findOneBy({
-      name: salesRole.name,
-    });
-    if (!existedSalesRole) {
-      await this.roleRepository.insert(salesRole);
-    }
+    this.rolesService.createRole(salesRole);
   }
 }
