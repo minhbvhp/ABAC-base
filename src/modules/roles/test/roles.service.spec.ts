@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { RolesService } from './roles.service';
+import { RolesService } from '../roles.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import Role, { ROLE } from './entities/role.entity';
+import Role, { ROLE } from '../entities/role.entity';
 
 const mockRoleRepository = {
   findOne: jest.fn(),

@@ -1,19 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from './users.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import User from './entities/user.entity';
-import { CreateUserDto } from '../users/dto/create-user.dto';
 import {
   afterUpdateUserStub,
   allUserStub,
   createUserStub,
-} from '../users/test/stubs/user.stub';
+} from './stubs/user.stub';
+import { CreateUserDto } from '../dto/create-user.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
+import { UsersService } from '../users.service';
 import { ConfigModule } from '@nestjs/config';
-import { UpdateUserDto } from '../users/dto/update-user.dto';
-import { RolesModule } from '../roles/roles.module';
-import { RolesService } from '../roles/roles.service';
-import { Repository } from 'typeorm';
-import Role from '../roles/entities/role.entity';
+import User from '../entities/user.entity';
+import Role from '../../roles/entities/role.entity';
 
 const mockUserRepository = {
   findOne: jest.fn(),
