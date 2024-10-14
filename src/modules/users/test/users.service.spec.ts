@@ -86,7 +86,7 @@ describe('UsersService', () => {
     expect(userService).toBeDefined();
   });
 
-  it('create => should return null if user with email already exists', async () => {
+  it('createUser => should return null if user with email already exists', async () => {
     //arrange
     jest
       .spyOn(mockUserRepository, 'findOne')
@@ -105,7 +105,7 @@ describe('UsersService', () => {
     expect(result).toEqual(null);
   });
 
-  it('create => Should create a new user and return its data', async () => {
+  it('createUser => Should create a new user and return its data', async () => {
     // arrange
     jest
       .spyOn(mockUserRepository, 'create')

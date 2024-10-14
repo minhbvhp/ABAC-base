@@ -3,7 +3,8 @@ import { UsersController } from '../users.controller';
 import { UsersService } from '../users.service';
 import { allUserStub, createUserStub } from './stubs/user.stub';
 import { CreateUserDto } from '../dto/create-user.dto';
-import { ConflictException } from '@nestjs/common';
+import { ConflictException, NotFoundException } from '@nestjs/common';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 jest.mock('../users.service');
 
@@ -17,6 +18,15 @@ const createUserDto = {
   roleId: 1,
   companyId: 2,
 } as CreateUserDto;
+
+const updateUserDto = {
+  name: 'TestUpdate',
+  genderId: 2,
+  phoneNumber: '55555',
+  address: 'Update address',
+  roleId: 2,
+  companyId: 1,
+} as UpdateUserDto;
 
 describe('UsersController', () => {
   let usersController: UsersController;
@@ -40,7 +50,7 @@ describe('UsersController', () => {
     expect(usersController).toBeDefined();
   });
 
-  it('create user => Should throw ConflictException if user service return null', async () => {
+  it('createUser => Should throw ConflictException if user service return null', async () => {
     //arrange
     jest.spyOn(usersService, 'createUser').mockResolvedValueOnce(null);
 
@@ -50,7 +60,7 @@ describe('UsersController', () => {
     );
   });
 
-  it('create user => Should create a new user and return response', async () => {
+  it('createUser => Should create a new user and return response', async () => {
     //arrange
 
     //act
@@ -63,7 +73,7 @@ describe('UsersController', () => {
     });
   });
 
-  it('findAll => Should return response include paginated users', async () => {
+  it('getAllUsers => Should return response include paginated users', async () => {
     //arrange
 
     //act
@@ -77,5 +87,38 @@ describe('UsersController', () => {
       message: 'Tìm tất cả người dùng',
       result: allUserStub().slice(20, 30),
     });
+  });
+
+  it('getUserById => Should throw NotFoundException if user service return null', async () => {
+    //arrange
+    jest.spyOn(usersService, 'getUserById').mockResolvedValueOnce(null);
+
+    //act && assert
+    await expect(usersController.getUserById('id')).rejects.toThrow(
+      NotFoundException,
+    );
+  });
+
+  it('getUserById => Should return user if user existed', async () => {
+    //arrange
+
+    //act
+    const response = await usersController.getUserById('available_id');
+
+    //expect
+    expect(response).toEqual({
+      message: 'Đã tìm thấy người dùng',
+      result: createUserStub(),
+    });
+  });
+
+  it('updateUser => Should throw NotFoundException if user service return null', async () => {
+    //arrange
+    jest.spyOn(usersService, 'updateUser').mockResolvedValueOnce(null);
+
+    //act && assert
+    await expect(
+      usersController.updateUser('id', updateUserDto),
+    ).rejects.toThrow(NotFoundException);
   });
 });
