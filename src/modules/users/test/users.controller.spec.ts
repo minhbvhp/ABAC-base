@@ -50,75 +50,83 @@ describe('UsersController', () => {
     expect(usersController).toBeDefined();
   });
 
-  it('createUser => Should throw ConflictException if user service return null', async () => {
-    //arrange
-    jest.spyOn(usersService, 'createUser').mockResolvedValueOnce(null);
+  describe('createUser', () => {
+    it('should throw ConflictException if user service return null', async () => {
+      //arrange
+      jest.spyOn(usersService, 'createUser').mockResolvedValueOnce(null);
 
-    //act && assert
-    await expect(usersController.createUser(createUserDto)).rejects.toThrow(
-      ConflictException,
-    );
-  });
+      //act && assert
+      await expect(usersController.createUser(createUserDto)).rejects.toThrow(
+        ConflictException,
+      );
+    });
 
-  it('createUser => Should create a new user and return response', async () => {
-    //arrange
+    it('should create a new user and return response', async () => {
+      //arrange
 
-    //act
-    const response = await usersController.createUser(createUserDto);
+      //act
+      const response = await usersController.createUser(createUserDto);
 
-    //expect
-    expect(response).toEqual({
-      message: 'Đã tạo người dùng mới',
-      result: { userId: createUserStub().id },
+      //expect
+      expect(response).toEqual({
+        message: 'Đã tạo người dùng mới',
+        result: { userId: createUserStub().id },
+      });
     });
   });
 
-  it('getAllUsers => Should return response include paginated users', async () => {
-    //arrange
+  describe('getAllUsers', () => {
+    it('should return response include paginated users', async () => {
+      //arrange
 
-    //act
-    const response = await usersController.getAllUsers({
-      current: 3,
-      total: 10,
-    });
+      //act
+      const response = await usersController.getAllUsers({
+        current: 3,
+        total: 10,
+      });
 
-    //expect
-    expect(response).toEqual({
-      message: 'Tìm tất cả người dùng',
-      result: allUserStub().slice(20, 30),
-    });
-  });
-
-  it('getUserById => Should throw NotFoundException if user service return null', async () => {
-    //arrange
-    jest.spyOn(usersService, 'getUserById').mockResolvedValueOnce(null);
-
-    //act && assert
-    await expect(usersController.getUserById('id')).rejects.toThrow(
-      NotFoundException,
-    );
-  });
-
-  it('getUserById => Should return user if user existed', async () => {
-    //arrange
-
-    //act
-    const response = await usersController.getUserById('available_id');
-
-    //expect
-    expect(response).toEqual({
-      message: 'Đã tìm thấy người dùng',
-      result: createUserStub(),
+      //expect
+      expect(response).toEqual({
+        message: 'Tìm tất cả người dùng',
+        result: allUserStub().slice(20, 30),
+      });
     });
   });
 
-  it('updateUser => Should throw NotFoundException if user service return null', async () => {
-    //arrange
-    jest.spyOn(usersService, 'updateUser').mockResolvedValueOnce(null);
+  describe('getUserById', () => {
+    it('should throw NotFoundException if user service return null', async () => {
+      //arrange
+      jest.spyOn(usersService, 'getUserById').mockResolvedValueOnce(null);
 
-    //act && assert
-    await expect(
-      usersController.updateUser('id', updateUserDto),
-    ).rejects.toThrow(NotFoundException);
+      //act && assert
+      await expect(usersController.getUserById('id')).rejects.toThrow(
+        NotFoundException,
+      );
+    });
+
+    it('should return user if user existed', async () => {
+      //arrange
+
+      //act
+      const response = await usersController.getUserById('available_id');
+
+      //expect
+      expect(response).toEqual({
+        message: 'Đã tìm thấy người dùng',
+        result: createUserStub(),
+      });
+    });
+  });
+
+  describe('updateUser', () => {
+    it('should throw NotFoundException if user service return null', async () => {
+      //arrange
+      jest.spyOn(usersService, 'updateUser').mockResolvedValueOnce(null);
+
+      //act && assert
+      await expect(
+        usersController.updateUser('id', updateUserDto),
+      ).rejects.toThrow(NotFoundException);
+    });
   });
 });
