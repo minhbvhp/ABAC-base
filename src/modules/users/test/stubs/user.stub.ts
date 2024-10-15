@@ -1,12 +1,9 @@
 import Role, { ROLE } from '../../../roles/entities/role.entity';
 import User from 'src/modules/users/entities/user.entity';
-
-// export const mock_role_stub = (): Role => ({
-//   id: 1,
-//   name: ROLE.SALES,
-//   description: 'Sales',
-//   users: [createUserStub()],
-// });
+import {
+  accountantRoleStub,
+  salesRoleStub,
+} from '../../../roles/test/stubs/role.stub';
 
 export const createUserStub = (): User => {
   return {
@@ -19,7 +16,7 @@ export const createUserStub = (): User => {
     address: 'mock address',
     companyId: 2,
     createdAt: new Date('2024-09-30T08:16:58.302Z'),
-    role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+    role: salesRoleStub(),
     currentRefreshToken: null,
   };
 };
@@ -35,7 +32,7 @@ export const afterUpdateUserStub = (): User => {
     address: 'Update address',
     companyId: 1,
     createdAt: new Date('2024-09-30T08:16:58.302Z'),
-    role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+    role: accountantRoleStub(),
     currentRefreshToken: null,
   };
 };
@@ -52,7 +49,7 @@ export const allUserStub = (): User[] => {
       address: '298 Anhalt Park',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: 'fd19663f-ce5a-4d4f-8d46-cf1795725d0a',
     },
     {
@@ -65,7 +62,7 @@ export const allUserStub = (): User[] => {
       address: '33130 Dunning Center',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '6a969331-41d6-421f-84f6-22c086fc5d84',
     },
     {
@@ -78,7 +75,7 @@ export const allUserStub = (): User[] => {
       address: '5 Logan Plaza',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '428906c8-c1f9-4ee5-9972-051ccb2929b8',
     },
     {
@@ -91,7 +88,7 @@ export const allUserStub = (): User[] => {
       address: '20922 Declaration Point',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '847ed84f-0c4f-463a-b7ae-986d38db876e',
     },
     {
@@ -104,7 +101,7 @@ export const allUserStub = (): User[] => {
       address: '4 Westerfield Way',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '4457244a-8839-495f-9791-1408015a0355',
     },
     {
@@ -117,7 +114,7 @@ export const allUserStub = (): User[] => {
       address: '7 Columbus Point',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '1bcb4481-eb48-4f0c-8e5a-1230101d06b5',
     },
     {
@@ -130,7 +127,7 @@ export const allUserStub = (): User[] => {
       address: '539 Jay Circle',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '271aa4be-aaab-4595-a877-7e9d66a0234c',
     },
     {
@@ -143,7 +140,7 @@ export const allUserStub = (): User[] => {
       address: '01889 Northport Lane',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: 'c8e52952-3f77-4607-8b28-8a565618b02b',
     },
     {
@@ -156,7 +153,7 @@ export const allUserStub = (): User[] => {
       address: '8 Meadow Vale Place',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '78e78df8-a7d5-433f-b29f-a716f4c32038',
     },
     {
@@ -169,7 +166,7 @@ export const allUserStub = (): User[] => {
       address: '629 Katie Junction',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '00db6d2a-9358-4d04-9c81-e65469a99526',
     },
     {
@@ -182,7 +179,7 @@ export const allUserStub = (): User[] => {
       address: '9929 Elmside Plaza',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '4b457347-8b8c-49b0-a63c-438ec449e7d7',
     },
     {
@@ -195,7 +192,7 @@ export const allUserStub = (): User[] => {
       address: '351 Morrow Terrace',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '2dcff2cd-536d-4b03-b9b4-5fc1439509e5',
     },
     {
@@ -208,7 +205,7 @@ export const allUserStub = (): User[] => {
       address: '8 Florence Center',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '0b1c46db-7830-450c-a33c-97cb8a86d619',
     },
     {
@@ -221,7 +218,7 @@ export const allUserStub = (): User[] => {
       address: '37360 Oxford Circle',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: 'd464f900-82ef-4db3-9a39-916a9b7654a6',
     },
     {
@@ -234,7 +231,7 @@ export const allUserStub = (): User[] => {
       address: '0 Scofield Center',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '98554d09-53a3-4a2d-b8d9-53d4bbc2e3ff',
     },
     {
@@ -247,7 +244,7 @@ export const allUserStub = (): User[] => {
       address: '7 Debs Trail',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '2888de4e-b92e-41f4-8d43-d4a1009171ae',
     },
     {
@@ -260,7 +257,7 @@ export const allUserStub = (): User[] => {
       address: '49 Eggendart Pass',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '3d16fe69-9f14-4c61-b4f4-b59961130f2c',
     },
     {
@@ -273,7 +270,7 @@ export const allUserStub = (): User[] => {
       address: '5346 Westend Road',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: 'ba1b0224-4202-40b4-a431-15d20aa53894',
     },
     {
@@ -286,7 +283,7 @@ export const allUserStub = (): User[] => {
       address: '0081 Badeau Drive',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '8457a717-a7ac-4843-a15c-870ca063f1f6',
     },
     {
@@ -299,7 +296,7 @@ export const allUserStub = (): User[] => {
       address: '67 Mockingbird Circle',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '547d166d-a3eb-4b2e-a25c-2cc022d223cd',
     },
     {
@@ -312,7 +309,7 @@ export const allUserStub = (): User[] => {
       address: '40 Porter Court',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '07b24ae0-78b8-42a6-b298-5f7941570f6e',
     },
     {
@@ -325,7 +322,7 @@ export const allUserStub = (): User[] => {
       address: '4 Clarendon Junction',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '90426da0-a7db-474e-9559-628fe76e6b36',
     },
     {
@@ -338,7 +335,7 @@ export const allUserStub = (): User[] => {
       address: '192 Arrowood Circle',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '09b8848d-0f28-4660-9433-29a422e29919',
     },
     {
@@ -351,7 +348,7 @@ export const allUserStub = (): User[] => {
       address: '7 Lillian Way',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '5587a2d0-fc91-425c-bb7c-be5dd11f75e3',
     },
     {
@@ -364,7 +361,7 @@ export const allUserStub = (): User[] => {
       address: '1116 Golf Course Street',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '7333d956-3c1c-47e5-8e02-be025ca8e9aa',
     },
     {
@@ -377,7 +374,7 @@ export const allUserStub = (): User[] => {
       address: '7774 Messerschmidt Way',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: 'b3014501-8c2b-4055-a91d-aaa214cd60c5',
     },
     {
@@ -390,7 +387,7 @@ export const allUserStub = (): User[] => {
       address: '292 Union Crossing',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: 'd1122322-abff-4a57-9670-cd6d700546d8',
     },
     {
@@ -403,7 +400,7 @@ export const allUserStub = (): User[] => {
       address: '8 Linden Street',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '104d68a2-1bb9-49d8-ac86-e425244745bd',
     },
     {
@@ -416,7 +413,7 @@ export const allUserStub = (): User[] => {
       address: '96803 Maple Wood Terrace',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '51d797de-21d6-4759-99c4-c5ac28f87306',
     },
     {
@@ -429,7 +426,7 @@ export const allUserStub = (): User[] => {
       address: '98001 Debs Terrace',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '5a534b96-8334-4ee6-a7c3-5ec4fae3b068',
     },
     {
@@ -442,7 +439,7 @@ export const allUserStub = (): User[] => {
       address: '7 Caliangt Center',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '468f033f-4e13-4ea9-858e-42da09c0159d',
     },
     {
@@ -455,7 +452,7 @@ export const allUserStub = (): User[] => {
       address: '97731 Pierstorff Circle',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: 'f29ade28-10f7-409d-9d9a-3a11043dd5aa',
     },
     {
@@ -468,7 +465,7 @@ export const allUserStub = (): User[] => {
       address: '47 Huxley Circle',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: 'cea1ffb0-60fa-4820-9914-607de6335dcd',
     },
     {
@@ -481,7 +478,7 @@ export const allUserStub = (): User[] => {
       address: '7319 Graedel Terrace',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '69ddbbf6-2754-4a42-b60a-0a19a13fff25',
     },
     {
@@ -494,7 +491,7 @@ export const allUserStub = (): User[] => {
       address: '3588 David Plaza',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: 'e5b531d1-184e-49a2-a677-48e7145ef2b6',
     },
     {
@@ -507,7 +504,7 @@ export const allUserStub = (): User[] => {
       address: '01 Kipling Junction',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: 'a4a0072a-abbe-4cfd-b1fa-d5eeb7a3895c',
     },
     {
@@ -520,7 +517,7 @@ export const allUserStub = (): User[] => {
       address: '85166 Annamark Junction',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '98128ada-5655-46ca-a9e3-5da9981aa36c',
     },
     {
@@ -533,7 +530,7 @@ export const allUserStub = (): User[] => {
       address: '49 Shasta Parkway',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: 'b9388a19-f043-46e4-a6f7-5dacb08e551e',
     },
     {
@@ -546,7 +543,7 @@ export const allUserStub = (): User[] => {
       address: '387 Village Green Street',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '5cd5e75e-3c82-4b8a-9cae-70cbdad2fa72',
     },
     {
@@ -559,7 +556,7 @@ export const allUserStub = (): User[] => {
       address: '1918 David Park',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '7635e711-2831-46ac-aa04-d110e810d70e',
     },
     {
@@ -572,7 +569,7 @@ export const allUserStub = (): User[] => {
       address: '9008 Vera Court',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '6b73af8a-111f-4f90-8822-9cef3283b22e',
     },
     {
@@ -585,7 +582,7 @@ export const allUserStub = (): User[] => {
       address: '19 Kings Plaza',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: 'c469a87d-0d41-4165-88b2-a85cbd2b9c3d',
     },
     {
@@ -598,7 +595,7 @@ export const allUserStub = (): User[] => {
       address: '27498 Mcbride Plaza',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: 'e009b5aa-f00b-4b4a-afa3-ea1d0e26ed6b',
     },
     {
@@ -611,7 +608,7 @@ export const allUserStub = (): User[] => {
       address: '31 Raven Junction',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: 'b3440d05-1d5e-4f57-b734-b09132ca8062',
     },
     {
@@ -624,7 +621,7 @@ export const allUserStub = (): User[] => {
       address: '925 Redwing Terrace',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '1ffddf6f-4175-4b35-a8fb-3d3c877316ae',
     },
     {
@@ -637,7 +634,7 @@ export const allUserStub = (): User[] => {
       address: '689 Anniversary Lane',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '7d1a960f-801c-44f0-8481-b44581a3401e',
     },
     {
@@ -650,7 +647,7 @@ export const allUserStub = (): User[] => {
       address: '455 Orin Road',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '15fab2e9-7a58-4b80-bf62-d06358de827b',
     },
     {
@@ -663,7 +660,7 @@ export const allUserStub = (): User[] => {
       address: '814 Sauthoff Way',
       companyId: 1,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: 'a3fda76b-1a35-4bb3-834c-600798e0e07d',
     },
     {
@@ -676,7 +673,7 @@ export const allUserStub = (): User[] => {
       address: '8 Delladonna Center',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '4ebfa576-8fc5-4d61-9485-45eb41ca1f73',
     },
     {
@@ -689,7 +686,7 @@ export const allUserStub = (): User[] => {
       address: '888 Harper Drive',
       companyId: 2,
       createdAt: new Date('2024-09-22T04:19:24.895Z'),
-      role: { name: ROLE.SALES, description: 'Sales' } as unknown as Role,
+      role: salesRoleStub(),
       currentRefreshToken: '1becbe66-dd7d-4f3e-b065-593f651913a1',
     },
   ];

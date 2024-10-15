@@ -1,4 +1,4 @@
-import { Injectable, ServiceUnavailableException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
@@ -8,6 +8,10 @@ import * as bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
 import { isUUID } from 'class-validator';
 import Role, { ROLE } from '../roles/entities/role.entity';
+import {
+  ROLE_ID_MUST_NUMBER,
+  SERVICE_ERROR_DESCRIPTION,
+} from '../../utils/constants/messageConstants';
 
 @Injectable()
 export class UsersService {
@@ -35,17 +39,15 @@ export class UsersService {
       if (!existedUser) {
         let userRole = await this.rolesRepository.findOne({
           where: {
-            name: ROLE.SALES,
+            id: createUserDto.roleId,
           },
         });
 
         if (!userRole) {
-          userRole = await this.rolesRepository.create({
-            name: ROLE.SALES,
-            description: ROLE.SALES,
-          });
-
-          await this.rolesRepository.insert(userRole);
+          throw new BadRequestException(
+            ROLE_ID_MUST_NUMBER,
+            `${SERVICE_ERROR_DESCRIPTION} - create user return null`,
+          );
         }
 
         const hashedPassword = await bcrypt.hash(
@@ -194,8 +196,22 @@ export class UsersService {
       });
 
       if (existedUser) {
+        let userRole = await this.rolesRepository.findOne({
+          where: {
+            id: updateUserDto.roleId,
+          },
+        });
+
+        if (!userRole) {
+          throw new BadRequestException(
+            ROLE_ID_MUST_NUMBER,
+            `${SERVICE_ERROR_DESCRIPTION} - create user return null`,
+          );
+        }
+
         const updatedUser = await this.usersRepository.create({
           ...updateUserDto,
+          role: userRole,
         });
 
         await this.usersRepository.update(existedUser.id, updatedUser);

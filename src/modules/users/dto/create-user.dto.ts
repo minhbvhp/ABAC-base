@@ -56,4 +56,8 @@ export class CreateUserDto {
   @IsNumber({}, { message: COMPANY_ID_MUST_NUMBER })
   @IsNotEmpty({ message: COMPANY_MUST_NOT_EMPTY })
   companyId: number;
+
+  @IsNumber({}, { message: ROLE_ID_MUST_NUMBER })
+  @IsNotEmpty({ message: ROLE_MUST_NOT_EMPTY })
+  roleId: number;
 }

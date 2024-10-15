@@ -10,7 +10,11 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { UsersService } from '../users.service';
 import { ConfigModule } from '@nestjs/config';
 import User from '../entities/user.entity';
-import Role from '../../roles/entities/role.entity';
+import Role, { ROLE } from '../../roles/entities/role.entity';
+import {
+  accountantRoleStub,
+  salesRoleStub,
+} from '../../roles/test/stubs/role.stub';
 
 const mockUserRepository = {
   findOne: jest.fn(),
@@ -39,7 +43,7 @@ const createUserDto = {
   genderId: 1,
   phoneNumber: '0123456789',
   address: '24 Điện Biên Phủ',
-  roleId: 1,
+  roleId: 2,
   companyId: 2,
 } as CreateUserDto;
 
@@ -52,7 +56,7 @@ const updateUserDto = {
   genderId: 2,
   phoneNumber: '55555',
   address: 'Update address',
-  roleId: 2,
+  roleId: 3,
   companyId: 1,
 } as UpdateUserDto;
 
@@ -111,7 +115,12 @@ describe('UsersService', () => {
       jest
         .spyOn(mockUserRepository, 'create')
         .mockReturnValueOnce(createUserStub());
+
       jest.spyOn(mockUserRepository, 'findOne').mockResolvedValueOnce(null);
+
+      jest
+        .spyOn(mockRoleRepository, 'findOne')
+        .mockResolvedValueOnce(salesRoleStub());
 
       const newUser = createUserStub();
 
@@ -122,6 +131,7 @@ describe('UsersService', () => {
       expect(mockUserRepository.create).toHaveBeenCalledWith({
         ...createUserDto,
         password: expect.anything(),
+        role: salesRoleStub(),
       });
 
       expect(mockUserRepository.insert).toHaveBeenCalledWith(createUserStub());
@@ -235,8 +245,12 @@ describe('UsersService', () => {
         .mockResolvedValueOnce(createUserStub());
 
       jest
+        .spyOn(mockRoleRepository, 'findOne')
+        .mockResolvedValueOnce(accountantRoleStub());
+
+      jest
         .spyOn(mockUserRepository, 'create')
-        .mockResolvedValue(afterUpdateUserStub());
+        .mockReturnValueOnce(afterUpdateUserStub());
 
       const existId = createUserStub().id;
       const updatedUser = afterUpdateUserStub();
@@ -248,10 +262,12 @@ describe('UsersService', () => {
 
       expect(mockUserRepository.update).toHaveBeenCalledWith(
         existId,
-        afterUpdateUserStub(),
+        updatedUser,
       );
+
       expect(mockUserRepository.create).toHaveBeenCalledWith({
         ...updateUserDto,
+        role: updatedUser.role,
       });
 
       expect(result).toEqual(updatedUser);
