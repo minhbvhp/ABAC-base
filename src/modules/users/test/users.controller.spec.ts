@@ -1,7 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersController } from '../users.controller';
 import { UsersService } from '../users.service';
-import { allUserStub, createUserStub } from './stubs/user.stub';
+import {
+  afterUpdateUserStub,
+  allUserStub,
+  createUserStub,
+} from './stubs/user.stub';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { ConflictException, NotFoundException } from '@nestjs/common';
 import { UpdateUserDto } from '../dto/update-user.dto';
@@ -24,7 +28,7 @@ const updateUserDto = {
   genderId: 2,
   phoneNumber: '55555',
   address: 'Update address',
-  roleId: 2,
+  roleId: 3,
   companyId: 1,
 } as UpdateUserDto;
 
@@ -127,6 +131,60 @@ describe('UsersController', () => {
       await expect(
         usersController.updateUser('id', updateUserDto),
       ).rejects.toThrow(NotFoundException);
+    });
+
+    it('should update user and return response', async () => {
+      //arrange
+
+      //act
+      const response = await usersController.updateUser(
+        createUserStub().id,
+        updateUserDto,
+      );
+
+      //act && assert
+      expect(usersService.updateUser).toHaveBeenCalledWith(
+        createUserStub().id,
+        updateUserDto,
+      );
+
+      expect(response).toStrictEqual({
+        message: 'Đã cập nhật thông tin người dùng',
+        result: afterUpdateUserStub(),
+      });
+    });
+  });
+
+  describe('deleteUserPermanently', () => {
+    it('should throw NotFoundException if user service return null', async () => {
+      //arrange
+      jest
+        .spyOn(usersService, 'deleteUserPermanently')
+        .mockResolvedValueOnce(null);
+
+      //act && assert
+      await expect(usersController.deleteUserPermanently('id')).rejects.toThrow(
+        NotFoundException,
+      );
+    });
+
+    it('should delete user and return response', async () => {
+      //arrange
+
+      //act
+      const response = await usersController.deleteUserPermanently(
+        createUserStub().id,
+      );
+
+      //act && assert
+      expect(usersService.deleteUserPermanently).toHaveBeenCalledWith(
+        createUserStub().id,
+      );
+
+      expect(response).toStrictEqual({
+        message: 'Đã xóa người dùng',
+        result: createUserStub(),
+      });
     });
   });
 });
