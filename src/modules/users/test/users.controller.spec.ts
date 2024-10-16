@@ -9,6 +9,9 @@ import {
 import { CreateUserDto } from '../dto/create-user.dto';
 import { ConflictException, NotFoundException } from '@nestjs/common';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { isGuarded } from '../../../shared/test/utils';
+import { RolesGuard } from '../../auth/guards/roles.guard';
+import { JwtAccessTokenGuard } from '../../auth/guards/jwt-access-token.guard';
 
 jest.mock('../users.service');
 
@@ -52,6 +55,14 @@ describe('UsersController', () => {
 
   it('should be defined', () => {
     expect(usersController).toBeDefined();
+  });
+
+  it('should be protected with RolesGuard', () => {
+    expect(isGuarded(UsersController, RolesGuard));
+  });
+
+  it('should be protected with JwtAccessTokenGuard', () => {
+    expect(isGuarded(UsersController, JwtAccessTokenGuard));
   });
 
   describe('createUser', () => {
