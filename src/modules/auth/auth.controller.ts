@@ -15,7 +15,9 @@ import { RequestWithUser } from 'src/utils/types/request.type';
 import { CustomResponseType } from 'src/utils/types/definitions';
 import { JwtRefreshTokenGuard } from '../auth/guards/jwt-refresh-token.guard';
 import { TokenPayload } from 'src/modules/auth/interfaces/token.interface';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
