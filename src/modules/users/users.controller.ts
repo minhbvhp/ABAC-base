@@ -56,7 +56,6 @@ export class UsersController {
     },
   })
   @Post()
-  @Public()
   async createUser(
     @Body() createUserDto: CreateUserDto,
   ): Promise<CustomResponseType> {
@@ -155,7 +154,7 @@ export class UsersController {
     summary: 'Admin delete user permanently (*USE WITH CAUTION)',
     description: `
     * Only Admin can use this API
-    * Caution: use this API carefully
+    * CAUTION: this API will delete user permanently, use it carefully
     `,
   })
   @Delete(':id')
