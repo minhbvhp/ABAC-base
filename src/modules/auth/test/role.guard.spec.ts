@@ -4,6 +4,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { executionContext } from '../../../shared/test/mocks/execution-context.mock';
 import { mockRequestWithUser } from './mocks/requests.mock';
 import { ROLES } from '../../../decorators/roles.decorator';
+import { createUserStub } from '../../users/test/stubs/user.stub';
+import { ForbiddenException } from '@nestjs/common';
 
 describe('RolesGuard', () => {
   let rolesGuard: RolesGuard;
@@ -47,22 +49,24 @@ describe('RolesGuard', () => {
     ]);
   });
 
-  // it('should call super.canActivate() when isPublic is false', () => {
-  //   //arrange
-  //   jest.spyOn(reflector, 'getAllAndOverride').mockReturnValueOnce(false);
+  it('should return false if the user does not have a required role', () => {
+    //arrange
+    jest.spyOn(reflector, 'getAllAndOverride').mockReturnValueOnce(['Admin']);
 
-  //   jest
-  //     .spyOn(AuthGuard('jwt').prototype, 'canActivate')
-  //     .mockReturnValueOnce(true);
+    (
+      executionContext.switchToHttp().getRequest as jest.Mock
+    ).mockReturnValueOnce({
+      user: createUserStub(),
+    });
 
-  //   //act && assert
-  //   expect(guard.canActivate(executionContext)).toBeTruthy();
+    //act && assert
+    expect(() => rolesGuard.canActivate(executionContext)).toThrow(
+      ForbiddenException,
+    );
 
-  //   expect(reflector.getAllAndOverride).toHaveBeenCalledWith(IS_PUBLIC_KEY, [
-  //     executionContext.getHandler(),
-  //     executionContext.getClass(),
-  //   ]);
-
-  //   expect(AuthGuard('jwt').prototype.canActivate).toHaveBeenCalledTimes(1);
-  // });
+    expect(reflector.getAllAndOverride).toHaveBeenCalledWith(ROLES, [
+      executionContext.getHandler(),
+      executionContext.getClass(),
+    ]);
+  });
 });

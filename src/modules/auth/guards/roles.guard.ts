@@ -42,7 +42,7 @@ export class RolesGuard implements CanActivate {
       (role) => role === user?.role?.name,
     );
 
-    if (isRoleIncluded) return isRoleIncluded;
+    if (isRoleIncluded) return true;
 
     throw new ForbiddenException(NOT_AUTHORIZED);
   }
