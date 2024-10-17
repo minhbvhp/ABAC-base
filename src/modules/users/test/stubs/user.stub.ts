@@ -2,6 +2,7 @@ import Role, { ROLE } from '../../../roles/entities/role.entity';
 import User from 'src/modules/users/entities/user.entity';
 import {
   accountantRoleStub,
+  adminRoleStub,
   salesRoleStub,
 } from '../../../roles/test/stubs/role.stub';
 
@@ -17,6 +18,22 @@ export const createUserStub = (): User => {
     companyId: 2,
     createdAt: new Date('2024-09-30T08:16:58.302Z'),
     role: salesRoleStub(),
+    currentRefreshToken: null,
+  };
+};
+
+export const adminUserStub = (): User => {
+  return {
+    id: '9c8ffd82-c1df-46f7-b090-0585997485db',
+    email: 'Test1@gmail.com',
+    password: 'strongP@ssword',
+    name: 'Test1@gmail.com',
+    genderId: 1,
+    phoneNumber: '0123456789',
+    address: 'mock address',
+    companyId: 2,
+    createdAt: new Date('2024-09-30T08:16:58.302Z'),
+    role: adminRoleStub(),
     currentRefreshToken: null,
   };
 };
