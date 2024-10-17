@@ -9,13 +9,14 @@ import {
   UseGuards,
   Req,
 } from '@nestjs/common';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from '../auth/guards/local.guard';
-import { RequestWithUser } from 'src/utils/types/request.type';
-import { CustomResponseType } from 'src/utils/types/definitions';
 import { JwtRefreshTokenGuard } from '../auth/guards/jwt-refresh-token.guard';
-import { TokenPayload } from 'src/modules/auth/interfaces/token.interface';
-import { ApiTags } from '@nestjs/swagger';
+import { CustomResponseType } from '../../utils/types/definitions';
+import { RequestWithUser } from '../../utils/types/request.type';
+import { TokenPayload } from './interfaces/token.interface';
+import { LoginDto } from './dto/login.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -23,6 +24,23 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
+  @ApiBody({
+    type: LoginDto,
+    examples: {
+      user_1: {
+        value: {
+          email: 'Test1@gmail.com',
+          password: 'Test1@gmail.com',
+        } as LoginDto,
+      },
+      user_2: {
+        value: {
+          email: 'Admin1@example.com',
+          password: 'Admin1@example.com',
+        },
+      },
+    },
+  })
   @Post('login')
   async signIn(@Req() request: RequestWithUser): Promise<CustomResponseType> {
     const { user } = request;

@@ -21,8 +21,7 @@ import { JwtAccessTokenGuard } from '../auth/guards/jwt-access-token.guard';
 import { Roles } from '../../decorators/roles.decorator';
 import { ROLE } from '../roles/entities/role.entity';
 import { RolesGuard } from '../auth/guards/roles.guard';
-import { Public } from '../../decorators/auth.decorator';
-import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 @Roles(ROLE.ADMIN)
 @UseGuards(RolesGuard)
@@ -41,11 +40,23 @@ export class UsersController {
   @ApiBody({
     type: CreateUserDto,
     examples: {
-      user: {
+      user_1: {
         value: {
           email: 'Test1@gmail.com',
           password: 'Test1@gmail.com',
           name: 'Test1@gmail.com',
+          genderId: 1,
+          phoneNumber: '0123456789',
+          address: 'new address',
+          companyId: 2,
+          roleId: 1,
+        } as CreateUserDto,
+      },
+      user_2: {
+        value: {
+          email: 'Test2@gmail.com',
+          password: 'Test2@gmail.com',
+          name: 'Test2@gmail.com',
           genderId: 1,
           phoneNumber: '0123456789',
           address: 'new address',
@@ -103,6 +114,20 @@ export class UsersController {
     * Only Admin can use this API
     `,
   })
+  @ApiParam({
+    name: 'id',
+    type: String,
+    examples: {
+      id_1: {
+        value: 'fe7f1e20-a72c-4c0f-b21c-f94ddab30030',
+        description: 'User not existed',
+      },
+      id_2: {
+        value: '55a4a506-b6e7-4eb1-b062-47b1f955b1eb',
+        description: 'User Test 1',
+      },
+    },
+  })
   @Get(':id')
   async getUserById(@Param('id') id: string): Promise<CustomResponseType> {
     const result = await this.usersService.getUserById(id, false);
@@ -127,6 +152,35 @@ export class UsersController {
     description: `
     * Only Admin can use this API
     `,
+  })
+  @ApiParam({
+    name: 'id',
+    type: String,
+    examples: {
+      id_1: {
+        value: 'fe7f1e20-a72c-4c0f-b21c-f94ddab30030',
+        description: 'User not existed',
+      },
+      id_2: {
+        value: '55a4a506-b6e7-4eb1-b062-47b1f955b1eb',
+        description: 'User Test 1',
+      },
+    },
+  })
+  @ApiBody({
+    type: UpdateUserDto,
+    examples: {
+      user: {
+        value: {
+          name: 'Test1@gmail.com',
+          genderId: 1,
+          phoneNumber: '0123456789',
+          address: 'new address',
+          companyId: 2,
+          roleId: 1,
+        } as UpdateUserDto,
+      },
+    },
   })
   @Patch(':id')
   async updateUser(
@@ -156,6 +210,20 @@ export class UsersController {
     * Only Admin can use this API
     * CAUTION: this API will delete user permanently, use it carefully
     `,
+  })
+  @ApiParam({
+    name: 'id',
+    type: String,
+    examples: {
+      id_1: {
+        value: 'fe7f1e20-a72c-4c0f-b21c-f94ddab30030',
+        description: 'User not existed',
+      },
+      id_2: {
+        value: '55a4a506-b6e7-4eb1-b062-47b1f955b1eb',
+        description: 'User Test 1',
+      },
+    },
   })
   @Delete(':id')
   async deleteUserPermanently(
