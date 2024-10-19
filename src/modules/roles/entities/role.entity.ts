@@ -1,6 +1,14 @@
 import { Expose } from 'class-transformer';
 import User from '../../users/entities/user.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import Permission from '../../permissions/entities/permission.entity';
 
 export enum ROLE {
   ADMIN = 'Admin',
@@ -22,6 +30,10 @@ class Role {
 
   @OneToMany(() => User, (user) => user.role)
   users: User[];
+
+  @ManyToMany(() => Permission, (permission) => permission.roles)
+  @JoinTable()
+  permissions: Permission[];
 }
 
 export default Role;

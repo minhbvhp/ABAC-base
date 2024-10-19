@@ -10,6 +10,8 @@ import { GlobalExceptionFilter } from 'src/exception-filters/global-exception.fi
 import { APP_FILTER } from '@nestjs/core';
 import { AuthModule } from './modules/auth/auth.module';
 import { RolesModule } from './modules/roles/roles.module';
+import { PermissionsModule } from './modules/permissions/permissions.module';
+import { SubjectsModule } from './modules/subjects/subjects.module';
 
 @Module({
   imports: [
@@ -38,6 +40,8 @@ import { RolesModule } from './modules/roles/roles.module';
     UsersModule,
     AuthModule,
     RolesModule,
+    PermissionsModule,
+    SubjectsModule,
   ],
   controllers: [AppController],
   providers: [

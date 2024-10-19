@@ -44,8 +44,7 @@ describe('RolesService', () => {
       id: 1,
       name: 'bbser',
       description: 'User',
-      users: [],
-    };
+    } as unknown as Role;
     jest
       .spyOn(mockRoleRepository, 'findOne')
       .mockResolvedValueOnce(existedRole);
@@ -66,8 +65,7 @@ describe('RolesService', () => {
       id: 1,
       name: 'User',
       description: 'User',
-      users: [],
-    };
+    } as unknown as Role;
 
     jest.spyOn(mockRoleRepository, 'create').mockReturnValueOnce(newRole);
     jest.spyOn(mockRoleRepository, 'findOne').mockResolvedValueOnce(null);
