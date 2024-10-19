@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import Role from '../../roles/entities/role.entity';
 import Subject from '../../subjects/entities/subject.entity';
-import { subject } from '@casl/ability';
+import { PermissionAction } from '../../auth/casl-ability.factory/casl-ability.factory';
 
 @Entity()
 class Permission {
@@ -16,7 +16,7 @@ class Permission {
   id: number;
 
   @Column()
-  action: string;
+  action: PermissionAction;
 
   @ManyToOne(() => Subject, (subject) => subject.permissions)
   @JoinColumn({ name: 'subject_id' })
