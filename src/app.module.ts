@@ -12,6 +12,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
 import { SubjectsModule } from './modules/subjects/subjects.module';
+import { CustomersModule } from './modules/customers/customers.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { SubjectsModule } from './modules/subjects/subjects.module';
     RolesModule,
     PermissionsModule,
     SubjectsModule,
+    CustomersModule,
   ],
   controllers: [AppController],
   providers: [
