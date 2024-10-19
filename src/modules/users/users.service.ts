@@ -248,4 +248,27 @@ export class UsersService {
       throw error;
     }
   }
+
+  async getPermissionsById(id: string) {
+    try {
+      if (!isUUID(id)) {
+        return [];
+      }
+
+      const existedUser = await this.usersRepository.findOne({
+        where: {
+          id: id,
+        },
+        relations: ['role', 'role.permissions'],
+      });
+
+      if (!existedUser) {
+        return [];
+      }
+
+      return existedUser.role.permissions;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

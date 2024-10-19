@@ -18,6 +18,7 @@ import { JwtService } from '@nestjs/jwt';
 import { TokenPayload } from 'src/modules/auth/interfaces/token.interface';
 import { UsersService } from '../users/users.service';
 import { isUUID } from 'class-validator';
+import Permission from '../permissions/entities/permission.entity';
 
 @Injectable()
 export class AuthService {
@@ -159,5 +160,9 @@ export class AuthService {
       .toString('hex');
 
     return hashedToken === checkHashed;
+  }
+
+  async getAllPermissionsOfUser(user: User): Promise<Permission[]> {
+    return await this.usersService.getPermissionsById(user.id);
   }
 }

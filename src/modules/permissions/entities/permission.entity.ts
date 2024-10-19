@@ -1,5 +1,14 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import Role from '../../roles/entities/role.entity';
+import Subject from '../../subjects/entities/subject.entity';
+import { subject } from '@casl/ability';
 
 @Entity()
 class Permission {
@@ -7,10 +16,11 @@ class Permission {
   id: number;
 
   @Column()
-  name: string;
+  action: string;
 
-  @Column({ name: 'subject_id' })
-  subjectId: number;
+  @ManyToOne(() => Subject, (subject) => subject.permissions)
+  @JoinColumn({ name: 'subject_id' })
+  subject: Subject;
 
   @ManyToMany(() => Role, (role) => role.permissions)
   roles: Role[];
