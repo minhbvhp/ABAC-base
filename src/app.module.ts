@@ -13,6 +13,7 @@ import { RolesModule } from './modules/roles/roles.module';
 import { PermissionsModule } from './modules/permissions/permissions.module';
 import { SubjectsModule } from './modules/subjects/subjects.module';
 import { CustomersModule } from './modules/customers/customers.module';
+import { CaslModule } from './modules/casl/casl.module';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { CustomersModule } from './modules/customers/customers.module';
     PermissionsModule,
     SubjectsModule,
     CustomersModule,
+    CaslModule,
   ],
   controllers: [AppController],
   providers: [

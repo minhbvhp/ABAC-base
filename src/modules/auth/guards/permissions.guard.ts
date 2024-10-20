@@ -3,7 +3,7 @@ import { Reflector } from '@nestjs/core';
 import {
   AppAbility,
   CaslAbilityFactory,
-} from '../casl-ability.factory/casl-ability.factory';
+} from '../../casl/casl-ability.factory/casl-ability.factory';
 import {
   PERMISSION_CHECKER_KEY,
   RequiredPermission,
@@ -23,7 +23,9 @@ export class PermissionsGuard implements CanActivate {
       ) || [];
     const req = context.switchToHttp().getRequest();
     const user = req.user;
+
     const ability = await this.abilityFactory.createForUser(user);
+
     return requiredPermissions.every((permission) =>
       this.isAllowed(ability, permission),
     );

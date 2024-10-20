@@ -259,7 +259,7 @@ export class UsersService {
         where: {
           id: id,
         },
-        relations: ['role', 'role.permissions'],
+        relations: ['role', 'role.permissions', 'role.permissions.subject'],
       });
 
       if (!existedUser) {

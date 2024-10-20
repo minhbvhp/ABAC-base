@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import Role from '../../roles/entities/role.entity';
 import Subject from '../../subjects/entities/subject.entity';
-import { PermissionAction } from '../../auth/casl-ability.factory/casl-ability.factory';
+import { PermissionAction } from '../../casl/casl-ability.factory/casl-ability.factory';
 import { PermissionCondition } from '../interfaces/permissionCondition.interface';
 
 @Entity()

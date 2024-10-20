@@ -163,6 +163,7 @@ export class AuthService {
   }
 
   async getAllPermissionsOfUser(user: User): Promise<Permission[]> {
-    return await this.usersService.getPermissionsById(user.id);
+    const permissions = await this.usersService.getPermissionsById(user.id);
+    return permissions;
   }
 }
