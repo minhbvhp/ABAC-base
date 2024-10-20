@@ -15,11 +15,14 @@ import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { CustomResponseType } from '../../utils/types/definitions';
-import { CUSTOMER_NOT_FOUND } from '../../utils/constants/messageConstants';
+import {
+  CUSTOMER_NOT_FOUND,
+  NOT_AUTHORIZED,
+} from '../../utils/constants/messageConstants';
 import { RequestWithUser } from '../../utils/types/request.type';
 import {
   CaslAbilityFactory,
-  PermissionAction,
+  Actions,
 } from '../casl/casl-ability.factory/casl-ability.factory';
 import Customer from './entities/customer.entity';
 import { JwtAccessTokenGuard } from '../auth/guards/jwt-access-token.guard';
@@ -44,7 +47,7 @@ export class CustomersController {
   }
 
   @UseGuards(PermissionsGuard)
-  // @CheckPermissions([PermissionAction.READ, 'Customer'])
+  @CheckPermissions([Actions.Read, 'Customer'])
   @UseGuards(JwtAccessTokenGuard)
   @Get(':id')
   async getCustomerById(
@@ -57,30 +60,20 @@ export class CustomersController {
 
     const customer = await this.customersService.getCustomerById(Number(id));
 
-    const condition = new Customer();
-    condition.userId = user.id;
-
-    console.log(ability.can(PermissionAction.READ, customer));
-    console.log(ability.can(PermissionAction.CREATE, customer));
-    console.log(ability.can(PermissionAction.UPDATE, customer));
-    console.log(ability.can(PermissionAction.DELETE, customer));
-
-    if (ability.can(PermissionAction.READ, customer)) {
-      const result = await this.customersService.getCustomerById(Number(id));
-
-      if (!result) {
-        throw new NotFoundException(CUSTOMER_NOT_FOUND);
-      }
-
-      const res: CustomResponseType = {
-        message: 'Đã tìm thấy khách hàng',
-        result,
-      };
-
-      return res;
+    if (!customer) {
+      throw new NotFoundException(CUSTOMER_NOT_FOUND);
     }
 
-    throw new ForbiddenException('You dont have access to this resource!');
+    if (!ability.can(Actions.Read, customer)) {
+      throw new ForbiddenException(NOT_AUTHORIZED);
+    }
+
+    const res: CustomResponseType = {
+      message: 'Đã tìm thấy khách hàng',
+      result: customer,
+    };
+
+    return res;
   }
 
   @Patch(':id')

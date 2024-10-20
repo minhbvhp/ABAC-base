@@ -1,42 +1,27 @@
 import {
-  Ability,
   AbilityBuilder,
   createMongoAbility,
   ExtractSubjectType,
-  InferSubjects,
   MongoAbility,
   MongoQuery,
 } from '@casl/ability';
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { AuthService } from '../../auth/auth.service';
 import User from '../../users/entities/user.entity';
-import Permission from '../../permissions/entities/permission.entity';
-import { PermissionCondition } from '../../permissions/interfaces/permissionCondition.interface';
 import { UsersService } from '../../users/users.service';
-import Customer from '../../customers/entities/customer.entity';
-import { permission } from 'node:process';
+import Permission from '../../permissions/entities/permission.entity';
 
-export enum PermissionAction {
-  MANAGE = 'manage',
-  CREATE = 'create',
-  READ = 'read',
-  UPDATE = 'update',
-  DELETE = 'delete',
+export enum Actions {
+  Manage = 'manage',
+  Create = 'create',
+  Read = 'read',
+  Update = 'update',
+  Delete = 'delete',
 }
 
-export type SubjectsType =
-  | InferSubjects<typeof Customer | typeof User>
-  | 'all'
-  | 'Customer'
-  | any;
-export type PossibleAbilities = [PermissionAction, SubjectsType];
-export type Conditions = MongoQuery;
+export type Subjects = 'Customer' | 'User' | any;
 
-interface CaslPermission {
-  action: PermissionAction;
-  subject: SubjectsType;
-  conditions: Conditions;
-}
+type PossibleAbilities = [Actions, Subjects];
+type Conditions = MongoQuery;
 
 export type AppAbility = MongoAbility<PossibleAbilities, Conditions>;
 
@@ -47,32 +32,27 @@ export class CaslAbilityFactory {
     private usersService: UsersService,
   ) {}
 
-  async createForUser(user: User) {
+  async createForUser(user: User): Promise<AppAbility> {
     const { can, cannot, build } = new AbilityBuilder(
       createMongoAbility<PossibleAbilities, Conditions>,
     );
 
-    const dbPermissions = await this.usersService.getPermissionsById(user.id);
+    const permissions = await this.usersService.getPermissionsById(user.id);
 
-    // const caslPermissions = dbPermissions.map((permission) => ({
-    //   action: permission.action,
-    //   subject: permission.subject.name,
-    //   conditions: Permission.parseCondition(permission.condition, user),
-    // }));
+    permissions.forEach((permission) => {
+      const { action, subject, condition } = permission;
 
-    // const ability = createMongoAbility(caslPermissions);
-
-    dbPermissions.forEach((permission) => {
-      can(
-        permission.action,
-        permission.subject.name,
-        Permission.parseCondition(permission.condition, User),
-      );
+      if (condition) {
+        const dynamicCondition = Permission.parseCondition(condition, user);
+        can(action as Actions, subject.name, dynamicCondition);
+      } else {
+        can(action as Actions, subject.name);
+      }
     });
 
     return build({
       detectSubjectType: (item) =>
-        item.constructor as ExtractSubjectType<SubjectsType>,
+        item.constructor.name as ExtractSubjectType<Subjects>,
     });
   }
 }

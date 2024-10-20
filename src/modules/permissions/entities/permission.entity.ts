@@ -8,8 +8,7 @@ import {
 } from 'typeorm';
 import Role from '../../roles/entities/role.entity';
 import Subject from '../../subjects/entities/subject.entity';
-import { PermissionAction } from '../../casl/casl-ability.factory/casl-ability.factory';
-import { PermissionCondition } from '../interfaces/permissionCondition.interface';
+import { Actions } from '../../casl/casl-ability.factory/casl-ability.factory';
 
 @Entity()
 class Permission {
@@ -17,52 +16,28 @@ class Permission {
   id: number;
 
   @Column()
-  action: PermissionAction;
+  action: Actions;
 
   @ManyToOne(() => Subject, (subject) => subject.permissions)
   @JoinColumn({ name: 'subject_id' })
   subject: Subject;
 
-  @Column({ type: 'json' })
-  condition: PermissionCondition;
+  @Column({ type: 'json', nullable: true })
+  condition?: Record<string, any>;
 
   @ManyToMany(() => Role, (role) => role.permissions)
   roles: Role[];
 
-  /**
-   * @param condition: {"userId": "${id}"}
-   * @param variables: {"id: 1"}
-   * @return condition after parse: {"userId": 1}
-   */
   public static parseCondition(
-    condition: PermissionCondition,
-    variables: Record<string, any>,
-  ): PermissionCondition {
-    if (!condition) return null;
-    const parsedCondition = {};
-    for (const [key, rawValue] of Object.entries(condition)) {
-      if (rawValue !== null && typeof rawValue === 'object') {
-        const value = this.parseCondition(rawValue, variables);
-        parsedCondition[key] = value;
-        continue;
-      }
-      if (typeof rawValue !== 'string') {
-        parsedCondition[key] = rawValue;
-        continue;
-      }
-      // find placeholder "${}""
-      const matches = /^\\${([a-zA-Z0-9]+)}$/.exec(rawValue);
-      if (!matches) {
-        parsedCondition[key] = rawValue;
-        continue;
-      }
-      const value = variables[matches[1]];
-      if (typeof value === 'undefined') {
-        throw new ReferenceError(`Variable ${name} is not defined`);
-      }
-      parsedCondition[key] = value;
-    }
-    return parsedCondition;
+    conditions: Record<string, any>,
+    user: any,
+  ): Record<string, any> {
+    const conditionStr = JSON.stringify(conditions);
+    // Replace placeholders with actual values from the user object
+    const replaced = conditionStr.replace(/\$\{(\w+)\}/g, (_, key) => {
+      return user[key];
+    });
+    return JSON.parse(replaced);
   }
 }
 

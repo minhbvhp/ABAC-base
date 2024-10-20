@@ -1,4 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import {
   AppAbility,
@@ -8,6 +13,7 @@ import {
   PERMISSION_CHECKER_KEY,
   RequiredPermission,
 } from '../../../decorators/permissions.decorator';
+import { NOT_AUTHORIZED } from '../../../utils/constants/messageConstants';
 
 @Injectable()
 export class PermissionsGuard implements CanActivate {
@@ -26,9 +32,13 @@ export class PermissionsGuard implements CanActivate {
 
     const ability = await this.abilityFactory.createForUser(user);
 
-    return requiredPermissions.every((permission) =>
+    const areAllAllowed = requiredPermissions.every((permission) =>
       this.isAllowed(ability, permission),
     );
+
+    if (areAllAllowed) return true;
+
+    throw new ForbiddenException(NOT_AUTHORIZED);
   }
   private isAllowed(
     ability: AppAbility,
