@@ -28,7 +28,7 @@ export type AppAbility = MongoAbility<PossibleAbilities, Conditions>;
 @Injectable()
 export class CaslAbilityFactory {
   constructor(
-    @Inject(forwardRef(() => UsersService))
+    @Inject('existedUsersService')
     private usersService: UsersService,
   ) {}
 
