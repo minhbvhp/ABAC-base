@@ -7,11 +7,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcryptjs';
 import { ConfigService } from '@nestjs/config';
 import { isUUID } from 'class-validator';
-import Role, { ROLE } from '../roles/entities/role.entity';
 import {
   ROLE_ID_MUST_NUMBER,
   SERVICE_ERROR_DESCRIPTION,
 } from '../../utils/constants/messageConstants';
+import { RolesService } from '../roles/roles.service';
 
 @Injectable()
 export class UsersService {
@@ -20,9 +20,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
-
-    @InjectRepository(Role)
-    private rolesRepository: Repository<Role>,
+    private readonly rolesService: RolesService,
     private readonly configService: ConfigService,
   ) {
     this.saltRounds = this.configService.get('SALT_ROUNDS', 10);
@@ -37,11 +35,7 @@ export class UsersService {
       });
 
       if (!existedUser) {
-        let userRole = await this.rolesRepository.findOne({
-          where: {
-            id: createUserDto.roleId,
-          },
-        });
+        let userRole = await this.rolesService.findOne(createUserDto.roleId);
 
         if (!userRole) {
           throw new BadRequestException(
@@ -196,11 +190,7 @@ export class UsersService {
       });
 
       if (existedUser) {
-        let userRole = await this.rolesRepository.findOne({
-          where: {
-            id: updateUserDto.roleId,
-          },
-        });
+        let userRole = await this.rolesService.findOne(updateUserDto.roleId);
 
         if (!userRole) {
           throw new BadRequestException(

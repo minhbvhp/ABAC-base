@@ -44,9 +44,19 @@ export class RolesService {
     }
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} role`;
-  // }
+  async findOne(id: number) {
+    try {
+      const existedRole = await this.rolesRepository.findOne({
+        where: {
+          id: id,
+        },
+      });
+
+      return existedRole;
+    } catch (error) {
+      throw error;
+    }
+  }
 
   // update(id: number, updateRoleDto: UpdateRoleDto) {
   //   return `This action updates a #${id} role`;

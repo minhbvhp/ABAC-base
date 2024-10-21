@@ -7,10 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from 'src/modules/users/users.module';
 import { JwtAccessTokenStrategy } from 'src/modules/auth/strategies/jwt-access-token.strategy';
 import { JwtRefreshTokenStrategy } from 'src/modules/auth/strategies/jwt-refresh-token.strategy';
-import { PermissionsGuard } from './guards/permissions.guard';
-import { CaslAbilityFactory } from '../casl/casl-ability.factory/casl-ability.factory';
 
-@Global()
 @Module({
   imports: [PassportModule, UsersModule, JwtModule.register({})],
   controllers: [AuthController],
