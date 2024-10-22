@@ -35,7 +35,9 @@ export class UsersService {
       });
 
       if (!existedUser) {
-        let userRole = await this.rolesService.findOne(createUserDto.roleId);
+        let userRole = await this.rolesService.getRoleById(
+          createUserDto.roleId,
+        );
 
         if (!userRole) {
           throw new BadRequestException(
@@ -190,7 +192,9 @@ export class UsersService {
       });
 
       if (existedUser) {
-        let userRole = await this.rolesService.findOne(updateUserDto.roleId);
+        let userRole = await this.rolesService.getRoleById(
+          updateUserDto.roleId,
+        );
 
         if (!userRole) {
           throw new BadRequestException(

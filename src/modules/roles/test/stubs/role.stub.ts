@@ -1,5 +1,4 @@
 import Role, { ROLE } from '../../entities/role.entity';
-import User from 'src/modules/users/entities/user.entity';
 
 export const adminRoleStub = (): Role =>
   ({
@@ -21,3 +20,6 @@ export const accountantRoleStub = (): Role =>
     name: ROLE.ACCOUNTANT,
     description: 'Accountant',
   }) as unknown as Role;
+
+export const allRolesStub = (): Role[] =>
+  [adminRoleStub(), salesRoleStub(), accountantRoleStub()] as unknown as Role[];

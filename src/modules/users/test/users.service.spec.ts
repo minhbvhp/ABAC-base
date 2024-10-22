@@ -10,11 +10,13 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import { UsersService } from '../users.service';
 import { ConfigModule } from '@nestjs/config';
 import User from '../entities/user.entity';
-import Role, { ROLE } from '../../roles/entities/role.entity';
 import {
   accountantRoleStub,
   salesRoleStub,
 } from '../../roles/test/stubs/role.stub';
+import { RolesService } from '../../roles/roles.service';
+
+jest.mock('../../roles/roles.service');
 
 const mockUserRepository = {
   findOne: jest.fn(),
@@ -22,16 +24,6 @@ const mockUserRepository = {
   insert: jest.fn(),
   find: jest.fn(),
   update: jest.fn().mockResolvedValue(afterUpdateUserStub()),
-  remove: jest.fn(),
-  findAndCount: jest.fn(),
-};
-
-const mockRoleRepository = {
-  findOne: jest.fn(),
-  create: jest.fn(),
-  insert: jest.fn(),
-  find: jest.fn(),
-  update: jest.fn(),
   remove: jest.fn(),
   findAndCount: jest.fn(),
 };
@@ -61,7 +53,8 @@ const updateUserDto = {
 } as UpdateUserDto;
 
 describe('UsersService', () => {
-  let userService: UsersService;
+  let usersService: UsersService;
+  let rolesService: RolesService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -72,14 +65,11 @@ describe('UsersService', () => {
           provide: getRepositoryToken(User),
           useValue: mockUserRepository,
         },
-        {
-          provide: getRepositoryToken(Role),
-          useValue: mockRoleRepository,
-        },
       ],
     }).compile();
 
-    userService = module.get<UsersService>(UsersService);
+    usersService = module.get<UsersService>(UsersService);
+    rolesService = module.get<RolesService>(RolesService);
   });
 
   afterEach(() => {
@@ -87,7 +77,7 @@ describe('UsersService', () => {
   });
 
   it('should be defined', () => {
-    expect(userService).toBeDefined();
+    expect(usersService).toBeDefined();
   });
 
   describe('createUser', () => {
@@ -98,7 +88,7 @@ describe('UsersService', () => {
         .mockResolvedValueOnce(createUserStub());
 
       //act
-      const result = await userService.createUser(createUserDto);
+      const result = await usersService.createUser(createUserDto);
 
       //assert
       expect(mockUserRepository.findOne).toHaveBeenCalledWith({
@@ -119,13 +109,13 @@ describe('UsersService', () => {
       jest.spyOn(mockUserRepository, 'findOne').mockResolvedValueOnce(null);
 
       jest
-        .spyOn(mockRoleRepository, 'findOne')
+        .spyOn(rolesService, 'getRoleById')
         .mockResolvedValueOnce(salesRoleStub());
 
       const newUser = createUserStub();
 
       // act
-      const result = await userService.createUser(createUserDto);
+      const result = await usersService.createUser(createUserDto);
 
       // assert
       expect(mockUserRepository.create).toHaveBeenCalledWith({
@@ -157,7 +147,7 @@ describe('UsersService', () => {
       const totalPages = Math.ceil(allUserStub().length / total);
 
       //act
-      const result = await userService.getAllUsers(current, total);
+      const result = await usersService.getAllUsers(current, total);
 
       //assert
       expect(mockUserRepository.findAndCount).toHaveBeenCalledWith({
@@ -180,7 +170,7 @@ describe('UsersService', () => {
       const mockEmail = 'Test@gmail.com';
 
       //act
-      const result = await userService.getUserByEmail(mockEmail);
+      const result = await usersService.getUserByEmail(mockEmail);
 
       //assert
       expect(mockUserRepository.findOne).toHaveBeenCalledWith({
@@ -200,7 +190,7 @@ describe('UsersService', () => {
         .mockResolvedValueOnce(createUserStub());
 
       //act
-      const result = await userService.getUserByEmail(mockEmail);
+      const result = await usersService.getUserByEmail(mockEmail);
 
       //assert
       expect(mockUserRepository.findOne).toHaveBeenCalledWith({
@@ -218,7 +208,7 @@ describe('UsersService', () => {
       //arrange
 
       //act
-      const result = await userService.updateUser(
+      const result = await usersService.updateUser(
         notAvailableId,
         updateUserDto,
       );
@@ -232,7 +222,7 @@ describe('UsersService', () => {
       jest.spyOn(mockUserRepository, 'findOne').mockResolvedValueOnce(null);
 
       //act
-      const result = await userService.updateUser(notExistId, updateUserDto);
+      const result = await usersService.updateUser(notExistId, updateUserDto);
 
       //assert
       expect(result).toEqual(null);
@@ -245,7 +235,7 @@ describe('UsersService', () => {
         .mockResolvedValueOnce(createUserStub());
 
       jest
-        .spyOn(mockRoleRepository, 'findOne')
+        .spyOn(rolesService, 'getRoleById')
         .mockResolvedValueOnce(accountantRoleStub());
 
       jest
@@ -256,7 +246,7 @@ describe('UsersService', () => {
       const updatedUser = afterUpdateUserStub();
 
       //act
-      const result = await userService.updateUser(existId, updateUserDto);
+      const result = await usersService.updateUser(existId, updateUserDto);
 
       //assert
 
@@ -279,7 +269,7 @@ describe('UsersService', () => {
       //arrange
 
       //act
-      const result = await userService.deleteUserPermanently(notAvailableId);
+      const result = await usersService.deleteUserPermanently(notAvailableId);
 
       //assert
       expect(result).toEqual(null);
@@ -290,7 +280,7 @@ describe('UsersService', () => {
       jest.spyOn(mockUserRepository, 'findOne').mockResolvedValueOnce(null);
 
       //act
-      const result = await userService.deleteUserPermanently(notExistId);
+      const result = await usersService.deleteUserPermanently(notExistId);
 
       //assert
       expect(result).toEqual(null);
@@ -307,7 +297,7 @@ describe('UsersService', () => {
       const deletedUser = createUserStub();
 
       //act
-      const result = await userService.deleteUserPermanently(existId);
+      const result = await usersService.deleteUserPermanently(existId);
 
       //assert
 

@@ -1,4 +1,3 @@
-import Role, { ROLE } from '../../../roles/entities/role.entity';
 import User from 'src/modules/users/entities/user.entity';
 import {
   accountantRoleStub,
