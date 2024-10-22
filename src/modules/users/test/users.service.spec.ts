@@ -8,7 +8,7 @@ import {
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UsersService } from '../users.service';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import User from '../entities/user.entity';
 import {
   accountantRoleStub,
@@ -58,9 +58,11 @@ describe('UsersService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule],
+      // imports: [ConfigModule],
       providers: [
         UsersService,
+        ConfigService,
+        RolesService,
         {
           provide: getRepositoryToken(User),
           useValue: mockUserRepository,
