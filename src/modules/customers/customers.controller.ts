@@ -10,6 +10,7 @@ import {
   Req,
   ForbiddenException,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
@@ -28,7 +29,9 @@ import Customer from './entities/customer.entity';
 import { JwtAccessTokenGuard } from '../auth/guards/jwt-access-token.guard';
 import { PermissionsGuard } from '../auth/guards/permissions.guard';
 import { CheckPermissions } from '../../decorators/permissions.decorator';
+import { PaginationDto } from '../pagination/pagination.dto';
 
+@UseGuards(JwtAccessTokenGuard)
 @Controller('customers')
 export class CustomersController {
   constructor(
@@ -41,14 +44,38 @@ export class CustomersController {
     return this.customersService.create(createCustomerDto);
   }
 
+  @UseGuards(PermissionsGuard)
+  @CheckPermissions([Actions.Read, 'Customer'])
   @Get()
-  findAll() {
-    return this.customersService.findAll();
+  async getAllCustomers(
+    @Query() paginationDto: PaginationDto,
+    @Req() request: RequestWithUser,
+  ): Promise<CustomResponseType> {
+    const { user } = request;
+
+    const ability = await this.abilityFactory.createForUser(user);
+
+    const condition = ability.rules.find(
+      (r) => r.action === Actions.Read && r.subject === 'Customer',
+    ).conditions;
+
+    const { current, total } = paginationDto;
+    const customers = await this.customersService.getAllCustomers(
+      current,
+      total,
+      condition,
+    );
+
+    const res: CustomResponseType = {
+      message: 'Tìm tất cả khách hàng',
+      result: customers,
+    };
+
+    return res;
   }
 
   @UseGuards(PermissionsGuard)
   @CheckPermissions([Actions.Read, 'Customer'])
-  @UseGuards(JwtAccessTokenGuard)
   @Get(':id')
   async getCustomerById(
     @Param('id') id: string,

@@ -16,8 +16,27 @@ export class CustomersService {
     return 'This action adds a new customer';
   }
 
-  findAll() {
-    return `This action returns all customers`;
+  async getAllCustomers(
+    current: number = 1,
+    total: number = 10,
+    condition: any,
+  ): Promise<{ customers: Customer[]; totalPages: number }> {
+    try {
+      const skip = (current - 1) * total;
+
+      const [customers, totalItems] =
+        await this.customersRepository.findAndCount({
+          take: total,
+          skip,
+          where: condition,
+        });
+
+      const totalPages = Math.ceil(totalItems / total);
+
+      return { customers, totalPages };
+    } catch (error) {
+      throw error;
+    }
   }
 
   async getCustomerById(customerId: number) {
