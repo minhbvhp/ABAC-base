@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import Role from '../../roles/entities/role.entity';
 import Subject from '../../subjects/entities/subject.entity';
+import { ACTIONS } from '../../../utils/types/definitions';
 
 @Entity()
 class Permission {
@@ -15,7 +16,8 @@ class Permission {
   id: number;
 
   @Column()
-  action: string;
+  @Column({ unique: true, enum: ACTIONS })
+  action: ACTIONS;
 
   @ManyToOne(() => Subject, (subject) => subject.permissions)
   @JoinColumn({ name: 'subject_id' })
@@ -32,6 +34,7 @@ class Permission {
     user: any,
   ): Record<string, any> {
     const conditionStr = JSON.stringify(conditions);
+
     // Replace placeholders with actual values from the user object
     const replaced = conditionStr.replace(/\$\{(\w+)\}/g, (_, key) => {
       return user[key];

@@ -1,7 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RolesService } from '../roles.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import Role, { ROLE } from '../entities/role.entity';
+import Role from '../entities/role.entity';
+import { ROLES } from '../../../utils/types/definitions';
 
 const mockRoleRepository = {
   findOne: jest.fn(),
@@ -43,7 +44,7 @@ describe('RolesService', () => {
     const existedRole: Role = {
       id: 1,
       name: 'bbser',
-      description: 'User',
+      description: ROLES.SALES,
     } as unknown as Role;
     jest
       .spyOn(mockRoleRepository, 'findOne')
@@ -51,8 +52,8 @@ describe('RolesService', () => {
 
     //act
     const result = await rolesService.createRole({
-      name: 'User',
-      description: 'user',
+      name: ROLES.SALES,
+      description: ROLES.SALES,
     });
 
     //assert
@@ -63,8 +64,8 @@ describe('RolesService', () => {
     //arrange
     const newRole: Role = {
       id: 1,
-      name: 'User',
-      description: 'User',
+      name: ROLES.SALES,
+      description: ROLES.SALES,
     } as unknown as Role;
 
     jest.spyOn(mockRoleRepository, 'create').mockReturnValueOnce(newRole);
@@ -72,8 +73,8 @@ describe('RolesService', () => {
 
     //act
     const result = await rolesService.createRole({
-      name: 'User',
-      description: 'user',
+      name: ROLES.SALES,
+      description: ROLES.SALES,
     });
 
     //assert

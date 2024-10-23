@@ -9,18 +9,9 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import User from '../../users/entities/user.entity';
 import { UsersService } from '../../users/users.service';
 import Permission from '../../permissions/entities/permission.entity';
+import { ACTIONS, SUBJECTS } from '../../../utils/types/definitions';
 
-export enum Actions {
-  Manage = 'manage',
-  Create = 'create',
-  Read = 'read',
-  Update = 'update',
-  Delete = 'delete',
-}
-
-export type Subjects = 'Customer' | 'User' | any;
-
-type PossibleAbilities = [Actions, Subjects];
+type PossibleAbilities = [ACTIONS, SUBJECTS | any];
 type Conditions = MongoQuery;
 
 export type AppAbility = MongoAbility<PossibleAbilities, Conditions>;
@@ -41,15 +32,15 @@ export class CaslAbilityFactory {
 
       if (condition) {
         const dynamicCondition = Permission.parseCondition(condition, user);
-        can(action as Actions, subject.name, dynamicCondition);
+        can(action as ACTIONS, subject.name, dynamicCondition);
       } else {
-        can(action as Actions, subject.name);
+        can(action as ACTIONS, subject.name);
       }
     });
 
     return build({
       detectSubjectType: (item) =>
-        item.constructor.name as ExtractSubjectType<Subjects>,
+        item.constructor.name as ExtractSubjectType<SUBJECTS>,
     });
   }
 }

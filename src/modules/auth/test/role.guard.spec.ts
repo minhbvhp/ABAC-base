@@ -3,7 +3,7 @@ import { RolesGuard } from '../guards/roles.guard';
 import { Test, TestingModule } from '@nestjs/testing';
 import { executionContext } from '../../../shared/test/mocks/execution-context.mock';
 import { mockRequestWithUser } from './mocks/requests.mock';
-import { ROLES } from '../../../decorators/roles.decorator';
+import { ROLES_DECORATOR } from '../../../decorators/roles.decorator';
 import { createUserStub } from '../../users/test/stubs/user.stub';
 import { ForbiddenException } from '@nestjs/common';
 
@@ -43,7 +43,7 @@ describe('RolesGuard', () => {
     //act && assert
     expect(rolesGuard.canActivate(executionContext)).toBeTruthy();
 
-    expect(reflector.getAllAndOverride).toHaveBeenCalledWith(ROLES, [
+    expect(reflector.getAllAndOverride).toHaveBeenCalledWith(ROLES_DECORATOR, [
       executionContext.getHandler(),
       executionContext.getClass(),
     ]);
@@ -64,7 +64,7 @@ describe('RolesGuard', () => {
       ForbiddenException,
     );
 
-    expect(reflector.getAllAndOverride).toHaveBeenCalledWith(ROLES, [
+    expect(reflector.getAllAndOverride).toHaveBeenCalledWith(ROLES_DECORATOR, [
       executionContext.getHandler(),
       executionContext.getClass(),
     ]);

@@ -1,23 +1,24 @@
-import Role, { ROLE } from '../../entities/role.entity';
+import { ROLES } from '../../../../utils/types/definitions';
+import Role from '../../entities/role.entity';
 
 export const adminRoleStub = (): Role =>
   ({
     id: 1,
-    name: ROLE.ADMIN,
+    name: ROLES.ADMIN,
     description: 'Admin',
   }) as unknown as Role;
 
 export const salesRoleStub = (): Role =>
   ({
     id: 2,
-    name: ROLE.SALES,
+    name: ROLES.SALES,
     description: 'Sales',
   }) as unknown as Role;
 
 export const accountantRoleStub = (): Role =>
   ({
     id: 3,
-    name: ROLE.ACCOUNTANT,
+    name: ROLES.ACCOUNTANT,
     description: 'Accountant',
   }) as unknown as Role;
 

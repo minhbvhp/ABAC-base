@@ -15,17 +15,17 @@ import {
 import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
-import { CustomResponseType } from '../../utils/types/definitions';
+import {
+  ACTIONS,
+  CustomResponseType,
+  SUBJECTS,
+} from '../../utils/types/definitions';
 import {
   CUSTOMER_NOT_FOUND,
   NOT_AUTHORIZED,
 } from '../../utils/constants/messageConstants';
 import { RequestWithUser } from '../../utils/types/request.type';
-import {
-  CaslAbilityFactory,
-  Actions,
-} from '../casl/casl-ability.factory/casl-ability.factory';
-import Customer from './entities/customer.entity';
+import { CaslAbilityFactory } from '../casl/casl-ability.factory/casl-ability.factory';
 import { JwtAccessTokenGuard } from '../auth/guards/jwt-access-token.guard';
 import { PermissionsGuard } from '../auth/guards/permissions.guard';
 import { CheckPermissions } from '../../decorators/permissions.decorator';
@@ -45,7 +45,7 @@ export class CustomersController {
   }
 
   @UseGuards(PermissionsGuard)
-  @CheckPermissions([Actions.Read, 'Customer'])
+  @CheckPermissions([ACTIONS.READ, SUBJECTS.CUSTOMER])
   @Get()
   async getAllCustomers(
     @Query() paginationDto: PaginationDto,
@@ -56,7 +56,7 @@ export class CustomersController {
     const ability = await this.abilityFactory.createForUser(user);
 
     const condition = ability.rules.find(
-      (r) => r.action === Actions.Read && r.subject === 'Customer',
+      (r) => r.action === ACTIONS.READ && r.subject === SUBJECTS.CUSTOMER,
     ).conditions;
 
     const { current, total } = paginationDto;
@@ -75,7 +75,7 @@ export class CustomersController {
   }
 
   @UseGuards(PermissionsGuard)
-  @CheckPermissions([Actions.Read, 'Customer'])
+  @CheckPermissions([ACTIONS.READ, SUBJECTS.CUSTOMER])
   @Get(':id')
   async getCustomerById(
     @Param('id') id: string,
@@ -91,7 +91,7 @@ export class CustomersController {
       throw new NotFoundException(CUSTOMER_NOT_FOUND);
     }
 
-    if (!ability.can(Actions.Read, customer)) {
+    if (!ability.can(ACTIONS.READ, customer)) {
       throw new ForbiddenException(NOT_AUTHORIZED);
     }
 

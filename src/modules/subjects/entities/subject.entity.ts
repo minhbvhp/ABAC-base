@@ -1,13 +1,14 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import Permission from '../../permissions/entities/permission.entity';
+import { SUBJECTS } from '../../../utils/types/definitions';
 
 @Entity()
 class Subject {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  name: string;
+  @Column({ unique: true, enum: SUBJECTS })
+  name: SUBJECTS;
 
   @OneToMany(() => Permission, (permission) => permission.subject)
   permissions: Permission[];

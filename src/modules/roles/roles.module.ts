@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { RolesService } from './roles.service';
 import { RolesController } from './roles.controller';
-import { InjectRepository, TypeOrmModule } from '@nestjs/typeorm';
-import Role, { ROLE } from '../roles/entities/role.entity';
-import { Repository } from 'typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import Role from '../roles/entities/role.entity';
+import { ROLES } from '../../utils/types/definitions';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Role])],
@@ -16,17 +16,24 @@ export class RolesModule {
 
   async onModuleInit() {
     const adminRole = {
-      name: ROLE.ADMIN,
-      description: ROLE.ADMIN,
+      name: ROLES.ADMIN,
+      description: ROLES.ADMIN,
     };
 
     const salesRole = {
-      name: ROLE.SALES,
-      description: ROLE.SALES,
+      name: ROLES.SALES,
+      description: ROLES.SALES,
+    };
+
+    const accountantRole = {
+      name: ROLES.ACCOUNTANT,
+      description: ROLES.ACCOUNTANT,
     };
 
     this.rolesService.createRole(adminRole);
 
     this.rolesService.createRole(salesRole);
+
+    this.rolesService.createRole(accountantRole);
   }
 }

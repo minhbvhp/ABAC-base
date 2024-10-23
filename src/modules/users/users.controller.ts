@@ -14,16 +14,15 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { CustomResponseType } from 'src/utils/types/definitions';
 import { PaginationDto } from '../pagination/pagination.dto';
 import { USER_NOT_FOUND } from '../../utils/constants/messageConstants';
 import { JwtAccessTokenGuard } from '../auth/guards/jwt-access-token.guard';
 import { Roles } from '../../decorators/roles.decorator';
-import { ROLE } from '../roles/entities/role.entity';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { CustomResponseType, ROLES } from '../../utils/types/definitions';
 
-@Roles(ROLE.ADMIN)
+@Roles(ROLES.ADMIN)
 @UseGuards(RolesGuard)
 @UseGuards(JwtAccessTokenGuard)
 @ApiTags('users')

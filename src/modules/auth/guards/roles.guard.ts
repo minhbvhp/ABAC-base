@@ -7,8 +7,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { RequestWithUser } from '../../../utils/types/request.type';
-import { IS_PUBLIC_KEY } from '../../../decorators/auth.decorator';
-import { ROLES } from '../../../decorators/roles.decorator';
+import { ROLES_DECORATOR } from '../../../decorators/roles.decorator';
 import { NOT_AUTHORIZED } from '../../../utils/constants/messageConstants';
 
 @Injectable()
@@ -18,18 +17,10 @@ export class RolesGuard implements CanActivate {
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    // const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
-    //   context.getHandler(),
-    //   context.getClass(),
-    // ]);
-    // if (isPublic) {
-    //   return true;
-    // }
-
-    const requiredRoles: string[] = this.reflector.getAllAndOverride(ROLES, [
-      context.getHandler(),
-      context.getClass(),
-    ]);
+    const requiredRoles: string[] = this.reflector.getAllAndOverride(
+      ROLES_DECORATOR,
+      [context.getHandler(), context.getClass()],
+    );
 
     if (!requiredRoles) {
       return true;
