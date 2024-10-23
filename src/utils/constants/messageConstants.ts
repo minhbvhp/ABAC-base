@@ -48,6 +48,11 @@ export const COMPANY_ID_MUST_NUMBER: string = 'Công ty không đúng định d�
 export const USER_NOT_FOUND: string = 'Người dùng không tồn tại';
 
 /**************
+ * @SUBJECT  *
+ **************/
+export const SUBJECT_MUST_NOT_EMPTY: string = 'Đối tượng không đúng định dạng';
+
+/**************
  * @CUSTOMER  *
  **************/
 export const TAXCODE_MUST_NOT_EMPTY: string = 'Mã số thuế không được để trống';

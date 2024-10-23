@@ -1,26 +1,77 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import Subject from './entities/subject.entity';
+import { Repository } from 'typeorm';
+import { SUBJECTS } from '../../utils/types/definitions';
 
 @Injectable()
 export class SubjectsService {
-  create(createSubjectDto: CreateSubjectDto) {
-    return 'This action adds a new subject';
+  constructor(
+    @InjectRepository(Subject)
+    private subjectsRepository: Repository<Subject>,
+  ) {}
+
+  async createSubject(createSubjectDto: CreateSubjectDto) {
+    try {
+      const existedSubject = await this.subjectsRepository.findOne({
+        where: {
+          name: createSubjectDto.name,
+        },
+      });
+
+      if (!existedSubject) {
+        const newSubject = await this.subjectsRepository.create({
+          ...createSubjectDto,
+        });
+
+        await this.subjectsRepository.insert(newSubject);
+
+        return { subject_name: newSubject.name };
+      }
+    } catch (error) {
+      throw error;
+    }
+
+    return null;
   }
 
-  findAll() {
-    return `This action returns all subjects`;
+  async getAllSubjects(): Promise<Subject[]> {
+    try {
+      const subjects = await this.subjectsRepository.find();
+
+      return subjects;
+    } catch (error) {
+      throw error;
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} subject`;
+  async getSubjectById(id: number): Promise<Subject> {
+    const existedSubject = await this.subjectsRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!existedSubject) {
+      return null;
+    }
+
+    return existedSubject;
   }
 
-  update(id: number, updateSubjectDto: UpdateSubjectDto) {
-    return `This action updates a #${id} subject`;
-  }
+  async getSubjectByName(subjectName: SUBJECTS): Promise<Subject> {
+    const existedSubject = await this.subjectsRepository.findOne({
+      where: {
+        name: subjectName,
+      },
+    });
 
-  remove(id: number) {
-    return `This action removes a #${id} subject`;
+    if (!existedSubject) {
+      return null;
+    }
+
+    return existedSubject;
   }
 }

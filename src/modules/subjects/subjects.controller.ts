@@ -1,34 +1,32 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import { SubjectsService } from './subjects.service';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
+import { CustomResponseType } from '../../utils/types/definitions';
 
 @Controller('subjects')
 export class SubjectsController {
   constructor(private readonly subjectsService: SubjectsService) {}
 
-  @Post()
-  create(@Body() createSubjectDto: CreateSubjectDto) {
-    return this.subjectsService.create(createSubjectDto);
-  }
-
   @Get()
-  findAll() {
-    return this.subjectsService.findAll();
-  }
+  async getAllSubjects(): Promise<CustomResponseType> {
+    const result = await this.subjectsService.getAllSubjects();
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.subjectsService.findOne(+id);
-  }
+    const res: CustomResponseType = {
+      message: 'Tìm tất cả đối tượng',
+      result,
+    };
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSubjectDto: UpdateSubjectDto) {
-    return this.subjectsService.update(+id, updateSubjectDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.subjectsService.remove(+id);
+    return res;
   }
 }
