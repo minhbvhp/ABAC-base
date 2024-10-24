@@ -39,45 +39,47 @@ describe('RolesService', () => {
     expect(rolesService).toBeDefined();
   });
 
-  it('create role => should return null if role existed', async () => {
-    //arrange
-    const existedRole: Role = {
-      id: 1,
-      name: 'bbser',
-      description: ROLES.SALES,
-    } as unknown as Role;
-    jest
-      .spyOn(mockRoleRepository, 'findOne')
-      .mockResolvedValueOnce(existedRole);
+  describe('createRole', () => {
+    it('should return null if role existed', async () => {
+      //arrange
+      const existedRole: Role = {
+        id: 1,
+        name: 'bbser',
+        description: ROLES.SALES,
+      } as unknown as Role;
+      jest
+        .spyOn(mockRoleRepository, 'findOne')
+        .mockResolvedValueOnce(existedRole);
 
-    //act
-    const result = await rolesService.createRole({
-      name: ROLES.SALES,
-      description: ROLES.SALES,
+      //act
+      const result = await rolesService.createRole({
+        name: ROLES.SALES,
+        description: ROLES.SALES,
+      });
+
+      //assert
+      expect(result).toEqual(null);
     });
 
-    //assert
-    expect(result).toEqual(null);
-  });
+    it('should create new role and return its data', async () => {
+      //arrange
+      const newRole: Role = {
+        id: 1,
+        name: ROLES.SALES,
+        description: ROLES.SALES,
+      } as unknown as Role;
 
-  it('create role => should create new role and return its data', async () => {
-    //arrange
-    const newRole: Role = {
-      id: 1,
-      name: ROLES.SALES,
-      description: ROLES.SALES,
-    } as unknown as Role;
+      jest.spyOn(mockRoleRepository, 'create').mockReturnValueOnce(newRole);
+      jest.spyOn(mockRoleRepository, 'findOne').mockResolvedValueOnce(null);
 
-    jest.spyOn(mockRoleRepository, 'create').mockReturnValueOnce(newRole);
-    jest.spyOn(mockRoleRepository, 'findOne').mockResolvedValueOnce(null);
+      //act
+      const result = await rolesService.createRole({
+        name: ROLES.SALES,
+        description: ROLES.SALES,
+      });
 
-    //act
-    const result = await rolesService.createRole({
-      name: ROLES.SALES,
-      description: ROLES.SALES,
+      //assert
+      expect(result).toEqual(newRole);
     });
-
-    //assert
-    expect(result).toEqual(newRole);
   });
 });
