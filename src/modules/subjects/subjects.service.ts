@@ -74,4 +74,51 @@ export class SubjectsService {
 
     return existedSubject;
   }
+
+  async updateSubject(
+    id: number,
+    updateSubjectDto: UpdateSubjectDto,
+  ): Promise<Subject> {
+    try {
+      const existedSubject = await this.subjectsRepository.findOne({
+        where: {
+          id: id,
+        },
+      });
+
+      if (existedSubject) {
+        const updatedSubject = await this.subjectsRepository.create({
+          ...updateSubjectDto,
+        });
+
+        await this.subjectsRepository.update(existedSubject.id, updatedSubject);
+
+        return updatedSubject;
+      }
+    } catch (error) {
+      throw error;
+    }
+
+    return null;
+  }
+
+  async deleteSubjectPermanently(id: number) {
+    try {
+      const existedSubject = await this.subjectsRepository.findOne({
+        where: {
+          id: id,
+        },
+      });
+
+      if (!existedSubject) {
+        return null;
+      }
+
+      await this.subjectsRepository.remove(existedSubject);
+
+      return existedSubject;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

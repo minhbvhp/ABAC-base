@@ -15,7 +15,10 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PaginationDto } from '../pagination/pagination.dto';
-import { USER_NOT_FOUND } from '../../utils/constants/messageConstants';
+import {
+  EMAIL_ALREADY_EXISTED,
+  USER_NOT_FOUND,
+} from '../../utils/constants/messageConstants';
 import { JwtAccessTokenGuard } from '../auth/guards/jwt-access-token.guard';
 import { Roles } from '../../decorators/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
@@ -72,7 +75,7 @@ export class UsersController {
     const result = await this.usersService.createUser(createUserDto);
 
     if (!result) {
-      throw new ConflictException('Email này đã tồn tại', {
+      throw new ConflictException(EMAIL_ALREADY_EXISTED, {
         cause: new Error('Create user service return null'),
         description: 'Conflict',
       });

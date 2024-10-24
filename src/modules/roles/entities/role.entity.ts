@@ -25,7 +25,9 @@ class Role {
   @OneToMany(() => User, (user) => user.role)
   users: User[];
 
-  @ManyToMany(() => Permission, (permission) => permission.roles)
+  @ManyToMany(() => Permission, (permission) => permission.roles, {
+    onDelete: 'CASCADE',
+  })
   @JoinTable()
   permissions: Permission[];
 }

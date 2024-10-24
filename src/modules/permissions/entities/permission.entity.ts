@@ -19,14 +19,18 @@ class Permission {
   @Column({ unique: true, enum: ACTIONS })
   action: ACTIONS;
 
-  @ManyToOne(() => Subject, (subject) => subject.permissions)
-  @JoinColumn({ name: 'subject_id' })
-  subject: Subject;
-
   @Column({ type: 'json', nullable: true })
   condition?: Record<string, any>;
 
-  @ManyToMany(() => Role, (role) => role.permissions)
+  @ManyToOne(() => Subject, (subject) => subject.permissions, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'subject_id' })
+  subject: Subject;
+
+  @ManyToMany(() => Role, (role) => role.permissions, {
+    onDelete: 'CASCADE',
+  })
   roles: Role[];
 
   public static parseCondition(

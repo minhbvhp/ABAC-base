@@ -15,7 +15,8 @@ export const EMAIL_MUST_VALID: string = 'Email không đúng định dạng';
 export const PASSWORD_MUST_NOT_EMPTY: string = 'Mật khẩu không được để trống';
 export const EMAIL_OR_PASSWORD_WRONG: string =
   'Email hoặc mật khẩu không chính xác';
-export const USER_ALREADY_EXISTED: string = 'Người dùng này đã có rồi';
+export const USER_ALREADY_EXISTED: string = 'Người dùng đã tồn tại';
+export const EMAIL_ALREADY_EXISTED: string = 'Email này đã tồn tại';
 export const NEW_USER_CREATED: string = 'Đã tạo người dùng mới';
 export const THIS_FEATURE_NEED_LOGIN: string =
   'Cần đăng nhập mới thực hiện được chức năng này';
@@ -51,6 +52,8 @@ export const USER_NOT_FOUND: string = 'Người dùng không tồn tại';
  * @SUBJECT  *
  **************/
 export const SUBJECT_MUST_NOT_EMPTY: string = 'Đối tượng không đúng định dạng';
+export const SUBJECT_NOT_FOUND: string = 'Đối tượng không tồn tại';
+export const SUBJECT_ALREADY_EXISTED: string = 'Đối tượng đã tồn tại';
 
 /**************
  * @CUSTOMER  *
