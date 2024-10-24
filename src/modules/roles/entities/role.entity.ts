@@ -9,7 +9,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import Permission from '../../permissions/entities/permission.entity';
-import { ROLES } from '../../../utils/types/definitions';
 
 @Entity()
 class Role {
@@ -17,8 +16,8 @@ class Role {
   id: number;
 
   @Expose()
-  @Column({ unique: true, enum: ROLES, default: ROLES.SALES })
-  name: ROLES;
+  @Column({ unique: true })
+  name: string;
 
   @Column()
   description: string;

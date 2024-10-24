@@ -18,15 +18,15 @@ import { CustomResponseType } from '../../utils/types/definitions';
 export class SubjectsController {
   constructor(private readonly subjectsService: SubjectsService) {}
 
-  @Get()
-  async getAllSubjects(): Promise<CustomResponseType> {
-    const result = await this.subjectsService.getAllSubjects();
+  // @Get()
+  // async getAllSubjects(): Promise<CustomResponseType> {
+  //   const result = await this.subjectsService.getAllSubjects();
 
-    const res: CustomResponseType = {
-      message: 'Tìm tất cả đối tượng',
-      result,
-    };
+  //   const res: CustomResponseType = {
+  //     message: 'Tìm tất cả đối tượng',
+  //     result,
+  //   };
 
-    return res;
-  }
+  //   return res;
+  // }
 }

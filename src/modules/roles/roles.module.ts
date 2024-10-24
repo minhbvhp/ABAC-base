@@ -15,25 +15,8 @@ export class RolesModule {
   constructor(private readonly rolesService: RolesService) {}
 
   async onModuleInit() {
-    const adminRole = {
-      name: ROLES.ADMIN,
-      description: ROLES.ADMIN,
-    };
-
-    const salesRole = {
-      name: ROLES.SALES,
-      description: ROLES.SALES,
-    };
-
-    const accountantRole = {
-      name: ROLES.ACCOUNTANT,
-      description: ROLES.ACCOUNTANT,
-    };
-
-    this.rolesService.createRole(adminRole);
-
-    this.rolesService.createRole(salesRole);
-
-    this.rolesService.createRole(accountantRole);
+    Object.values(ROLES).forEach((role) => {
+      this.rolesService.createRole({ name: role, description: role });
+    });
   }
 }
