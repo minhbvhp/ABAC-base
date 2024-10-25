@@ -22,9 +22,9 @@ import { Roles } from '../../decorators/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { JwtAccessTokenGuard } from '../auth/guards/jwt-access-token.guard';
 
-@Roles(ROLES.ADMIN)
-@UseGuards(RolesGuard)
-@UseGuards(JwtAccessTokenGuard)
+// @Roles(ROLES.ADMIN)
+// @UseGuards(RolesGuard)
+// @UseGuards(JwtAccessTokenGuard)
 @Controller('subjects')
 export class SubjectsController {
   constructor(private readonly subjectsService: SubjectsService) {}
