@@ -56,6 +56,15 @@ export const SUBJECT_NOT_FOUND: string = 'Đối tượng không tồn tại';
 export const SUBJECT_ALREADY_EXISTED: string = 'Đối tượng đã tồn tại';
 
 /**************
+ * @PERMISSION  *
+ **************/
+export const ACTION_MUST_NOT_EMPTY: string =
+  'Quyền thao tác không đúng định dạng';
+export const ACTION_NOT_FOUND: string = 'Quyền thao tác không tồn tại';
+export const ACTION_ALREADY_EXISTED: string = 'Quyền thao tác đã tồn tại';
+export const SUBJECT_ID_MUST_NUMBER: string = 'Đối tượng không đúng định dạng';
+
+/**************
  * @CUSTOMER  *
  **************/
 export const TAXCODE_MUST_NOT_EMPTY: string = 'Mã số thuế không được để trống';

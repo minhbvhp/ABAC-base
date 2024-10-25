@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  Index,
   JoinColumn,
   ManyToMany,
   ManyToOne,
@@ -10,6 +11,11 @@ import Role from '../../roles/entities/role.entity';
 import Subject from '../../subjects/entities/subject.entity';
 import { ACTIONS } from '../../../utils/types/definitions';
 
+@Index(
+  'action_subject_condition_unique_constraint',
+  ['action, subject.id, condition'],
+  { unique: true },
+)
 @Entity()
 class Permission {
   @PrimaryGeneratedColumn()
