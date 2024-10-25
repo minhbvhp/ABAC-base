@@ -1,17 +1,17 @@
 import {
   Column,
   Entity,
-  Index,
   JoinColumn,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm';
 import Role from '../../roles/entities/role.entity';
 import Subject from '../../subjects/entities/subject.entity';
 import { ACTIONS } from '../../../utils/types/definitions';
 
-@Index('unique_index', ['action, subject.id'], { unique: true })
+@Unique('action_subject_UNIQUE', ['action', 'subject.id'])
 @Entity()
 class Permission {
   @PrimaryGeneratedColumn()
