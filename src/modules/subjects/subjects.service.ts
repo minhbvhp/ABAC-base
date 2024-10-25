@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import Subject from './entities/subject.entity';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { SUBJECTS } from '../../utils/types/definitions';
+import { SUBJECT_ALREADY_EXISTED } from '../../utils/constants/messageConstants';
 
 @Injectable()
 export class SubjectsService {
@@ -85,6 +86,17 @@ export class SubjectsService {
           id: id,
         },
       });
+
+      const conflictSubject = await this.subjectsRepository.findOne({
+        where: {
+          id: Not(id),
+          name: updateSubjectDto.name,
+        },
+      });
+
+      if (conflictSubject) {
+        throw new ConflictException(SUBJECT_ALREADY_EXISTED);
+      }
 
       if (existedSubject) {
         const updatedSubject = await this.subjectsRepository.create({
