@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import Role from '../roles/entities/role.entity';
 import { Repository } from 'typeorm';
 import { CreateRoleDto } from './dto/create-role.dto';
+import { PermissionsService } from '../permissions/permissions.service';
 // import { UpdateRoleDto } from './dto/update-role.dto';
 
 @Injectable()
@@ -10,6 +11,8 @@ export class RolesService {
   constructor(
     @InjectRepository(Role)
     private rolesRepository: Repository<Role>,
+
+    private permissionService: PermissionsService,
   ) {}
 
   async createRole(createRoleDto: CreateRoleDto) {
