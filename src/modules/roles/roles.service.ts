@@ -78,25 +78,30 @@ export class RolesService {
         throw new NotFoundException(ROLE_NOT_FOUND);
       }
 
-      const areAllPermissionAvailable = permissionIds.every((id) =>
-        this.isPermissionAvailable(id),
+      const checkAllAsyncPermissions = await Promise.all(
+        permissionIds.map(async (permissionId) => {
+          return await this.isPermissionAvailable(permissionId);
+        }),
       );
+
+      const areAllPermissionAvailable = checkAllAsyncPermissions.every(Boolean);
 
       if (!areAllPermissionAvailable) {
         throw new NotFoundException(HAS_ONE_PERMISSION_NOT_FOUND);
       }
 
-      const permissions = permissionIds.map(async (permissionId) => {
-        const permission = await this.permissionsRepository.findOne({
-          where: {
-            id: permissionId,
-          },
-          relations: { subject: true, roles: true },
-        });
+      const permissions: Permission[] = await Promise.all(
+        permissionIds.map(async (permissionId) => {
+          const permission = await this.permissionsRepository.findOne({
+            where: {
+              id: permissionId,
+            },
+            relations: { subject: true, roles: true },
+          });
 
-        const a = await this.permissionsRepository.create(permission);
-        return a;
-      });
+          return await this.permissionsRepository.create(permission);
+        }),
+      );
 
       existedRole.permissions = permissions;
 
