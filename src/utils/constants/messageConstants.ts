@@ -30,6 +30,7 @@ export const REFRESH_TOKEN_EXPIRES: string =
  **********/
 
 export const NOT_AUTHORIZED: string = 'Người dùng không có quyền này';
+export const ROLE_NOT_FOUND: string = 'Vai trò không tồn tại';
 
 /**********
  * @USER  *
@@ -42,8 +43,8 @@ export const GENDER_MUST_NOT_EMPTY: string = 'Giới tính không được để
 export const GENDER_ID_MUST_NUMBER: string = 'Giới tính không đúng định dạng';
 export const PHONE_MUST_NOT_EMPTY: string = 'Số điện thoại không được để trống';
 export const ADDRESS_MUST_NOT_EMPTY: string = 'Địa chỉ không được để trống';
-export const ROLE_MUST_NOT_EMPTY: string = 'Quyền hạn không được để trống';
-export const ROLE_ID_MUST_NUMBER: string = 'Quyền hạn không đúng định dạng';
+export const ROLE_MUST_NOT_EMPTY: string = 'Vai trò không được để trống';
+export const ROLE_ID_MUST_NUMBER: string = 'Vai trò không đúng định dạng';
 export const COMPANY_MUST_NOT_EMPTY: string = 'Công ty không được để trống';
 export const COMPANY_ID_MUST_NUMBER: string = 'Công ty không đúng định dạng';
 export const USER_NOT_FOUND: string = 'Người dùng không tồn tại';
@@ -63,8 +64,10 @@ export const ACTION_MUST_NOT_EMPTY: string =
 export const ACTION_NOT_FOUND: string = 'Quyền thao tác không tồn tại';
 export const ACTION_ALREADY_EXISTED: string = 'Quyền thao tác đã tồn tại';
 export const SUBJECT_ID_MUST_NUMBER: string = 'Đối tượng không đúng định dạng';
-export const PERMISSION_NOT_FOUND: string = 'Quyền này không tồn tại';
-export const PERMISSION_ALREADY_EXISTED: string = 'Quyền này đã tồn tại';
+export const PERMISSION_NOT_FOUND: string = 'Quyền hạn này không tồn tại';
+export const PERMISSION_ALREADY_EXISTED: string = 'Quyền hạn này đã tồn tại';
+export const HAS_ONE_PERMISSION_NOT_FOUND: string =
+  'Có quyền hạn không tồn tại';
 
 /**************
  * @CUSTOMER  *

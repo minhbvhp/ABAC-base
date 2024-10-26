@@ -8,6 +8,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { RolesService } from './roles.service';
+import { CustomResponseType } from '../../utils/types/definitions';
 // import { CreateRoleDto } from './dto/create-role.dto';
 // import { UpdateRoleDto } from './dto/update-role.dto';
 
@@ -39,4 +40,25 @@ export class RolesController {
   // remove(@Param('id') id: string) {
   //   return this.rolesService.remove(+id);
   // }
+
+  @Post('grant')
+  async create(
+    @Body() rolePermissions: { roleId: string; permissionIds: string[] },
+  ): Promise<CustomResponseType> {
+    const _roleId = Number(rolePermissions.roleId);
+    const _permissionIds = rolePermissions.permissionIds.map((id) =>
+      Number(id),
+    );
+    const result = await this.rolesService.grantPermission(
+      _roleId,
+      _permissionIds,
+    );
+
+    const res: CustomResponseType = {
+      message: 'Đã thiết lập quyền hạn',
+      result,
+    };
+
+    return res;
+  }
 }

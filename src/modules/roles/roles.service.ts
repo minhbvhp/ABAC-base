@@ -1,9 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import Role from '../roles/entities/role.entity';
 import { Repository } from 'typeorm';
 import { CreateRoleDto } from './dto/create-role.dto';
-import { PermissionsService } from '../permissions/permissions.service';
+import {
+  HAS_ONE_PERMISSION_NOT_FOUND,
+  ROLE_NOT_FOUND,
+} from '../../utils/constants/messageConstants';
+import Permission from '../permissions/entities/permission.entity';
 // import { UpdateRoleDto } from './dto/update-role.dto';
 
 @Injectable()
@@ -12,7 +16,8 @@ export class RolesService {
     @InjectRepository(Role)
     private rolesRepository: Repository<Role>,
 
-    private permissionService: PermissionsService,
+    @InjectRepository(Permission)
+    private permissionsRepository: Repository<Permission>,
   ) {}
 
   async createRole(createRoleDto: CreateRoleDto) {
@@ -59,6 +64,58 @@ export class RolesService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async grantPermission(roleId: number, permissionIds: number[]) {
+    try {
+      const existedRole = await this.rolesRepository.findOne({
+        where: {
+          id: roleId,
+        },
+      });
+
+      if (!existedRole) {
+        throw new NotFoundException(ROLE_NOT_FOUND);
+      }
+
+      const areAllPermissionAvailable = permissionIds.every((id) =>
+        this.isPermissionAvailable(id),
+      );
+
+      if (!areAllPermissionAvailable) {
+        throw new NotFoundException(HAS_ONE_PERMISSION_NOT_FOUND);
+      }
+
+      const permissions = permissionIds.map(async (permissionId) => {
+        const permission = await this.permissionsRepository.findOne({
+          where: {
+            id: permissionId,
+          },
+          relations: { subject: true, roles: true },
+        });
+
+        const a = await this.permissionsRepository.create(permission);
+        return a;
+      });
+
+      existedRole.permissions = permissions;
+
+      await this.rolesRepository.save(existedRole);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  private async isPermissionAvailable(permissionId: number) {
+    const permission = await this.permissionsRepository.findOne({
+      where: {
+        id: permissionId,
+      },
+    });
+
+    if (permission) return true;
+
+    return false;
   }
 
   // update(id: number, updateRoleDto: UpdateRoleDto) {

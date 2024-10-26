@@ -27,6 +27,7 @@ class Role {
 
   @ManyToMany(() => Permission, (permission) => permission.roles, {
     onDelete: 'CASCADE',
+    cascade: true,
   })
   @JoinTable()
   permissions: Permission[];
