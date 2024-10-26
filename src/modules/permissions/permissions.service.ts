@@ -55,7 +55,9 @@ export class PermissionsService {
 
   async getAllPermissions(): Promise<Permission[]> {
     try {
-      const permissions = await this.permissionsRepository.find();
+      const permissions = await this.permissionsRepository.find({
+        relations: { subject: true },
+      });
 
       return permissions;
     } catch (error) {
@@ -102,6 +104,7 @@ export class PermissionsService {
       if (existedPermission) {
         const updatedPermission = await this.permissionsRepository.create({
           ...updatePermissionDto,
+          subject: existedSubject,
         });
 
         await this.permissionsRepository.update(
