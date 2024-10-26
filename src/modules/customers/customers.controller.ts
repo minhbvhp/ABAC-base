@@ -11,6 +11,7 @@ import {
   ForbiddenException,
   UseGuards,
   Query,
+  ConflictException,
 } from '@nestjs/common';
 import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
@@ -21,6 +22,7 @@ import {
   SUBJECTS,
 } from '../../utils/types/definitions';
 import {
+  CUSTOMER_ALREADY_EXISTED,
   CUSTOMER_NOT_FOUND,
   NOT_AUTHORIZED,
 } from '../../utils/constants/messageConstants';
@@ -40,8 +42,29 @@ export class CustomersController {
   ) {}
 
   @Post()
-  create(@Body() createCustomerDto: CreateCustomerDto) {
-    return this.customersService.create(createCustomerDto);
+  async createCustomer(
+    @Body() createCustomerDto: CreateCustomerDto,
+    @Req() request: RequestWithUser,
+  ) {
+    const { user } = request;
+    const result = await this.customersService.createCustomer(
+      createCustomerDto,
+      user.id,
+    );
+
+    if (!result) {
+      throw new ConflictException(CUSTOMER_ALREADY_EXISTED, {
+        cause: new Error('Create customer service return null'),
+        description: 'Conflict',
+      });
+    }
+
+    const res: CustomResponseType = {
+      message: 'Đã tạo khách hàng mới',
+      result,
+    };
+
+    return res;
   }
 
   @UseGuards(PermissionsGuard)

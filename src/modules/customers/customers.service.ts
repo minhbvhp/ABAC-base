@@ -4,6 +4,7 @@ import { UpdateCustomerDto } from './dto/update-customer.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import Customer from './entities/customer.entity';
+import { isUUID } from 'class-validator';
 
 @Injectable()
 export class CustomersService {
@@ -12,8 +13,33 @@ export class CustomersService {
     private customersRepository: Repository<Customer>,
   ) {}
 
-  create(createCustomerDto: CreateCustomerDto) {
-    return 'This action adds a new customer';
+  async createCustomer(createCustomerDto: CreateCustomerDto, userId: string) {
+    try {
+      if (!isUUID(userId)) {
+        return null;
+      }
+
+      const existedCustomer = await this.customersRepository.findOne({
+        where: {
+          taxCode: createCustomerDto.taxCode,
+        },
+      });
+
+      if (!existedCustomer) {
+        const newCustomer = await this.customersRepository.create({
+          ...createCustomerDto,
+          userId: userId,
+        });
+
+        await this.customersRepository.insert(newCustomer);
+
+        return newCustomer;
+      }
+    } catch (error) {
+      throw error;
+    }
+
+    return null;
   }
 
   async getAllCustomers(
