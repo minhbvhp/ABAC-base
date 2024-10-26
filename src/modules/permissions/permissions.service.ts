@@ -39,6 +39,7 @@ export class PermissionsService {
       if (!existedPermission) {
         const newPermission = await this.permissionsRepository.create({
           ...createPermissionDto,
+          subject: existedSubject,
         });
 
         await this.permissionsRepository.insert(newPermission);
