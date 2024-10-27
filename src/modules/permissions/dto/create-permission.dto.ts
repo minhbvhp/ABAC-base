@@ -1,4 +1,10 @@
-import { IsEnum, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import {
+  IsBoolean,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+} from 'class-validator';
 import { ACTIONS } from '../../../utils/types/definitions';
 import {
   ACTION_MUST_NOT_EMPTY,
@@ -21,4 +27,8 @@ export class CreatePermissionDto {
 
   @IsOptional()
   condition?: Record<string, any>;
+
+  @IsBoolean({})
+  @IsNotEmpty({ message: SUBJECT_MUST_NOT_EMPTY })
+  inverted: boolean;
 }

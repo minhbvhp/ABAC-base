@@ -30,6 +30,9 @@ class Permission {
   @Column({ type: 'json', nullable: true })
   condition?: Record<string, any>;
 
+  @Column({ type: 'boolean', default: false })
+  inverted: boolean;
+
   @ManyToMany(() => Role, (role) => role.permissions, {
     onDelete: 'CASCADE',
   })

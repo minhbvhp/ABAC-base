@@ -28,14 +28,19 @@ export class CaslAbilityFactory {
     const permissions = await this.usersService.getPermissionsById(user.id);
 
     permissions.forEach((permission) => {
-      const { action, subject, condition } = permission;
+      const { action, subject, condition, inverted } = permission;
 
       if (subject) {
         if (condition) {
           const dynamicCondition = Permission.parseCondition(condition, user);
-          can(action as ACTIONS, subject.name, dynamicCondition);
+
+          inverted === true
+            ? cannot(action as ACTIONS, subject.name, dynamicCondition)
+            : can(action as ACTIONS, subject.name, dynamicCondition);
         } else {
-          can(action as ACTIONS, subject.name);
+          inverted === true
+            ? cannot(action as ACTIONS, subject.name)
+            : can(action as ACTIONS, subject.name);
         }
       }
     });
