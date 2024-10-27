@@ -9,6 +9,7 @@ import {
   userSubjectStub,
 } from './stubs/subject.stub';
 import { SUBJECTS } from '../../../utils/types/definitions';
+import { ConflictException } from '@nestjs/common';
 
 const mockSubjectRepository = {
   findOne: jest.fn().mockResolvedValue(customerSubjectStub()),
@@ -145,7 +146,10 @@ describe('SubjectsService', () => {
   describe('updateSubject', () => {
     it('should return null if subject not existed', async () => {
       //arrange
-      jest.spyOn(mockSubjectRepository, 'findOne').mockResolvedValueOnce(null);
+      jest
+        .spyOn(mockSubjectRepository, 'findOne')
+        .mockResolvedValueOnce(null)
+        .mockResolvedValueOnce(null);
 
       //act
       const result = await subjectsService.updateSubject(
@@ -157,8 +161,28 @@ describe('SubjectsService', () => {
       expect(result).toEqual(null);
     });
 
+    it('should throw error if has conflict subject', async () => {
+      //arrange
+      jest
+        .spyOn(mockSubjectRepository, 'findOne')
+        .mockResolvedValueOnce(customerSubjectStub())
+        .mockResolvedValueOnce(userSubjectStub());
+
+      //act && arrange
+      await expect(
+        subjectsService.updateSubject(customerSubjectStub().id, {
+          name: SUBJECTS.USER,
+        }),
+      ).rejects.toThrow(ConflictException);
+    });
+
     it('should return subject if subject existed', async () => {
       //arrange
+      jest
+        .spyOn(mockSubjectRepository, 'findOne')
+        .mockResolvedValueOnce(customerSubjectStub())
+        .mockResolvedValueOnce(null);
+
       jest
         .spyOn(mockSubjectRepository, 'create')
         .mockResolvedValueOnce(updatedCustomerSubjectStub());

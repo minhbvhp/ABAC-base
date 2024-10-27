@@ -25,9 +25,9 @@ import { RolesGuard } from '../auth/guards/roles.guard';
 import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { CustomResponseType, ROLES } from '../../utils/types/definitions';
 
-// @Roles(ROLES.ADMIN)
-// @UseGuards(RolesGuard)
-// @UseGuards(JwtAccessTokenGuard)
+@Roles(ROLES.ADMIN)
+@UseGuards(RolesGuard)
+@UseGuards(JwtAccessTokenGuard)
 @ApiTags('users')
 @Controller('users')
 export class UsersController {

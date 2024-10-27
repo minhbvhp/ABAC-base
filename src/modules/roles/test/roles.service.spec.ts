@@ -3,8 +3,19 @@ import { RolesService } from '../roles.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import Role from '../entities/role.entity';
 import { ROLES } from '../../../utils/types/definitions';
+import Permission from '../../permissions/entities/permission.entity';
 
 const mockRoleRepository = {
+  findOne: jest.fn(),
+  create: jest.fn(),
+  insert: jest.fn(),
+  find: jest.fn(),
+  update: jest.fn(),
+  remove: jest.fn(),
+  findAndCount: jest.fn(),
+};
+
+const mockPermissionRepository = {
   findOne: jest.fn(),
   create: jest.fn(),
   insert: jest.fn(),
@@ -24,6 +35,10 @@ describe('RolesService', () => {
         {
           provide: getRepositoryToken(Role),
           useValue: mockRoleRepository,
+        },
+        {
+          provide: getRepositoryToken(Permission),
+          useValue: mockPermissionRepository,
         },
       ],
     }).compile();
