@@ -3,8 +3,8 @@ import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import Subject from './entities/subject.entity';
-import { Not, Repository } from 'typeorm';
-import { SUBJECTS } from '../../utils/types/definitions';
+import { QueryFailedError, Repository } from 'typeorm';
+import { SUBJECTS, UNIQUE_VIOLATION_CODE } from '../../utils/types/definitions';
 import { SUBJECT_ALREADY_EXISTED } from '../../utils/constants/messageConstants';
 
 @Injectable()
@@ -81,17 +81,6 @@ export class SubjectsService {
     updateSubjectDto: UpdateSubjectDto,
   ): Promise<Subject> {
     try {
-      const conflictSubject = await this.subjectsRepository.findOne({
-        where: {
-          id: Not(id),
-          name: updateSubjectDto.name,
-        },
-      });
-
-      if (conflictSubject) {
-        throw new ConflictException(SUBJECT_ALREADY_EXISTED);
-      }
-
       const existedSubject = await this.subjectsRepository.findOne({
         where: {
           id: id,
@@ -108,6 +97,12 @@ export class SubjectsService {
         return updatedSubject;
       }
     } catch (error) {
+      if (error instanceof QueryFailedError) {
+        if (error.driverError?.code === UNIQUE_VIOLATION_CODE) {
+          throw new ConflictException(SUBJECT_ALREADY_EXISTED);
+        }
+      }
+
       throw error;
     }
 

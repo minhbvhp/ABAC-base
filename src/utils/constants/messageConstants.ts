@@ -31,6 +31,7 @@ export const REFRESH_TOKEN_EXPIRES: string =
 
 export const NOT_AUTHORIZED: string = 'Người dùng không có quyền này';
 export const ROLE_NOT_FOUND: string = 'Vai trò không tồn tại';
+export const ROLE_ALREADY_EXISTED: string = 'Vai trò đã tồn tại';
 
 /**********
  * @USER  *

@@ -1,15 +1,20 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import Role from '../roles/entities/role.entity';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 import { CreateRoleDto } from './dto/create-role.dto';
 import {
   HAS_ONE_PERMISSION_NOT_FOUND,
+  ROLE_ALREADY_EXISTED,
   ROLE_NOT_FOUND,
 } from '../../utils/constants/messageConstants';
 import Permission from '../permissions/entities/permission.entity';
 import { UpdateRoleDto } from './dto/update-role.dto';
-// import { UpdateRoleDto } from './dto/update-role.dto';
+import { UNIQUE_VIOLATION_CODE } from '../../utils/types/definitions';
 
 @Injectable()
 export class RolesService {
@@ -75,17 +80,6 @@ export class RolesService {
         },
       });
 
-      const conflictSubject = await this.subjectsRepository.findOne({
-        where: {
-          id: Not(id),
-          name: updateSubjectDto.name,
-        },
-      });
-
-      if (conflictSubject) {
-        throw new ConflictException(SUBJECT_ALREADY_EXISTED);
-      }
-
       if (existedRole) {
         const updatedRole = await this.rolesRepository.create({
           ...updateRoleDto,
@@ -96,6 +90,12 @@ export class RolesService {
         return updatedRole;
       }
     } catch (error) {
+      if (error instanceof QueryFailedError) {
+        if (error.driverError?.code === UNIQUE_VIOLATION_CODE) {
+          throw new ConflictException(ROLE_ALREADY_EXISTED);
+        }
+      }
+
       throw error;
     }
 

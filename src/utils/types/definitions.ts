@@ -21,3 +21,5 @@ export enum ACTIONS {
   UPDATE = 'update',
   DELETE = 'delete',
 }
+
+export const UNIQUE_VIOLATION_CODE = '23505';

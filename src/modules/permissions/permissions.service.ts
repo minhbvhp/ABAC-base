@@ -7,12 +7,13 @@ import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import Permission from './entities/permission.entity';
-import { Not, Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 import {
   PERMISSION_ALREADY_EXISTED,
   SUBJECT_NOT_FOUND,
 } from '../../utils/constants/messageConstants';
 import { SubjectsService } from '../subjects/subjects.service';
+import { UNIQUE_VIOLATION_CODE } from '../../utils/types/definitions';
 
 @Injectable()
 export class PermissionsService {
@@ -102,19 +103,6 @@ export class PermissionsService {
         });
       }
 
-      const conflictPermission = await this.permissionsRepository.findOne({
-        where: {
-          id: Not(id),
-          action: updatePermissionDto.action,
-          subject: existedSubject,
-          inverted: updatePermissionDto.inverted,
-        },
-      });
-
-      if (conflictPermission) {
-        throw new ConflictException(PERMISSION_ALREADY_EXISTED);
-      }
-
       const existedPermission = await this.permissionsRepository.findOne({
         where: {
           id: id,
@@ -135,6 +123,12 @@ export class PermissionsService {
         return updatedPermission;
       }
     } catch (error) {
+      if (error instanceof QueryFailedError) {
+        if (error.driverError?.code === UNIQUE_VIOLATION_CODE) {
+          throw new ConflictException(PERMISSION_ALREADY_EXISTED);
+        }
+      }
+
       throw error;
     }
 
