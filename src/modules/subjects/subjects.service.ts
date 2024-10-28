@@ -81,12 +81,6 @@ export class SubjectsService {
     updateSubjectDto: UpdateSubjectDto,
   ): Promise<Subject> {
     try {
-      const existedSubject = await this.subjectsRepository.findOne({
-        where: {
-          id: id,
-        },
-      });
-
       const conflictSubject = await this.subjectsRepository.findOne({
         where: {
           id: Not(id),
@@ -97,6 +91,12 @@ export class SubjectsService {
       if (conflictSubject) {
         throw new ConflictException(SUBJECT_ALREADY_EXISTED);
       }
+
+      const existedSubject = await this.subjectsRepository.findOne({
+        where: {
+          id: id,
+        },
+      });
 
       if (existedSubject) {
         const updatedSubject = await this.subjectsRepository.create({

@@ -1,10 +1,17 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import Permission from './entities/permission.entity';
-import { Repository } from 'typeorm';
-import { SUBJECT_NOT_FOUND } from '../../utils/constants/messageConstants';
+import { Not, Repository } from 'typeorm';
+import {
+  PERMISSION_ALREADY_EXISTED,
+  SUBJECT_NOT_FOUND,
+} from '../../utils/constants/messageConstants';
 import { SubjectsService } from '../subjects/subjects.service';
 
 @Injectable()
@@ -93,6 +100,19 @@ export class PermissionsService {
           cause: new Error('Update permission service not found subject'),
           description: 'Not found',
         });
+      }
+
+      const conflictPermission = await this.permissionsRepository.findOne({
+        where: {
+          id: Not(id),
+          action: updatePermissionDto.action,
+          subject: existedSubject,
+          inverted: updatePermissionDto.inverted,
+        },
+      });
+
+      if (conflictPermission) {
+        throw new ConflictException(PERMISSION_ALREADY_EXISTED);
       }
 
       const existedPermission = await this.permissionsRepository.findOne({

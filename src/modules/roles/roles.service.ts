@@ -8,6 +8,7 @@ import {
   ROLE_NOT_FOUND,
 } from '../../utils/constants/messageConstants';
 import Permission from '../permissions/entities/permission.entity';
+import { UpdateRoleDto } from './dto/update-role.dto';
 // import { UpdateRoleDto } from './dto/update-role.dto';
 
 @Injectable()
@@ -59,6 +60,61 @@ export class RolesService {
           id: id,
         },
       });
+
+      return existedRole;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async updateRole(id: number, updateRoleDto: UpdateRoleDto): Promise<Role> {
+    try {
+      const existedRole = await this.rolesRepository.findOne({
+        where: {
+          id: id,
+        },
+      });
+
+      const conflictSubject = await this.subjectsRepository.findOne({
+        where: {
+          id: Not(id),
+          name: updateSubjectDto.name,
+        },
+      });
+
+      if (conflictSubject) {
+        throw new ConflictException(SUBJECT_ALREADY_EXISTED);
+      }
+
+      if (existedRole) {
+        const updatedRole = await this.rolesRepository.create({
+          ...updateRoleDto,
+        });
+
+        await this.rolesRepository.update(existedRole.id, updatedRole);
+
+        return updatedRole;
+      }
+    } catch (error) {
+      throw error;
+    }
+
+    return null;
+  }
+
+  async deleteRolePermanently(id: number) {
+    try {
+      const existedRole = await this.rolesRepository.findOne({
+        where: {
+          id: id,
+        },
+      });
+
+      if (!existedRole) {
+        return null;
+      }
+
+      await this.rolesRepository.remove(existedRole);
 
       return existedRole;
     } catch (error) {
@@ -122,11 +178,4 @@ export class RolesService {
 
     return false;
   }
-
-  // update(id: number, updateRoleDto: UpdateRoleDto) {
-  //   return `This action updates a #${id} role`;
-  // }
-  // remove(id: number) {
-  //   return `This action removes a #${id} role`;
-  // }
 }

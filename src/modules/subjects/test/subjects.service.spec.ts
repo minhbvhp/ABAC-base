@@ -165,7 +165,6 @@ describe('SubjectsService', () => {
       //arrange
       jest
         .spyOn(mockSubjectRepository, 'findOne')
-        .mockResolvedValueOnce(customerSubjectStub())
         .mockResolvedValueOnce(userSubjectStub());
 
       //act && arrange
@@ -176,12 +175,12 @@ describe('SubjectsService', () => {
       ).rejects.toThrow(ConflictException);
     });
 
-    it('should return subject if subject existed', async () => {
+    it('should return updated subject if subject existed', async () => {
       //arrange
       jest
         .spyOn(mockSubjectRepository, 'findOne')
-        .mockResolvedValueOnce(customerSubjectStub())
-        .mockResolvedValueOnce(null);
+        .mockResolvedValueOnce(null)
+        .mockResolvedValueOnce(customerSubjectStub());
 
       jest
         .spyOn(mockSubjectRepository, 'create')

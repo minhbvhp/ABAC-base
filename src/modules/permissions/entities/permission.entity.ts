@@ -11,7 +11,7 @@ import Role from '../../roles/entities/role.entity';
 import Subject from '../../subjects/entities/subject.entity';
 import { ACTIONS } from '../../../utils/types/definitions';
 
-@Unique('action_subject_UNIQUE', ['action', 'subject.id'])
+@Unique('action_subject_UNIQUE', ['action', 'subject.id', 'inverted'])
 @Entity()
 class Permission {
   @PrimaryGeneratedColumn()
