@@ -12,7 +12,7 @@ export const canReadCustomerPermissionStub = (): Permission =>
 
 export const conflictPermissionStub = (): Permission =>
   ({
-    id: 2,
+    id: 1,
     action: ACTIONS.READ,
     subject: customerSubjectStub(),
     condition: { zone: '${id}' },

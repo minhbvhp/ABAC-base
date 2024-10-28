@@ -7,6 +7,12 @@ export const customerSubjectStub = (): Subject =>
     name: SUBJECTS.CUSTOMER,
   }) as unknown as Subject;
 
+export const conflictSubjectStub = (): Subject =>
+  ({
+    id: 1,
+    name: SUBJECTS.USER,
+  }) as unknown as Subject;
+
 export const updatedCustomerSubjectStub = (): Subject =>
   ({
     id: 1,

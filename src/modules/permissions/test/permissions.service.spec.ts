@@ -9,10 +9,7 @@ import {
   canReadCustomerPermissionStub,
   conflictPermissionStub,
 } from './stubs/permission.stub';
-import { CreatePermissionDto } from '../dto/create-permission.dto';
-import { ACTIONS } from '../../../utils/types/definitions';
 import { ConflictException, NotFoundException } from '@nestjs/common';
-import { customerSubjectStub } from '../../subjects/test/stubs/subject.stub';
 import {
   createPermissionDto,
   updatePermissionDto,
@@ -145,26 +142,10 @@ describe('PermissionsService', () => {
       ).rejects.toThrow(NotFoundException);
     });
 
-    it('should throw error if has conflict permission', async () => {
-      //arrange
-      jest
-        .spyOn(mockPermissionRepository, 'findOne')
-        .mockResolvedValueOnce(conflictPermissionStub());
-
-      //act && arrange
-      await expect(
-        permissionsService.updatePermission(
-          canReadCustomerPermissionStub().id,
-          updatePermissionDto,
-        ),
-      ).rejects.toThrow(ConflictException);
-    });
-
     it('should return null if permission not existed', async () => {
       //arrange
       jest
         .spyOn(mockPermissionRepository, 'findOne')
-        .mockResolvedValueOnce(null)
         .mockResolvedValueOnce(null);
 
       //act
@@ -177,11 +158,29 @@ describe('PermissionsService', () => {
       expect(result).toEqual(null);
     });
 
+    it('should throw error if has conflict permission', async () => {
+      //arrange
+      jest
+        .spyOn(mockPermissionRepository, 'create')
+        .mockResolvedValueOnce(conflictPermissionStub());
+
+      jest
+        .spyOn(mockPermissionRepository, 'update')
+        .mockRejectedValueOnce(new ConflictException());
+
+      //act && arrange
+      await expect(
+        permissionsService.updatePermission(
+          canReadCustomerPermissionStub().id,
+          updatePermissionDto,
+        ),
+      ).rejects.toThrow(ConflictException);
+    });
+
     it('should update permission and return it', async () => {
       //arrange
       jest
         .spyOn(mockPermissionRepository, 'findOne')
-        .mockResolvedValueOnce(null)
         .mockResolvedValueOnce(canReadCustomerPermissionStub());
 
       jest

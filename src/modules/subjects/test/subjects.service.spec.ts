@@ -4,6 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import Subject from '../entities/subject.entity';
 import {
   allSubjectsStub,
+  conflictSubjectStub,
   customerSubjectStub,
   updatedCustomerSubjectStub,
   userSubjectStub,
@@ -146,10 +147,7 @@ describe('SubjectsService', () => {
   describe('updateSubject', () => {
     it('should return null if subject not existed', async () => {
       //arrange
-      jest
-        .spyOn(mockSubjectRepository, 'findOne')
-        .mockResolvedValueOnce(null)
-        .mockResolvedValueOnce(null);
+      jest.spyOn(mockSubjectRepository, 'findOne').mockResolvedValueOnce(null);
 
       //act
       const result = await subjectsService.updateSubject(
@@ -164,8 +162,8 @@ describe('SubjectsService', () => {
     it('should throw error if has conflict subject', async () => {
       //arrange
       jest
-        .spyOn(mockSubjectRepository, 'findOne')
-        .mockResolvedValueOnce(userSubjectStub());
+        .spyOn(mockSubjectRepository, 'update')
+        .mockRejectedValueOnce(new ConflictException());
 
       //act && arrange
       await expect(
@@ -179,7 +177,6 @@ describe('SubjectsService', () => {
       //arrange
       jest
         .spyOn(mockSubjectRepository, 'findOne')
-        .mockResolvedValueOnce(null)
         .mockResolvedValueOnce(customerSubjectStub());
 
       jest
