@@ -3,18 +3,40 @@ import { PermissionsService } from '../permissions.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import Permission from '../entities/permission.entity';
 import { SubjectsService } from '../../subjects/subjects.service';
-import { canReadCustomerStub } from './stubs/permission.stub';
+import {
+  allPermissionStub,
+  canCreateCustomerPermissionStub,
+  canReadCustomerPermissionStub,
+} from './stubs/permission.stub';
+import { CreatePermissionDto } from '../dto/create-permission.dto';
+import { ACTIONS } from '../../../utils/types/definitions';
+import { NotFoundException } from '@nestjs/common';
+import { customerSubjectStub } from '../../subjects/test/stubs/subject.stub';
 
 jest.mock('../../subjects/subjects.service');
 
 const mockPermissionRepository = {
-  findOne: jest.fn().mockResolvedValue(canReadCustomerStub()),
-  create: jest.fn(),
+  findOne: jest.fn().mockResolvedValue(canReadCustomerPermissionStub()),
+  create: jest.fn().mockResolvedValue(canReadCustomerPermissionStub()),
   insert: jest.fn(),
-  find: jest.fn(),
-  update: jest.fn(),
+  find: jest.fn().mockResolvedValue(allPermissionStub()),
+  update: jest.fn().mockResolvedValue(canCreateCustomerPermissionStub()),
   remove: jest.fn(),
   findAndCount: jest.fn(),
+};
+
+const createPermissionDto: CreatePermissionDto = {
+  action: ACTIONS.READ,
+  subjectId: 1,
+  condition: { userId: '${id}' },
+  inverted: true,
+};
+
+const updatePermissionDto: CreatePermissionDto = {
+  action: ACTIONS.CREATE,
+  subjectId: 1,
+  condition: { userId: '${id}' },
+  inverted: true,
 };
 
 describe('PermissionsService', () => {
@@ -42,6 +64,151 @@ describe('PermissionsService', () => {
   });
 
   describe('createPermission', () => {
-    it('should throw NotFoundException if subject not existed', async () => {});
+    it('should throw NotFoundException if subject not existed', async () => {
+      //arrange
+      jest.spyOn(subjectsService, 'getSubjectById').mockResolvedValueOnce(null);
+
+      //act && assert
+      await expect(
+        permissionsService.createPermission(createPermissionDto),
+      ).rejects.toThrow(NotFoundException);
+    });
+
+    it('should return null if permission existed', async () => {
+      //arrange
+
+      //act
+      const result =
+        await permissionsService.createPermission(createPermissionDto);
+
+      //assert
+      expect(result).toEqual(null);
+    });
+
+    it('should create permission and return it', async () => {
+      //arrange
+      jest
+        .spyOn(mockPermissionRepository, 'findOne')
+        .mockResolvedValueOnce(null);
+
+      //act
+      const result =
+        await permissionsService.createPermission(createPermissionDto);
+
+      //assert
+      expect(result).toEqual(canReadCustomerPermissionStub());
+    });
+  });
+
+  describe('getAllPermissions', () => {
+    it('should return all permissions', async () => {
+      //arrange
+
+      //act
+      const result = await permissionsService.getAllPermissions();
+
+      //assert
+      expect(result).toEqual(allPermissionStub());
+    });
+  });
+
+  describe('getPermissionById', () => {
+    it('should return null if permission not existed', async () => {
+      //arrange
+      jest
+        .spyOn(mockPermissionRepository, 'findOne')
+        .mockResolvedValueOnce(null);
+
+      //act
+      const result = await permissionsService.getPermissionById(123);
+
+      //assert
+      expect(result).toEqual(null);
+    });
+
+    it('should return existed permission', async () => {
+      //arrange
+
+      //act
+      const result = await permissionsService.getPermissionById(
+        canReadCustomerPermissionStub().id,
+      );
+
+      //assert
+      expect(result).toEqual(canReadCustomerPermissionStub());
+    });
+  });
+
+  describe('updatePermission', () => {
+    it('should throw NotFoundException if subject not existed', async () => {
+      //arrange
+      jest.spyOn(subjectsService, 'getSubjectById').mockResolvedValueOnce(null);
+
+      //act && assert
+      await expect(
+        permissionsService.updatePermission(1, updatePermissionDto),
+      ).rejects.toThrow(NotFoundException);
+    });
+
+    it('should return null if permission not existed', async () => {
+      //arrange
+      jest
+        .spyOn(mockPermissionRepository, 'findOne')
+        .mockResolvedValueOnce(null);
+
+      //act
+      const result = await permissionsService.updatePermission(
+        1,
+        updatePermissionDto,
+      );
+
+      //assert
+      expect(result).toEqual(null);
+    });
+
+    it('should update permission and return it', async () => {
+      //arrange
+      jest
+        .spyOn(subjectsService, 'getSubjectById')
+        .mockResolvedValueOnce(customerSubjectStub());
+
+      jest
+        .spyOn(mockPermissionRepository, 'create')
+        .mockResolvedValueOnce(canCreateCustomerPermissionStub());
+
+      //act
+      const result = await permissionsService.updatePermission(
+        1,
+        updatePermissionDto,
+      );
+
+      //assert
+      expect(result).toEqual(canCreateCustomerPermissionStub());
+    });
+  });
+
+  describe('deletePermissionPermanently', () => {
+    it('should return null if permission not existed', async () => {
+      //arrange
+      jest
+        .spyOn(mockPermissionRepository, 'findOne')
+        .mockResolvedValueOnce(null);
+
+      //act
+      const result = await permissionsService.deletePermissionPermanently(1);
+
+      //assert
+      expect(result).toEqual(null);
+    });
+
+    it('should delete permanently permission and return it', async () => {
+      //arrange
+
+      //act
+      const result = await permissionsService.deletePermissionPermanently(1);
+
+      //assert
+      expect(result).toEqual(canReadCustomerPermissionStub());
+    });
   });
 });

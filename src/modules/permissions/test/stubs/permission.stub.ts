@@ -2,7 +2,7 @@ import { ACTIONS } from '../../../../utils/types/definitions';
 import { customerSubjectStub } from '../../../subjects/test/stubs/subject.stub';
 import Permission from '../../entities/permission.entity';
 
-export const canReadCustomerStub = (): Permission =>
+export const canReadCustomerPermissionStub = (): Permission =>
   ({
     id: 1,
     action: ACTIONS.READ,
@@ -10,10 +10,15 @@ export const canReadCustomerStub = (): Permission =>
     condition: { userId: '${id}' },
   }) as unknown as Permission;
 
-export const canCreateCustomerStub = (): Permission =>
+export const canCreateCustomerPermissionStub = (): Permission =>
   ({
     id: 1,
     action: ACTIONS.CREATE,
     subject: customerSubjectStub(),
     condition: { userId: '${id}' },
   }) as unknown as Permission;
+
+export const allPermissionStub = (): Permission[] => [
+  canReadCustomerPermissionStub(),
+  canCreateCustomerPermissionStub(),
+];
