@@ -12,6 +12,10 @@ import { CreatePermissionDto } from '../dto/create-permission.dto';
 import { ACTIONS } from '../../../utils/types/definitions';
 import { NotFoundException } from '@nestjs/common';
 import { customerSubjectStub } from '../../subjects/test/stubs/subject.stub';
+import {
+  createPermissionDto,
+  updatePermissionDto,
+} from './dto/mock-permission.dto';
 
 jest.mock('../../subjects/subjects.service');
 
@@ -23,20 +27,6 @@ const mockPermissionRepository = {
   update: jest.fn().mockResolvedValue(canCreateCustomerPermissionStub()),
   remove: jest.fn(),
   findAndCount: jest.fn(),
-};
-
-const createPermissionDto: CreatePermissionDto = {
-  action: ACTIONS.READ,
-  subjectId: 1,
-  condition: { userId: '${id}' },
-  inverted: true,
-};
-
-const updatePermissionDto: CreatePermissionDto = {
-  action: ACTIONS.CREATE,
-  subjectId: 1,
-  condition: { userId: '${id}' },
-  inverted: true,
 };
 
 describe('PermissionsService', () => {
@@ -57,6 +47,10 @@ describe('PermissionsService', () => {
 
     permissionsService = module.get<PermissionsService>(PermissionsService);
     subjectsService = module.get<SubjectsService>(SubjectsService);
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {

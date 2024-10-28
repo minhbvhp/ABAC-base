@@ -6,34 +6,13 @@ import {
   allUserStub,
   createUserStub,
 } from './stubs/user.stub';
-import { CreateUserDto } from '../dto/create-user.dto';
 import { ConflictException, NotFoundException } from '@nestjs/common';
-import { UpdateUserDto } from '../dto/update-user.dto';
 import { isGuarded } from '../../../shared/test/utils';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { JwtAccessTokenGuard } from '../../auth/guards/jwt-access-token.guard';
+import { createUserDto, updateUserDto } from './dto/mock-user.dto';
 
 jest.mock('../users.service');
-
-const createUserDto = {
-  email: 'Test1@gmail.com',
-  password: 'Test1@gmail.com',
-  name: 'Test1@gmail.com',
-  genderId: 1,
-  phoneNumber: '0123456789',
-  address: '24 Điện Biên Phủ',
-  roleId: 1,
-  companyId: 2,
-} as CreateUserDto;
-
-const updateUserDto = {
-  name: 'TestUpdate',
-  genderId: 2,
-  phoneNumber: '55555',
-  address: 'Update address',
-  roleId: 3,
-  companyId: 1,
-} as UpdateUserDto;
 
 describe('UsersController', () => {
   let usersController: UsersController;

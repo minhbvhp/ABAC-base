@@ -15,6 +15,7 @@ import {
   salesRoleStub,
 } from '../../roles/test/stubs/role.stub';
 import { RolesService } from '../../roles/roles.service';
+import { createUserDto, updateUserDto } from './dto/mock-user.dto';
 
 jest.mock('../../roles/roles.service');
 
@@ -28,29 +29,9 @@ const mockUserRepository = {
   findAndCount: jest.fn(),
 };
 
-const createUserDto = {
-  email: 'Test1@gmail.com',
-  password: 'Test1@gmail.com',
-  name: 'Test1@gmail.com',
-  genderId: 1,
-  phoneNumber: '0123456789',
-  address: '24 Điện Biên Phủ',
-  roleId: 2,
-  companyId: 2,
-} as CreateUserDto;
-
 const notAvailableId = '123abc';
 
 const notExistId = '76131254-32ff-413b-9f94-59e6e590961f';
-
-const updateUserDto = {
-  name: 'TestUpdate',
-  genderId: 2,
-  phoneNumber: '55555',
-  address: 'Update address',
-  roleId: 3,
-  companyId: 1,
-} as UpdateUserDto;
 
 describe('UsersService', () => {
   let usersService: UsersService;

@@ -8,16 +8,23 @@ import {
   Delete,
   ConflictException,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
 import { PermissionsService } from './permissions.service';
 import { CreatePermissionDto } from './dto/create-permission.dto';
 import { UpdatePermissionDto } from './dto/update-permission.dto';
-import { CustomResponseType } from '../../utils/types/definitions';
+import { CustomResponseType, ROLES } from '../../utils/types/definitions';
 import {
   PERMISSION_ALREADY_EXISTED,
   PERMISSION_NOT_FOUND,
 } from '../../utils/constants/messageConstants';
+import { Roles } from '../../decorators/roles.decorator';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { JwtAccessTokenGuard } from '../auth/guards/jwt-access-token.guard';
 
+@Roles(ROLES.ADMIN)
+@UseGuards(RolesGuard)
+@UseGuards(JwtAccessTokenGuard)
 @Controller('permissions')
 export class PermissionsController {
   constructor(private readonly permissionsService: PermissionsService) {}
