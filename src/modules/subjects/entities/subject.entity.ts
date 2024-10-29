@@ -7,7 +7,7 @@ class Subject {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true, enum: SUBJECTS })
+  @Column({ unique: true, enum: SUBJECTS, type: 'enum' })
   name: SUBJECTS;
 
   @OneToMany(() => Permission, (permission) => permission.subject)

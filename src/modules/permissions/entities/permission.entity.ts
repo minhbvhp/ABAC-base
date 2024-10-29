@@ -11,7 +11,7 @@ import Role from '../../roles/entities/role.entity';
 import Subject from '../../subjects/entities/subject.entity';
 import { ACTIONS } from '../../../utils/types/definitions';
 
-@Unique('action_subject_UNIQUE', ['action', 'subject.id', 'inverted'])
+@Unique('action_subject_UNIQUE', ['action', 'subject.id', 'condition'])
 @Entity()
 class Permission {
   @PrimaryGeneratedColumn()
@@ -27,7 +27,7 @@ class Permission {
   @JoinColumn({ name: 'subject_id' })
   subject: Subject;
 
-  @Column({ type: 'json', nullable: true })
+  @Column({ type: 'jsonb', nullable: true })
   condition?: Record<string, any>;
 
   @Column({ type: 'boolean', default: false })
