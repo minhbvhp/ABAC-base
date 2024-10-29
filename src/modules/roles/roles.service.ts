@@ -66,6 +66,10 @@ export class RolesService {
         },
       });
 
+      if (!existedRole) {
+        return null;
+      }
+
       return existedRole;
     } catch (error) {
       throw error;
@@ -162,6 +166,8 @@ export class RolesService {
       existedRole.permissions = permissions;
 
       await this.rolesRepository.save(existedRole);
+
+      return 'Đã gán quyền';
     } catch (error) {
       throw error;
     }

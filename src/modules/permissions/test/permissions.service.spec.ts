@@ -161,10 +161,6 @@ describe('PermissionsService', () => {
     it('should throw error if has conflict permission', async () => {
       //arrange
       jest
-        .spyOn(mockPermissionRepository, 'create')
-        .mockResolvedValueOnce(conflictPermissionStub());
-
-      jest
         .spyOn(mockPermissionRepository, 'update')
         .mockRejectedValueOnce(new ConflictException());
 

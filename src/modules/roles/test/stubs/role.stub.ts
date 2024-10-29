@@ -15,6 +15,20 @@ export const salesRoleStub = (): Role =>
     description: 'Sales',
   }) as unknown as Role;
 
+export const conflictRoleStub = (): Role =>
+  ({
+    id: 4,
+    name: ROLES.ACCOUNTANT,
+    description: 'Accountant',
+  }) as unknown as Role;
+
+export const afterUpdatedRoleStub = (): Role =>
+  ({
+    id: 2,
+    name: 'Operator',
+    description: 'Operator',
+  }) as unknown as Role;
+
 export const accountantRoleStub = (): Role =>
   ({
     id: 3,
