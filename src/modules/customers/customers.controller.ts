@@ -32,8 +32,10 @@ import { JwtAccessTokenGuard } from '../auth/guards/jwt-access-token.guard';
 import { PermissionsGuard } from '../auth/guards/permissions.guard';
 import { CheckPermissions } from '../../decorators/permissions.decorator';
 import { PaginationDto } from '../pagination/pagination.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @UseGuards(JwtAccessTokenGuard)
+@ApiTags('customers')
 @Controller('customers')
 export class CustomersController {
   constructor(

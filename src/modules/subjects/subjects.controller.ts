@@ -21,10 +21,12 @@ import {
 import { Roles } from '../../decorators/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { JwtAccessTokenGuard } from '../auth/guards/jwt-access-token.guard';
+import { ApiTags } from '@nestjs/swagger';
 
 @Roles(ROLES.ADMIN)
 @UseGuards(RolesGuard)
 @UseGuards(JwtAccessTokenGuard)
+@ApiTags('subjects')
 @Controller('subjects')
 export class SubjectsController {
   constructor(private readonly subjectsService: SubjectsService) {}

@@ -67,5 +67,6 @@ export function configSwagger(app: INestApplication) {
   SwaggerModule.setup('api-docs', app, document, {
     swaggerOptions: { persistAuthorization: true },
     customJs: '/swagger-custom.js',
+    jsonDocumentUrl: 'api-docs/json',
   });
 }

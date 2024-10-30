@@ -22,10 +22,12 @@ import {
 } from '../../utils/constants/messageConstants';
 import { UpdateRoleDto } from './dto/update-role.dto';
 import { GrantPermissionsToRoleDto } from './dto/grant-permission-to-role.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Roles(ROLES.ADMIN)
 @UseGuards(RolesGuard)
 @UseGuards(JwtAccessTokenGuard)
+@ApiTags('roles')
 @Controller('roles')
 export class RolesController {
   constructor(private readonly rolesService: RolesService) {}
