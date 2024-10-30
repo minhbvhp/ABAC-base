@@ -2,7 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { RolesService } from '../roles.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import Role from '../entities/role.entity';
-import { ROLES } from '../../../utils/types/definitions';
 import {
   afterUpdatedRoleStub,
   allRolesStub,
