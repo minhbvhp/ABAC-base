@@ -108,7 +108,7 @@ export class RolesController {
     return res;
   }
 
-  @Post('grant-permission')
+  @Post('grant-permissions')
   async grantRole(
     @Body() roleRoles: { roleId: string; permissionIds: string[] },
   ): Promise<CustomResponseType> {
