@@ -4,41 +4,32 @@ API description
 
 ## /api/users
 
-```bash
 ### POST
 
-- Summary:
+#### Summary:
 
 Admin creates new user
 
 - Description:
 
-    * Only Admin can use this API
-
+  - Only Admin can use this API
 
 ### GET
 
-##### Summary:
+#### Summary:
 
 Admin get all users
 
-##### Description:
+#### Description:
 
     * Only Admin can use this API
 
-##### Parameters
+#### Parameters
 
 | Name    | Located in | Description | Required | Schema |
 | ------- | ---------- | ----------- | -------- | ------ |
 | current | query      |             | Yes      | number |
 | total   | query      |             | Yes      | number |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200  |             |
-```
 
 ### /api/users/{id}
 
