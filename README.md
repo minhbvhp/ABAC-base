@@ -1,6 +1,7 @@
 # Attribute-Based Access Control project
 
-## Attribute-Based Access Control API description
+```bash
+# API description
 
 ## Version: 1.0
 
@@ -398,3 +399,4 @@ Admin delete user permanently (\*USE WITH CAUTION)
 | Code | Description |
 | ---- | ----------- |
 | 200  |             |
+```
