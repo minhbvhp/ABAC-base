@@ -109,12 +109,12 @@ export class RolesController {
   }
 
   @Post('grant-permissions')
-  async grantPermission(
+  async grantPermissions(
     @Body() roleRoles: { roleId: string; permissionIds: string[] },
   ): Promise<CustomResponseType> {
     const _roleId = Number(roleRoles.roleId);
     const _permissionIds = roleRoles.permissionIds.map((id) => Number(id));
-    const result = await this.rolesService.grantPermission(
+    const result = await this.rolesService.grantPermissions(
       _roleId,
       _permissionIds,
     );

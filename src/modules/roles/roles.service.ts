@@ -126,7 +126,7 @@ export class RolesService {
     }
   }
 
-  async grantPermission(roleId: number, permissionIds: number[]) {
+  async grantPermissions(roleId: number, permissionIds: number[]) {
     try {
       const existedRole = await this.rolesRepository.findOne({
         where: {

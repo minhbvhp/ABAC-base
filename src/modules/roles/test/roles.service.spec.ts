@@ -190,7 +190,7 @@ describe('RolesService', () => {
 
       //act && assert
       await expect(
-        rolesService.grantPermission(salesRoleStub().id, [
+        rolesService.grantPermissions(salesRoleStub().id, [
           canReadCustomerPermissionStub().id,
           canCreateCustomerPermissionStub().id,
         ]),
@@ -205,7 +205,7 @@ describe('RolesService', () => {
 
       //act && assert
       await expect(
-        rolesService.grantPermission(salesRoleStub().id, [
+        rolesService.grantPermissions(salesRoleStub().id, [
           canReadCustomerPermissionStub().id,
           canCreateCustomerPermissionStub().id,
         ]),
@@ -216,7 +216,7 @@ describe('RolesService', () => {
       //arrange
 
       //act
-      const result = await rolesService.grantPermission(salesRoleStub().id, [
+      const result = await rolesService.grantPermissions(salesRoleStub().id, [
         canReadCustomerPermissionStub().id,
         canCreateCustomerPermissionStub().id,
       ]);
