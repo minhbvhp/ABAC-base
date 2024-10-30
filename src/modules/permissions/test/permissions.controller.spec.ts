@@ -10,7 +10,7 @@ import {
 } from './dto/mock-permission.dto';
 import { ConflictException, NotFoundException } from '@nestjs/common';
 import {
-  allPermissionStub,
+  allPermissionsStub,
   canCreateCustomerPermissionStub,
   canReadCustomerPermissionStub,
 } from './stubs/permission.stub';
@@ -87,7 +87,7 @@ describe('PermissionsController', () => {
       //expect
       expect(response).toEqual({
         message: 'Tìm tất cả quyền',
-        result: allPermissionStub(),
+        result: allPermissionsStub(),
       });
     });
   });

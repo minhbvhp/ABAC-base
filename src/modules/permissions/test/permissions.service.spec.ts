@@ -4,7 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import Permission from '../entities/permission.entity';
 import { SubjectsService } from '../../subjects/subjects.service';
 import {
-  allPermissionStub,
+  allPermissionsStub,
   canCreateCustomerPermissionStub,
   canReadCustomerPermissionStub,
   conflictPermissionStub,
@@ -21,7 +21,7 @@ const mockPermissionRepository = {
   findOne: jest.fn().mockResolvedValue(canReadCustomerPermissionStub()),
   create: jest.fn().mockResolvedValue(canReadCustomerPermissionStub()),
   insert: jest.fn(),
-  find: jest.fn().mockResolvedValue(allPermissionStub()),
+  find: jest.fn().mockResolvedValue(allPermissionsStub()),
   update: jest.fn().mockResolvedValue(canCreateCustomerPermissionStub()),
   remove: jest.fn(),
   findAndCount: jest.fn(),
@@ -100,7 +100,7 @@ describe('PermissionsService', () => {
       const result = await permissionsService.getAllPermissions();
 
       //assert
-      expect(result).toEqual(allPermissionStub());
+      expect(result).toEqual(allPermissionsStub());
     });
   });
 

@@ -1,5 +1,5 @@
 import {
-  allPermissionStub,
+  allPermissionsStub,
   canCreateCustomerPermissionStub,
   canReadCustomerPermissionStub,
 } from '../test/stubs/permission.stub';
@@ -9,7 +9,7 @@ export const PermissionsService = jest.fn().mockReturnValue({
     .fn()
     .mockResolvedValue(canReadCustomerPermissionStub()),
 
-  getAllPermissions: jest.fn().mockResolvedValue(allPermissionStub()),
+  getAllPermissions: jest.fn().mockResolvedValue(allPermissionsStub()),
 
   getPermissionById: jest
     .fn()

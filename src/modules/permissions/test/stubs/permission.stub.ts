@@ -26,7 +26,7 @@ export const canCreateCustomerPermissionStub = (): Permission =>
     condition: { userId: '${id}' },
   }) as unknown as Permission;
 
-export const allPermissionStub = (): Permission[] => [
+export const allPermissionsStub = (): Permission[] => [
   canReadCustomerPermissionStub(),
   canCreateCustomerPermissionStub(),
 ];
