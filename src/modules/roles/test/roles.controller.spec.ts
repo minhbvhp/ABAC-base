@@ -63,7 +63,7 @@ describe('RolesController', () => {
 
       //expect
       expect(response).toEqual({
-        message: 'Đã tạo quyền mới',
+        message: 'Đã tạo vai trò mới',
         result: salesRoleStub(),
       });
     });
@@ -78,7 +78,7 @@ describe('RolesController', () => {
 
       //expect
       expect(response).toEqual({
-        message: 'Tìm tất cả quyền',
+        message: 'Tìm tất cả vai trò',
         result: allRolesStub(),
       });
     });
@@ -111,7 +111,7 @@ describe('RolesController', () => {
       );
 
       expect(response).toStrictEqual({
-        message: 'Đã cập nhật thông tin quyền',
+        message: 'Đã cập nhật thông tin vai trò',
         result: afterUpdatedRoleStub(),
       });
     });
@@ -144,7 +144,7 @@ describe('RolesController', () => {
       );
 
       expect(response).toStrictEqual({
-        message: 'Đã xóa quyền',
+        message: 'Đã xóa vai trò',
         result: salesRoleStub(),
       });
     });
