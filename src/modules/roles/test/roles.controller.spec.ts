@@ -5,7 +5,11 @@ import { isGuarded } from '../../../shared/test/utils';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { JwtAccessTokenGuard } from '../../auth/guards/jwt-access-token.guard';
 import { ConflictException, NotFoundException } from '@nestjs/common';
-import { createSalesRoleDto, updateSalesRoleDto } from './dto/mock-role.dto';
+import {
+  createSalesRoleDto,
+  grantPermissionsToUserDto,
+  updateSalesRoleDto,
+} from './dto/mock-role.dto';
 import {
   afterUpdatedRoleStub,
   allRolesStub,
@@ -146,6 +150,35 @@ describe('RolesController', () => {
       expect(response).toStrictEqual({
         message: 'Đã xóa vai trò',
         result: salesRoleStub(),
+      });
+    });
+  });
+
+  describe('grantPermissions', () => {
+    it('should grant permissions to role and return response', async () => {
+      //arrange
+      const _roleId = Number(grantPermissionsToUserDto.roleId);
+      const _permissions_ids = grantPermissionsToUserDto.permissionIds.map(
+        (id) => Number(id),
+      );
+
+      //act
+      const response = await rolesController.grantPermissions(
+        grantPermissionsToUserDto,
+      );
+
+      //act && assert
+      expect(rolesService.grantPermissions).toHaveBeenCalledWith(
+        _roleId,
+        _permissions_ids,
+      );
+
+      expect(response).toStrictEqual({
+        message: 'Đã thiết lập các quyền cho vai trò',
+        result: {
+          role_id: _roleId,
+          permission_ids: _permissions_ids,
+        },
       });
     });
   });

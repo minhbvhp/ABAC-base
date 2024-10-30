@@ -167,7 +167,7 @@ export class RolesService {
 
       await this.rolesRepository.save(existedRole);
 
-      return 'Đã gán quyền';
+      return { role_id: roleId, permission_ids: permissionIds };
     } catch (error) {
       throw error;
     }

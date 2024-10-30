@@ -13,14 +13,14 @@ export const canReadCustomerPermissionStub = (): Permission =>
 export const conflictPermissionStub = (): Permission =>
   ({
     id: 1,
-    action: ACTIONS.READ,
+    action: ACTIONS.CREATE,
     subject: customerSubjectStub(),
     condition: { zone: '${id}' },
   }) as unknown as Permission;
 
 export const canCreateCustomerPermissionStub = (): Permission =>
   ({
-    id: 1,
+    id: 2,
     action: ACTIONS.CREATE,
     subject: customerSubjectStub(),
     condition: { userId: '${id}' },

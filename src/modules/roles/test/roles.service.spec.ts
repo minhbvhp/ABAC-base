@@ -222,7 +222,7 @@ describe('RolesService', () => {
       ]);
 
       //assert
-      expect(result).toEqual('Đã gán quyền');
+      expect(result).toEqual({ role_id: 2, permission_ids: [1, 2] });
     });
   });
 });

@@ -21,6 +21,7 @@ import {
   ROLE_NOT_FOUND,
 } from '../../utils/constants/messageConstants';
 import { UpdateRoleDto } from './dto/update-role.dto';
+import { GrantPermissionsToRoleDto } from './dto/grant-permission-to-role.dto';
 
 @Roles(ROLES.ADMIN)
 @UseGuards(RolesGuard)
@@ -110,10 +111,12 @@ export class RolesController {
 
   @Post('grant-permissions')
   async grantPermissions(
-    @Body() roleRoles: { roleId: string; permissionIds: string[] },
+    @Body() rolePermissions: GrantPermissionsToRoleDto,
   ): Promise<CustomResponseType> {
-    const _roleId = Number(roleRoles.roleId);
-    const _permissionIds = roleRoles.permissionIds.map((id) => Number(id));
+    const _roleId = Number(rolePermissions.roleId);
+    const _permissionIds = rolePermissions.permissionIds.map((id) =>
+      Number(id),
+    );
     const result = await this.rolesService.grantPermissions(
       _roleId,
       _permissionIds,

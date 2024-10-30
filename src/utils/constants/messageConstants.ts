@@ -65,6 +65,8 @@ export const ACTION_MUST_NOT_EMPTY: string =
 export const ACTION_NOT_FOUND: string = 'Quyền thao tác không tồn tại';
 export const ACTION_ALREADY_EXISTED: string = 'Quyền thao tác đã tồn tại';
 export const SUBJECT_ID_MUST_NUMBER: string = 'Đối tượng không đúng định dạng';
+export const PERMISSION_MUST_NOT_EMPTY: string =
+  'Quyền hạn không đúng định dạng';
 export const PERMISSION_NOT_FOUND: string = 'Quyền hạn này không tồn tại';
 export const PERMISSION_ALREADY_EXISTED: string = 'Quyền hạn này đã tồn tại';
 export const HAS_ONE_PERMISSION_NOT_FOUND: string =
