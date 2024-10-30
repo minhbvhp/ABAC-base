@@ -109,7 +109,7 @@ export class RolesController {
   }
 
   @Post('grant-permissions')
-  async grantRole(
+  async grantPermission(
     @Body() roleRoles: { roleId: string; permissionIds: string[] },
   ): Promise<CustomResponseType> {
     const _roleId = Number(roleRoles.roleId);
