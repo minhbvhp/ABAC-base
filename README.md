@@ -1,22 +1,22 @@
 # Attribute-Based Access Control project
 
-## API description
+API description
 
-/api/users
-
-## POST
+## /api/users
 
 ```bash
-### Summary:
+### POST
+
+- Summary:
 
 Admin creates new user
 
-### Description:
+- Description:
 
     * Only Admin can use this API
-```
 
-#### GET
+
+### GET
 
 ##### Summary:
 
@@ -38,6 +38,7 @@ Admin get all users
 | Code | Description |
 | ---- | ----------- |
 | 200  |             |
+```
 
 ### /api/users/{id}
 
