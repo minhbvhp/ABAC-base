@@ -1,47 +1,20 @@
 # Attribute-Based Access Control project
 
+## API description
+
+/api/users
+
+## POST
+
 ```bash
-# API description
-
-## Version: 1.0
-
-### /
-
-#### GET
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ------ |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 200  |             |
-
-### /api/users
-
-#### POST
-
-##### Summary:
+### Summary:
 
 Admin creates new user
 
-##### Description:
+### Description:
 
     * Only Admin can use this API
-
-##### Parameters
-
-| Name | Located in | Description | Required | Schema |
-| ---- | ---------- | ----------- | -------- | ------ |
-
-##### Responses
-
-| Code | Description |
-| ---- | ----------- |
-| 201  |             |
+```
 
 #### GET
 
@@ -399,4 +372,7 @@ Admin delete user permanently (\*USE WITH CAUTION)
 | Code | Description |
 | ---- | ----------- |
 | 200  |             |
+
+```
+
 ```
