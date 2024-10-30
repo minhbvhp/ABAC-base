@@ -5,10 +5,8 @@ import {
   allUserStub,
   createUserStub,
 } from './stubs/user.stub';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { UpdateUserDto } from '../dto/update-user.dto';
 import { UsersService } from '../users.service';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import User from '../entities/user.entity';
 import {
   accountantRoleStub,

@@ -5,7 +5,7 @@ import {
   MongoAbility,
   MongoQuery,
 } from '@casl/ability';
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import User from '../../users/entities/user.entity';
 import { UsersService } from '../../users/users.service';
 import Permission from '../../permissions/entities/permission.entity';

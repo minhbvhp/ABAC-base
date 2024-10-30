@@ -78,16 +78,4 @@ export class CustomersService {
       throw new ServiceUnavailableException();
     }
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} customer`;
-  }
-
-  update(id: number, updateCustomerDto: UpdateCustomerDto) {
-    return `This action updates a #${id} customer`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} customer`;
-  }
 }
